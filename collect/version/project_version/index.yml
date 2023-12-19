@@ -3,6 +3,7 @@ service:
     http: true
     params:
       version:
+        template: "{{snow_id}}"
         default: "1.0.0"
     handler_params:
       - key: param2result

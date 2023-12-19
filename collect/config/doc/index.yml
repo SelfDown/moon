@@ -274,11 +274,14 @@ service:
   - key: demo_query
     module: sql
     params:
-      collect_doc_id:
-        check:
-          template: "{{must .collect_doc_id}}"
-          err_msg: 文档不能为空
+#      collect_doc_id:
+#        check:
+#          template: "{{must .collect_doc_id}}"
+#          err_msg: 文档不能为空
 
+      data_source:
+        default: ""
+    data_source: "[data_source]"
     data_file: demo_query.sql
   - key: result_query
     module: sql
@@ -293,18 +296,19 @@ service:
   - key: import_list_query
     module: sql
     params:
-      collect_doc_id:
-        check:
-          template: "{{must .collect_doc_id}}"
-          err_msg: 文档不能为空
+      data_source:
+        default: ""
+    data_source: "[data_source]"
     data_file: import_list_query.sql
   - key: params_query
     module: sql
+    http: true
     params:
       collect_doc_id:
-        check:
-          template: "{{must .collect_doc_id}}"
-          err_msg: 文档不能为空
+        default: ""
+      data_source:
+        default: ""
+    data_source: "[data_source]"
     data_file: params_query.sql
   - key: get_detail_service
     module: empty
@@ -358,7 +362,10 @@ service:
     params:
       to_obj:
         default: false
+      data_source:
+        default: ""
     data_file: doc_query.sql
+    data_source: "[data_source]"
     result_handler:
       - key: arr2obj
         enable: "[to_obj]"

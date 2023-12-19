@@ -6,3 +6,5 @@ service:
     path: "doc_group/index.yml"
   - name: "文档管理"
     path: "doc/index.yml"
+  - name: "文档同步"
+    path: "sync/index.yml"

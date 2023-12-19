@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="" />
+    <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/collect/config/sync/doc_modify.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/config/sync/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/doc/demo_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/demo_query.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/doc/doc_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/doc_query.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/doc/import_list_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/import_list_query.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/doc/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/doc/params_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/params_query.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/version/project_version/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/version/project_version/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,10 +32,14 @@
     </option>
   </component>
   <component name="GOROOT" url="file://D:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2ZNIAd9V4797MQeNOn2SJO7PC7q" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -58,6 +76,14 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="moon" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build moon" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="moon" />
       <working_directory value="$PROJECT_DIR$" />
@@ -65,6 +91,15 @@
       <package value="moon" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="moon" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -76,6 +111,17 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

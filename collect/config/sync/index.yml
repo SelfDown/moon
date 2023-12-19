@@ -1,0 +1,139 @@
+service:
+  - key: demo_bulk_create
+    module: bulk_create
+    table: collect_doc_demo
+    params:
+      demo_list:
+        check:
+          template: "{{must .demo_list}}"
+          err_msg: demo 不能为空
+    model_field: demo_list
+  - key: important_bulk_create
+    module: bulk_create
+    table: collect_doc_important
+    params:
+      important_list:
+        check:
+          template: "{{must .important_list}}"
+          err_msg: 要点不能为空
+    model_field: important_list
+
+  - key: params_bulk_create
+    module: bulk_create
+    table: collect_doc_params
+    params:
+      params:
+        check:
+          template: "{{must .params}}"
+          err_msg: 参数不能为空
+    model_field: params
+
+  - key: doc_create
+    table: collect_doc
+    module: bulk_create
+    params:
+      collect_list:
+        default: []
+    model_field: "[collect_list]"
+  - key: sync_doc
+    module: empty
+    http: true
+    log: true
+    modify_config: doc_modify.json
+    handler_params:
+      - key: service2field
+        service:
+          service: config.doc_query
+          type: doc
+          data_source: "eoms"
+        save_field: remote_doc
+      - key: service2field
+        service:
+          service: config.doc_query
+          type: doc
+        save_field: local_doc
+      - key: service2field
+        service:
+          service: config.params_query
+          doc_type: doc
+          data_source: "eoms"
+        save_field: remote_params
+      - key: service2field
+        service:
+          service: config.params_query
+          doc_type: doc
+        save_field: local_params
+
+      - key: service2field
+        service:
+          service: config.import_list_query
+          doc_type: doc
+          data_source: "eoms"
+        save_field: remote_important
+      - key: service2field
+        service:
+          service: config.import_list_query
+          doc_type: doc
+        save_field: local_important
+      - key: service2field
+        service:
+          service: config.demo_query
+          doc_type: doc
+          data_source: "eoms"
+        save_field: remote_demo
+      - key: service2field
+        service:
+          service: config.demo_query
+          doc_type: doc
+        save_field: local_demo
+
+      - key: get_modify_data
+        save_field: change_list
+      - key: filter_arr
+        name: 过滤文档添加
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and ( eq .item.operation \"add\" ) (eq .item.field \"[collect_doc_id]\")}}"
+        save_field: doc_add_list
+      - key: filter_arr
+        name: 过滤参数添加
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\" ) (eq .item.field \"[doc_params_id]\")}}"
+        save_field: params_add_list
+      - key: filter_arr
+        name: 过滤要点添加
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\" ) (eq .item.field \"[doc_important_id]\")}}"
+        save_field: important_add_list
+      - key: filter_arr
+        name: 过滤示例添加
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\" ) (eq .item.field \"[doc_demo_id]\")}}"
+        save_field: important_demo_list
+      - key: service2field
+        enable: "{{must .add_list}}"
+        service:
+          service: config.doc_create
+          collect_list: '[doc_add_list]'
+      - key: service2field
+        enable: "{{must .params_add_list}}"
+        service:
+          service: config.params_bulk_create
+          params: '[params_add_list]'
+      - key: service2field
+        enable: "{{must .important_add_list}}"
+        service:
+          service: config.important_bulk_create
+          important_list: '[important_add_list]'
+      - key: service2field
+        enable: "{{must .important_demo_list}}"
+        service:
+          service: config.demo_bulk_create
+          demo_list: '[important_demo_list]'
+      - key: params2result
+        fields:
+          - from: "[change_list]"
+            to: change_list

@@ -1,13 +1,14 @@
 module moon
 
 go 1.18
-
 replace collect => F:/go/hello
 
 require collect v0.0.0-00010101000000-000000000000
 
+
 require (
 	github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e // indirect
+	github.com/bwmarrin/snowflake v0.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/demdxx/gocast v1.2.0 // indirect
 	github.com/dengsgo/math-engine v0.0.0-20220911070221-a5a560a8684b // indirect
