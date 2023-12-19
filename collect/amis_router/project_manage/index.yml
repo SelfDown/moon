@@ -1,0 +1,39 @@
+service:
+  - key: project_manage
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: project_manage.json
+    module: empty
+
+  - key: server_env
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: server_env.json
+    module: empty
+
+  - key: server_list
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: server_list.json
+    module: empty
+  - key: test
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: test.json
+    module: empty

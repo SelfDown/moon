@@ -1,0 +1,205 @@
+{
+  "type": "page",
+  "title": "ldap分组管理",
+  "remark": "ldap分组管理，会在目标ldap服务器创建ou=groups的数据，并且也定时同步于ldap的groups",
+
+  "cssVars": {
+    "--TableCell-height": "1.4rem"
+  },
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "新增",
+        "size": "lg",
+        "body": {
+          "type": "form",
+          "name": "sample-add-form",
+          "api": {
+            "method": "post",
+            "url": "/template_data/data",
+            "data": {
+              "service": "hrm.ldap_group_create",
+              "name": "${name}",
+              "order_index": "${order_index}"
+            },
+            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+          },
+          "collapsable": true,
+          "body": [
+            {
+              "type": "input-text",
+              "name": "name",
+              "label": "名称",
+              "required": true
+            },
+            {
+              "type": "input-number",
+              "name": "order_index",
+              "label": "排序号",
+              "remark": "越大越靠前",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "type": "button",
+      "label": "同步ldap分组",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "actionType": "ajax",
+      "api": {
+        "method": "post",
+        "url": "/template_data/data",
+        "data": {
+          "service": "hrm.ldap_group_sync"
+        },
+        "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+      },
+      "confirmText": "确定要同步ldap分组数据吗?"
+    }
+  ],
+  "body": {
+    "type": "crud",
+    "columnsTogglable": false,
+    "autoFillHeight": true,
+    "labelTpl": "${name}",
+    "keepItemSelectionOnPageChange": true,
+    "maxKeepItemSelectionLength": 20,
+    "autoGenerateFilter": true,
+    "primaryField": "ldap_group_id",
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": {
+          "method": "post",
+          "url": "/template_data/data",
+          "data": {
+            "service": "hrm.ldap_group_delete",
+            "ids": "${ids}"
+          },
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        },
+        "confirmText": "确定要批量删除?"
+      }
+    ],
+    "filter": {
+      "title": "",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "search",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        }
+      ]
+    },
+    "api": {
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "hrm.ldap_group_query",
+        "search": "${search}"
+      },
+      "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+    },
+    "columns": [
+      {
+        "label": "名称",
+        "name": "name"
+      },
+      {
+        "label": "是否存在",
+        "type": "status",
+        "name": "has_group"
+      },
+      {
+        "label": "排序号",
+        "name": "order_index"
+      },
+      {
+        "label": "最后同步时间",
+        "name": "last_sync_time"
+      },
+      {
+        "type": "operation",
+        "fixed": "right",
+        "label": "操作",
+        "buttons": [
+          {
+            "label": "详情",
+            "type": "button",
+            "level": "link",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "size": "lg",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "hrm.ldap_group_edit",
+                    "ldap_group_id": "${ldap_group_id}",
+                    "name": "${name}",
+                    "order_index": "${order_index}"
+                  },
+                  "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                },
+                "collapsable": true,
+                "body": [
+                  {
+                    "type": "input-text",
+                    "name": "name",
+                    "label": "名称",
+                    "required": true
+                  },
+                  {
+                    "type": "input-number",
+                    "name": "order_index",
+                    "label": "排序号",
+                    "remark": "越大越靠前",
+                    "required": true
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "label": "删除",
+            "type": "button",
+            "level": "link",
+            "className": "text-danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除【${name}】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "hrm.ldap_group_delete",
+                "ldap_group_id_list": [
+                  "${ldap_group_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

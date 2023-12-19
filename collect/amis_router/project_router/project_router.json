@@ -1,0 +1,141 @@
+{
+  "pages": [
+    {
+      "children": [
+        {
+          "label": "项目管理",
+          "url": "/project_manage",
+          "schema": {
+            "type": "page",
+            "title": "欢迎进入项目管理"
+          },
+          "children": [
+            {
+              "label": "test",
+              "url": "test",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.test"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            },{
+              "label": "项目管理",
+              "url": "project",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.project_manage"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            },
+            {
+              "label": "环境管理",
+              "url": "server_env",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.server_env"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            },
+            {
+              "label": "资源管理",
+              "url": "server_list",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.server_list"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "children": [
+        {
+          "label": "系统管理",
+          "url": "/system_manage",
+          "schema": {
+            "type": "page",
+            "title": "欢迎进入系统管理"
+          },
+          "children": [
+            {
+              "label": "用户管理",
+              "url": "user_manage",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.user_manage"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            },
+            {
+              "label": "角色管理",
+              "url": "role_manage",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.role_manage"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            } ,
+            {
+              "label": "ldap分组管理",
+              "url": "ldap_group_manage",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.ldap_group_manage"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            },
+            {
+              "label": "系统参数管理",
+              "url": "config_manage",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.config_manage"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            },
+            {
+              "label": "菜单管理",
+              "url": "menu_manage",
+              "schemaApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "amis_router.menu_manage"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              }
+            }
+
+          ]
+        }
+      ]
+    }
+  ]
+}

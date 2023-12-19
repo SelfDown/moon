@@ -1,0 +1,27 @@
+service:
+  - key: server_info
+    http: true
+    module: ssh
+    data_json: server_info.json
+    result_handler:
+      - key: param2result
+        field: server_info
+  - key: server_list
+    http: true
+    module: sql
+    data_file: server_list.sql
+
+  - key: scan_ip
+    module: empty
+    http: true
+    params:
+      ip:
+        check:
+          template: "{{must .ip}}"
+          err_msg: 服务器IP不能为空
+    handler_params:
+      - key: analysis_ip
+        field: "[ip]"
+        save_field: ip_list
+      - key: param2result
+        field: "[ip_list]"

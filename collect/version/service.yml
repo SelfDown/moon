@@ -1,0 +1,4 @@
+# 项目点路由
+service:
+  - name: "项目路由"
+    path: "project_version/index.yml"

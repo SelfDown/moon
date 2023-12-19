@@ -1,0 +1,15 @@
+service:
+  - key: get_sys_code
+    http: true
+    module: sql
+    params:
+      sys_code_type:
+        check:
+          template: "{{must .sys_code_type}}"
+          err_msg: 码表类型不能为空
+#      result_field:
+#        default: "data"
+    data_file: get_sys_code.sql
+#    result_handler:
+#      - key: result2map
+#        field: "[result_field]"

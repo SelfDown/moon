@@ -1,0 +1,453 @@
+# 系统总路由
+services:
+  - key: 'amis_router'
+    name: '项目路由'
+    path: 'amis_router/service.yml'
+  - key: 'config'
+    name: 'config'
+    path: 'config/service.yml'
+  - key: 'version'
+    name: '版本'
+    path: 'version/service.yml'
+  - key: 'jira'
+    name: '版本'
+    path: 'jira/service.yml'
+
+  - key: 'project'
+    name: '项目'
+    path: 'project/service.yml'
+
+  - key: 'system'
+    name: '系统'
+    path: 'system/service.yml'
+
+
+
+# 模块处理器
+module_handler:
+  # 模型修改
+  - key: sql
+    name: 执行sql 查询
+    type: inner
+    path: SqlService
+  # 模型保存
+  - key: model_save
+    name: 模型保存
+    type: inner
+    path: ModelSaveService
+  # 模型修改
+  - key: model_update
+    name: 模型修改
+    type: inner
+    path: ModelUpdateService
+  # 模型删除
+  - key: model_delete
+    name: 模型删除
+    type: inner
+    path: ModelDeleteService
+  # 批量新增
+  - key: bulk_create
+    name: 批量新增
+    type: inner
+    path: BulkCreateService
+  # 批量新增或更新
+  - key: bulk_upsert
+    name: 批量新增
+    type: inner
+    path: BulkUpsertService
+  - key: empty
+    name: 空模块
+    type: inner
+    path: EmptyService
+  - key: bulk_service
+    name: 批量服务
+    type: inner
+    path: BulkService
+  - key: http
+    name: 发送http请求
+    type: inner
+    path: HttpService
+
+  - key: ldap
+    name: 发送ldap请求
+    type: inner
+    path: LdapService
+  - key: service_flow
+    name: 服务流程化
+    type: inner
+    path: ServiceFlowService
+  - key: ssh
+    name: 执行shell
+    type: outer
+    path: Ssh
+# 数据处理
+data_handler:
+  - key: update_field
+    name: 添加参数
+    type: inner
+    path: UpdateField
+  - key: prop_arr
+    name: 数组对象转数组
+    type: inner
+    path: PropArr
+  - key: check_field
+    name: 检查参数
+    type: inner
+    path: CheckField
+  - key: update_array
+    name: 添加参数
+    type: inner
+    path: UpdateArray
+  - key: update_array_from_array
+    name: 补充右边的数据
+    type: inner
+    path: UpdateArrayFromArray
+  - key: service2field
+    name: 服务转字段
+    type: inner
+    path: Service2Field
+  - key: arr2obj
+    name: 数组结果转对象
+    type: inner
+    path: Arr2Obj
+  - key: arr2dict
+    name: 参数数组转key/value对象
+    type: inner
+    path: Arr2Dict
+  - key: filter_arr
+    name: 数组转对象
+    type: inner
+    path: FilterArr
+  - key: param2result
+    name: 参数转结果
+    type: inner
+    path: Param2Result
+  - key: params2result
+    name: 多个参数转结果
+    type: inner
+    path: Params2Result
+  - key: result2params
+    name: 结果转参数
+    type: inner
+    path: Result2Params
+  - key: result2map
+    name: 结果转map
+    type: inner
+    path: Result2Map
+  - key: count2map
+    name: count转map
+    type: inner
+    path: Count2Map
+  - key: session_add
+    name: 添加session
+    type: inner
+    path: SessionAdd
+  - key: session_remove
+    name: 删除session
+    type: inner
+    path: SessionRemove
+
+  - key: session_get
+    name: 获取session
+    type: inner
+    path: SessionGet
+  - key: data2excel
+    name: 数据转excel
+    type: inner
+    path: Data2Excel
+  - key: excel2data
+    name: 数据转excel
+    type: inner
+    path: Excel2Data
+  - key: ignore_data
+    name: 忽略数据
+    type: inner
+    path: IgnoreData
+  - key: file2result
+    name: 数据转excel
+    type: inner
+    path: File2Result
+  - key: file2datajson
+    name: 文件转data_json
+    type: inner
+    path: File2DataJson
+  - key: field2array
+    name: 字段转数组
+    type: inner
+    path: Field2Array
+  - key: arr2arrayObj
+    name: 字段转数组,简单数组，转数组对象
+    type: inner
+    path: Arr2arrayObj
+  - key: get_modify_data
+    name: 获取修改的数据
+    type: inner
+    path: GetModifyData
+  - key: group_by
+    name: 分组
+    type: inner
+    path: GroupBy
+  - key: combine_array
+    name: 数组添加字段
+    type: inner
+    path: CombineArray
+  # 处理缓存
+  - key: handler_cache
+    name: 处理缓存
+    type: inner
+    path: HandlerCache
+  # 防止重复请求
+  - key: prevent_duplication
+    name: 防止重复请求
+    type: inner
+    path: PreventDuplication
+
+  # 转树形结构
+  - key: to_tree
+    name: 列表转树形结构
+    type: inner
+    path: ToTree
+
+  # 树形转列表结构
+  - key: to_list
+    name: 树形转列表结构
+    type: inner
+    path: ToList
+
+  # 修改排序号
+  - key: update_order
+    name: 修改排序号
+    type: inner
+    path: UpdateOrder
+  - key: analysis_ip
+    name: 分析IP
+    type: outer
+    path: AnalysisIp
+  - key: shell
+    name: shell
+    type: outer
+    path: Shell
+
+# 加载启动配置，读取文件内容
+load_startup_plugin:
+  - key: load_data_file
+    name: 将文件路径转换成文件内容
+    method: LoadDataFile
+    fields:
+      - from: DataFile
+        to: FileData
+        name: 将data_file 转换成文件数据
+      - from: CountFile
+        to: CountFileData
+        name: 将count_file 转换成文件数据
+      - name: 将excel配置地址转文件内容
+        from: ExcelConfig
+        to: ExcelConfigContent
+      - name: 将修改内容转内容
+        from: ModifyConfig
+        to: ModifyConfigContent
+      - name: 将http配置地址转文件内容
+        from: HttpJson
+        to: HttpJsonContent
+      - name: 将DataJson配置地址转文件内容
+        from: DataJson
+        to: DataJsonContent
+  - key: load_excel_config
+    method: LoadExcelConfig
+    name: 转换excel配置
+  - key: load_modify_config
+    method: LoadModifyConfig
+    name: 将修改内容转配置
+  - key: load_http_config
+    method: LoadHttpJson
+    name: 转换http配置
+  - key: load_data_json_config
+    method: LoadDataJson
+    name: 转换http配置
+  - key: load_schedule
+    method: LoadSchedule
+    name: 加载定时模板是否启动
+  - key: load_cache_config
+    method: LoadCacheConfig
+    name: 加载定时模板是否启动
+  - key: load_prevent_duplication_config
+    method: LoadPreventDuplicationConfig
+    name: 加载prevent_duplication
+  - key: load_router_all_enable
+    method: LoadRouterAllEnable
+    name: 加载模板能用,处理handler_req_param 是否能用
+    fields:
+      - rule: array_field
+        field: BeforePlugin
+        fields:
+          - from: Enable
+            to: EnableTpl
+      - rule: array_field
+        field: AfterPlugin
+        fields:
+          - from: Enable
+            to: EnableTpl
+
+  - key: load_data_file_tpl
+    name: 将文件转换成模板
+    method: LoadDataFileTpl
+    fields:
+
+      - from: FileData
+        to: FileDataTpl
+        name: 将file_data 转换成模板
+        rule: simple_field
+
+      - from: CountFileData
+        to: CountFileDataTpl
+        name: 将count_file转换成模板
+        rule: simple_field
+
+      - from: Success
+        to: SuccessTpl
+        name: 将success转换成模板
+        rule: simple_field
+
+      - rule: map_field
+        name: 将字典中参数转字转成模板
+        field: Params
+        fields:
+          - from: Template
+            to: TemplateTpl
+        third_field: Check
+        third_fields:
+          - from: Template
+            to: TemplateTpl
+          - from: ErrMsg
+            to: ErrMsgTpl
+      - rule: array_field
+        name: 将data_json 中的services 转参数
+        field: DataJsonConfig.Services
+        fields:
+          - from: NodeNext
+            name: next 转 模板
+            to: NodeNextTpl
+          - from: NodeFail
+            name: fail 转 模板
+            to: NodeFailTpl
+          - from: Enable
+            name: 编译是否启用
+            to: EnableTpl
+          - from: Template
+            name: 编辑检查数据模板
+            to: TemplateTpl
+          - from: ErrMsg
+            name: 编译错误提示模板
+            to: ErrMsgTpl
+          - from: IfTemplate
+            name: 编译 if 判断模板
+            to: IfTemplateTpl
+          - from: Value
+            name: 编译取值模板
+            to: ValueTpl
+        third_array_field: Fields
+        third_array_fields:
+          - from: Template
+            to: TemplateTpl
+          - from: From
+            to: FromTpl
+          - from: Field
+            to: FieldTpl
+          - from: ErrMsg
+            to: ErrMsgTpl
+      - rule: array_field
+        name: 将字典中参数转字转成模板
+        field: HandlerParams
+        fields:
+          - from: Enable
+            name: 编译是否启用
+            to: EnableTpl
+          - from: Template
+            name: 编辑检查数据模板
+            to: TemplateTpl
+          - from: ErrMsg
+            name: 编译错误提示模板
+            to: ErrMsgTpl
+          - from: IfTemplate
+            name: 编译 if 判断模板
+            to: IfTemplateTpl
+          - from: Value
+            name: 编译取值模板
+            to: ValueTpl
+        third_array_field: Fields
+        third_array_fields:
+          - from: Template
+            to: TemplateTpl
+          - from: From
+            to: FromTpl
+          - from: Field
+            to: FieldTpl
+          - from: ErrMsg
+            to: ErrMsgTpl
+
+      - rule: array_field
+        name: 将字典中参数转字转成模板
+        field: ResultHandler
+        fields:
+          - from: Enable
+            name: 编译是否启用
+            to: EnableTpl
+          - from: Template
+            name: 编辑检查数据模板
+            to: TemplateTpl
+          - from: ErrMsg
+            name: 编译错误提示模板
+            to: ErrMsgTpl
+          - from: IfTemplate
+            name: 编译 if 判断模板
+            to: IfTemplateTpl
+          - from: Value
+            name: 编译取值模板
+            to: ValueTpl
+        third_array_field: Fields
+        third_array_fields:
+          - from: Template
+            to: TemplateTpl
+          - from: Field
+            to: FieldTpl
+          - from: ErrMsg
+            to: ErrMsgTpl
+          - from: From
+            to: FromTpl
+
+
+
+# 文件处理插件
+file_content_plugin:
+  - key: require
+    name: 引入其他文件
+    method: Require
+    reg: require[(](.*?)[)]
+
+before_plugin:
+  # 处理请求参数
+  - key: handler_req_param
+    method: HandlerReqParam
+    enable: "true"
+
+  # 处理重复请求
+  - key: prevent_duplication
+    method: PreventDuplication
+    enable: "true"
+  # 处理缓存
+  - key: handler_cache
+    method: HandlerCache
+    enable: "true"
+  # 处理请求参数
+  - key: handler_params
+    method: HandlerParams
+    enable: "true"
+after_plugin:
+  # 结果处理
+  - key: result_handler
+    method: ResultHandler
+    enable: "true"
+  # 处理缓存
+  - key: handler_cache
+    method: HandlerCache
+    enable: "true"

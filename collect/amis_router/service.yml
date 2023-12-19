@@ -1,0 +1,10 @@
+# 项目点路由
+service:
+  - name: "项目路由"
+    path: "project_router/index.yml"
+
+  - name: "系统管理"
+    path: "system_manage/index.yml"
+
+  - name: "项目管理"
+    path: "project_manage/index.yml"

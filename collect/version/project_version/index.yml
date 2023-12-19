@@ -1,0 +1,17 @@
+service:
+  - key: version
+    http: true
+    params:
+      version:
+        default: "1.0.0"
+    handler_params:
+      - key: param2result
+        field: version
+    module: empty
+  - key: alert_ignore_save
+    http: true
+    module: model_save
+    table: "alert_ignore"
+    params:
+      alert_ignore_id:
+        template: "{{uuid}}"

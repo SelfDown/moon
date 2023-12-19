@@ -1,0 +1,206 @@
+{
+  "type": "page",
+  "title": "系统参数管理",
+  "cssVars": {
+    "--TableCell-height": "1.8rem"
+  },
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "查看修改历史",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "查看修改历史",
+        "size": "lg",
+        "body": {
+          "type": "crud",
+          "api": {
+            "method": "post",
+            "url": "/template_data/data",
+            "data": {
+              "service": "config.config_detail_change_list",
+              "search": "${search}",
+              "page": "${page}",
+              "size": "${perPage}"
+            },
+            "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+          },
+
+          "labelTpl": "${name}(${value})",
+          "keepItemSelectionOnPageChange": true,
+          "primaryField": "change_id",
+          "bulkActions": [
+            {
+              "label": "还原",
+              "actionType": "ajax",
+              "api": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "config.config_param_restore",
+                  "ids": "${ids}"
+                },
+                "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+              },
+              "confirmText": "确定要批量还原此参数?"
+            }
+            ],
+          "combineNum": 3,
+          "columns": [
+
+            {
+
+              "name": "create_time",
+              "label": "操作时间"
+            },
+
+            {
+              "name": "group_id",
+              "label": "分组"
+            },
+            {
+              "name": "name",
+              "label": "修改内容"
+            },
+
+            {
+              "name": "name_copy",
+              "label": "参数名称"
+            },
+            {
+              "name": "value",
+              "label": "参数原值"
+            },
+            {
+              "name": "field",
+              "label": "字段"
+            },
+            {
+              "name": "operation",
+              "label": "操作"
+            },
+            {
+              "name": "before",
+              "label": "改变前"
+            },
+            {
+              "name": "after",
+              "label": "改变后"
+            },
+            {
+              "name": "create_username",
+              "label": "操作人"
+            }
+          ]
+        }
+      }
+    }
+
+  ],
+  "body": {
+    "type": "crud",
+    "mode": "cards",
+    "columnsTogglable": false,
+    "autoFillHeight": true,
+    "labelTpl": "${description}(${group_id})",
+    "keepItemSelectionOnPageChange": true,
+    "maxKeepItemSelectionLength": 20,
+    "autoGenerateFilter": true,
+    "primaryField": "group_id",
+    "filter": {
+      "title": "",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "search",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        }
+      ]
+    },
+    "api": {
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "config.config_detail_cache_all",
+        "set_cache": false,
+        "search": "${search}"
+      },
+      "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+    },
+    "card": {
+      "header": {
+        "title": "$group_id",
+        "subTitle": "${description}(${children.length})",
+        "avatar": "<%= data.avatar || \"https://internal-amis-res.cdn.bcebos.com/images/2019-12/1575350573496/4873dbfaf6a5.png\" %>",
+        "avatarClassName": "pull-left thumb b-3x m-r"
+      },
+      "actions": [
+        {
+          "type": "button",
+          "label": "编辑",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "查看修改${group_id}",
+            "size": "lg",
+            "body": {
+              "type": "crud",
+              "api": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "config.config_detail_cache_all",
+                  "set_cache": false,
+                  "group_by": false,
+                  "group_id": "${group_id}",
+                  "search": "${search}"
+                },
+                "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+              },
+              "primaryField": "config_detail_id",
+              "quickSaveApi": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "config.config_detail_bulk_save",
+                  "detail_list": "${rowsDiff}"
+                },
+                "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+              },
+              "columns": [
+                {
+                  "name": "group_name",
+                  "label": "分组"
+                },
+                {
+                  "name": "description",
+                  "label": "分组备注"
+                },
+                {
+                  "name": "name",
+                  "label": "参数名称",
+                  "quickEdit": true,
+                  "type": "text",
+                  "toggled": true
+                },
+                {
+                  "name": "value",
+                  "label": "参数值",
+                  "quickEdit": true,
+                  "type": "text",
+                  "toggled": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

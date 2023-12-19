@@ -1,0 +1,13 @@
+
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "fields": [
+    {"rule": "array_obj_value", "left_field": "[issue_key]", "right_field": "[issue_key]", "field": "[issue_list]", "name": "issue_key", "left": "[jira_issue_list]", "right": "[local_jira_issue_list]", "with_add_remove": true, "left_value_field": "[issue_key]", "right_value_field": "[issue_key]", "operation": "modify", "append_right_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[issue_key]", "right_field": "[issue_key]", "field": "[issue_list]", "name": "issue状态", "left": "[jira_issue_list]", "right": "[local_jira_issue_list]",  "left_value_field": "[issue_statu]", "right_value_field": "[issue_statu]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[issue_key]", "right_field": "[issue_key]", "field": "[issue_list]", "name": "issue标题", "left": "[jira_issue_list]", "right": "[local_jira_issue_list]",  "left_value_field": "[issue_title]", "right_value_field": "[issue_title]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[issue_key]", "right_field": "[issue_key]", "field": "[issue_list]", "name": "issue类型", "left": "[jira_issue_list]", "right": "[local_jira_issue_list]",  "left_value_field": "[issue_type]", "right_value_field": "[issue_type]", "operation": "modify", "append_left_fields": ["[*]"]}
+
+  ]
+}

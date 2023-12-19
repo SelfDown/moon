@@ -1,0 +1,42 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "op_field_transfer": {
+    "name": "op_name"
+  },
+  "fields": [
+    {"rule": "compare_field_value", "field": "[title]", "name": "标题", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[sub_title]", "name": "子标题", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[code]", "name": "代码", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[code_desc]", "name": "代码描述", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[parent_dir]", "name": "上级目录", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[type]", "name": "类型", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[order_index]", "name": "排序", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+    {"rule": "compare_field_value", "field": "[code_result]", "name": "结果示例", "left": "[doc]", "right": "[local_doc_detail.doc]", "operation": "modify_base", "append_right_fields": ["[collect_doc_id]"]},
+
+    {"rule": "array_obj_value", "left_field": "[doc_demo_id]", "right_field": "[doc_demo_id]", "field": "[demo]", "name": "示例名称", "left": "[demo]", "right": "[local_doc_detail.demo]", "with_add_remove": true, "left_value_field": "[doc_demo_id]", "right_value_field": "[doc_demo_id]", "operation": "modify", "append_right_fields": ["[*]"],"append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_demo_id]", "right_field": "[doc_demo_id]", "field": "[demo]", "name": "示例名称", "left": "[demo]", "right": "[local_doc_detail.demo]",  "left_value_field": "[name]", "right_value_field": "[name]", "operation": "modify","append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_demo_id]", "right_field": "[doc_demo_id]", "field": "[demo]", "name": "示例代码", "left": "[demo]", "right": "[local_doc_detail.demo]",  "left_value_field": "[code]", "right_value_field": "[code]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_demo_id]", "right_field": "[doc_demo_id]", "field": "[demo]", "name": "示例排序", "left": "[demo]", "right": "[local_doc_detail.demo]",  "left_value_field": "[order_index]", "right_value_field": "[order_index]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_demo_id]", "right_field": "[doc_demo_id]", "field": "[demo]", "name": "示例结果", "left": "[demo]", "right": "[local_doc_detail.demo]",  "left_value_field": "[code_result]", "right_value_field": "[code_result]", "operation": "modify", "append_left_fields": ["[*]"]},
+
+    {"rule": "array_obj_value", "left_field": "[doc_params_id]", "right_field": "[doc_params_id]", "field": "[params]", "name": "参数名称", "left": "[params]", "right": "[local_doc_detail.params]", "with_add_remove": true, "left_value_field": "[collect_params_id]", "right_value_field": "[collect_params_id]", "operation": "modify", "append_right_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_params_id]", "right_field": "[doc_params_id]", "field": "[params]", "name": "参数名称", "left": "[params]", "right": "[local_doc_detail.params]",  "left_value_field": "[name]", "right_value_field": "[name]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_params_id]", "right_field": "[doc_params_id]", "field": "[params]", "name": "参数类型", "left": "[params]", "right": "[local_doc_detail.params]",  "left_value_field": "[type]", "right_value_field": "[type]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_params_id]", "right_field": "[doc_params_id]", "field": "[params]", "name": "参数是否必须", "left": "[params]", "right": "[local_doc_detail.params]",  "left_value_field": "[must]", "right_value_field": "[must]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_params_id]", "right_field": "[doc_params_id]", "field": "[params]", "name": "参数描述", "left": "[params]", "right": "[local_doc_detail.params]",  "left_value_field": "[desc]", "right_value_field": "[desc]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_params_id]", "right_field": "[doc_params_id]", "field": "[params]", "name": "参数排序", "left": "[params]", "right": "[local_doc_detail.params]",  "left_value_field": "[order_index]", "right_value_field": "[order_index]", "operation": "modify", "append_left_fields": ["[*]"]},
+
+    {"rule": "array_obj_value", "left_field": "[doc_result_id]", "right_field": "[doc_result_id]", "field": "[result]", "name": "参数名称", "left": "[result]", "right": "[local_doc_detail.result]", "with_add_remove": true, "left_value_field": "[doc_result_id]", "right_value_field": "[doc_result_id]", "operation": "modify", "append_right_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_result_id]", "right_field": "[doc_result_id]", "field": "[result]", "name": "参数名称", "left": "[result]", "right": "[local_doc_detail.result]",  "left_value_field": "[name]", "right_value_field": "[name]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_result_id]", "right_field": "[doc_result_id]", "field": "[result]", "name": "参数类型", "left": "[result]", "right": "[local_doc_detail.result]",  "left_value_field": "[type]", "right_value_field": "[type]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_result_id]", "right_field": "[doc_result_id]", "field": "[result]", "name": "参数是否必须", "left": "[result]", "right": "[local_doc_detail.result]",  "left_value_field": "[must]", "right_value_field": "[must]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_result_id]", "right_field": "[doc_result_id]", "field": "[result]", "name": "参数描述", "left": "[result]", "right": "[local_doc_detail.result]",  "left_value_field": "[desc]", "right_value_field": "[desc]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_result_id]", "right_field": "[doc_result_id]", "field": "[result]", "name": "参数排序", "left": "[result]", "right": "[local_doc_detail.result]",  "left_value_field": "[order_index]", "right_value_field": "[order_index]", "operation": "modify", "append_left_fields": ["[*]"]},
+
+    {"rule": "array_obj_value", "left_field": "[doc_important_id]", "right_field": "[doc_important_id]", "field": "[important_list]", "name": "要点", "left": "[important_list]", "right": "[local_doc_detail.important_list]", "with_add_remove": true, "left_value_field": "[doc_important_id]", "right_value_field": "[doc_important_id]", "operation": "modify", "append_right_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_important_id]", "right_field": "[doc_important_id]", "field": "[important_list]", "name": "要点", "left": "[important_list]", "right": "[local_doc_detail.important_list]", "left_value_field": "[name]", "right_value_field": "[name]", "operation": "modify", "append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[doc_important_id]", "right_field": "[doc_important_id]", "field": "[important_list]", "name": "要点排序", "left": "[important_list]", "right": "[local_doc_detail.important_list]",  "left_value_field": "[order_index]", "right_value_field": "[order_index]", "operation": "modify","append_left_fields": ["[*]"]}
+  ]
+}

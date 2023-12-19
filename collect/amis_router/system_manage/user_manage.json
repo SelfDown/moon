@@ -1,0 +1,605 @@
+{
+  "type": "page",
+  "title": "用户管理",
+  "cssVars": {
+    "--TableCell-height": "1.4rem"
+  },
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "查看修改历史",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "查看修改历史",
+        "size": "lg",
+        "body": {
+          "type": "crud",
+          "api": {
+            "method": "post",
+            "url": "/template_data/data",
+            "data": {
+              "service": "hrm.user_change_list",
+              "search": "${search}",
+              "page": "${page}",
+              "size": "${perPage}"
+            },
+            "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+          },
+          "columns": [
+            {
+              "name": "target_username",
+              "label": "操作用户"
+            },
+            {
+              "name": "name",
+              "label": "名称"
+            },
+            {
+              "name": "field",
+              "label": "字段"
+            },
+            {
+              "name": "operation",
+              "label": "操作"
+            },
+            {
+              "name": "before",
+              "label": "改变前"
+            },
+            {
+              "name": "after",
+              "label": "改变后"
+            },
+            {
+              "name": "create_time",
+              "label": "操作时间"
+            },
+            {
+              "name": "create_username",
+              "label": "操作人"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "新增",
+        "size": "lg",
+        "body": {
+          "type": "form",
+          "name": "sample-add-form",
+          "api": {
+            "method": "post",
+            "url": "/template_data/data",
+            "data": {
+              "service": "hrm.create_user_flow",
+              "username": "${username}",
+              "work_code": "${work_code}",
+              "email": "${email}",
+              "create_ldap": "${create_ldap}",
+              "password": "${password}",
+              "user_status": "${user_status}",
+              "nick": "${nick}",
+              "entry_date": "${entry_date}",
+              "phone": "${phone}",
+              "roles": "${roles}"
+            },
+            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+          },
+          "collapsable": true,
+          "body": [
+            {
+              "type": "fieldSet",
+              "title": "基本信息",
+              "collapsable": true,
+              "body": [
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "nick",
+                      "label": "姓名",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "work_code",
+                      "label": "工号",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "username",
+                      "label": "登录名",
+                      "required": true
+                    },
+                    {
+                      "type": "input-password",
+                      "name": "password",
+                      "label": "密码",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "select",
+                      "name": "user_status",
+                      "label": "状态",
+                      "value": "regular",
+                      "required": true,
+                      "valueField": "sys_code",
+                      "labelField": "sys_code_text",
+                      "source": {
+                        "method": "post",
+                        "url": "/template_data/data",
+                        "data": {
+                          "service": "system.get_sys_code",
+                          "sys_code_type": "user_job_status"
+                        },
+                        "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                      }
+                    },
+                    {
+                      "type": "switch",
+                      "name": "create_ldap",
+                      "value": "1",
+                      "trueValue": "1",
+                      "falseValue": "0",
+                      "label": "创建ldap",
+                      "remark": "是否拥有jira、confluence、jenkins账号"
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                }
+              ]
+            },
+            {
+              "type": "fieldSet",
+              "title": "入职信息",
+              "collapsable": true,
+              "body": [
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "email",
+                      "label": "公司邮箱",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "phone",
+                      "label": "联系方式",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-date",
+                      "name": "entry_date",
+                      "label": "入职时间",
+                      "format": "YYYY-DD-MM",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                }
+              ]
+            },
+            {
+              "type": "fieldSet",
+              "title": "角色信息",
+              "collapsable": true,
+              "body": [
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "select",
+                      "description": "角色与权限挂钩，建议选2个角色以上",
+                      "name": "roles",
+                      "label": "角色",
+                      "value": "common",
+                      "valueField": "role_code",
+                      "labelField": "role_name",
+                      "source": {
+                        "method": "post",
+                        "url": "/template_data/data",
+                        "data": {
+                          "service": "hrm.role_query",
+                          "size": 10000
+                        },
+                        "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                      },
+                      "multiple": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": {
+    "type": "crud",
+    "columnsTogglable": false,
+    "autoFillHeight": true,
+    "labelTpl": "${nick}(${work_code})",
+    "keepItemSelectionOnPageChange": true,
+    "maxKeepItemSelectionLength": 20,
+    "autoGenerateFilter": true,
+    "primaryField": "user_id",
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": {
+          "method": "post",
+          "url": "/template_data/data",
+          "data": {
+            "service": "hrm.delete_user_by_user_id_list",
+            "ids": "${ids}"
+          },
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        },
+        "confirmText": "确定要批量删除?"
+      },
+      {
+        "label": "批量修改",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "批量编辑",
+          "name": "sample-bulk-edit",
+          "body": {
+            "type": "form",
+            "api": "/amis/api/sample/bulkUpdate2",
+            "body": [
+              {
+                "type": "hidden",
+                "name": "ids"
+              },
+              {
+                "type": "input-text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "filter": {
+      "title": "",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "search",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        }
+      ]
+    },
+    "api": {
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "hrm.user_list",
+        "search": "${search}",
+        "username": "${username}",
+        "nick": "${nick}",
+        "page": "${page}",
+        "size": "${perPage}"
+      },
+      "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+    },
+    "columns": [
+      {
+        "label": "姓名",
+        "name": "nick",
+        "searchable": {
+          "type": "input-text",
+          "name": "nick",
+          "label": "用户名",
+          "placeholder": "输入用户名",
+          "mode": "horizontal"
+        }
+      },
+      {
+        "label": "登录名",
+        "name": "username",
+        "searchable": {
+          "type": "input-text",
+          "name": "username",
+          "label": "登录名",
+          "placeholder": "登录名",
+          "mode": "horizontal"
+        }
+      },
+      {
+        "label": "工号",
+        "name": "work_code"
+      },
+      {
+        "label": "状态",
+        "name": "user_status_name"
+      },
+      {
+        "label": "角色",
+        "width": 100,
+        "name": "role_names"
+      },
+      {
+        "label": "ldap",
+        "type": "status",
+        "name": "create_ldap"
+      },
+      {
+        "label": "邮箱",
+        "name": "email"
+      },
+      {
+        "label": "移动电话",
+        "name": "phone"
+      },
+      {
+        "label": "入职日期",
+        "width": 80,
+        "name": "entry_date"
+      },
+      {
+        "label": "创建日期",
+        "width": 80,
+        "name": "create_time"
+      },
+      {
+        "label": "离职日期",
+        "width": 80,
+        "name": "leave_date"
+      },
+      {
+        "label": "离职原因",
+        "name": "leave_reason"
+      },
+      {
+        "type": "operation",
+        "fixed": "right",
+        "width": 100,
+        "label": "操作",
+        "buttons": [
+          {
+            "label": "详情",
+            "type": "button",
+            "level": "link",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "size": "lg",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "hrm.edit_user_flow",
+                    "user_id": "${user_id}",
+                    "username": "${username}",
+                    "work_code": "${work_code}",
+                    "email": "${email}",
+                    "create_ldap": "${create_ldap}",
+                    "user_status": "${user_status}",
+                    "nick": "${nick}",
+                    "entry_date": "${entry_date}",
+                    "phone": "${phone}",
+                    "roles": "${roles}"
+                  },
+                  "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                },
+                "collapsable": true,
+                "body": [
+                  {
+                    "type": "fieldSet",
+                    "title": "基本信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "nick",
+                            "label": "姓名",
+                            "required": true
+                          },
+                          {
+                            "type": "input-text",
+                            "name": "work_code",
+                            "label": "工号",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "username",
+                            "label": "登录名",
+                            "required": true
+                          },
+                          {
+                            "type": "input-password",
+                            "disabled": true,
+                            "name": "password",
+                            "label": "密码",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "name": "user_status",
+                            "label": "状态",
+                            "value": "regular",
+                            "required": true,
+                            "valueField": "sys_code",
+                            "labelField": "sys_code_text",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "system.get_sys_code",
+                                "sys_code_type": "user_job_status"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+                          {
+                            "type": "switch",
+                            "name": "create_ldap",
+                            "value": "1",
+                            "trueValue": "1",
+                            "falseValue": "0",
+                            "label": "创建ldap",
+                            "remark": "是否拥有jira、confluence、jenkins账号"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "divider"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "fieldSet",
+                    "title": "入职信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "email",
+                            "label": "公司邮箱",
+                            "required": true
+                          },
+                          {
+                            "type": "input-text",
+                            "name": "phone",
+                            "label": "联系方式",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-date",
+                            "name": "entry_date",
+                            "label": "入职时间",
+                            "format": "YYYY-DD-MM",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "divider"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "fieldSet",
+                    "title": "角色信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "description": "角色与权限挂钩，建议选2个角色以上",
+                            "name": "roles",
+                            "label": "角色",
+                            "value": "common",
+                            "valueField": "role_code",
+                            "labelField": "role_name",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "hrm.role_query",
+                                "size": 10000
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            },
+                            "multiple": true
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "label": "删除",
+            "type": "button",
+            "level": "link",
+            "className": "text-danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除【${nick}(${username})】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "hrm.delete_user_by_user_id_list",
+                "user_id_list": [
+                  "${user_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

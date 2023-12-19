@@ -1,0 +1,48 @@
+service:
+  - key: menu_manage
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: menu_manage.json
+    module: empty
+  - key: config_manage
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: config_manage.json
+    module: empty
+  - key: user_manage
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: user_manage.json
+    module: empty
+
+  - key: role_manage
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: role_manage.json
+    module: empty
+
+  - key: ldap_group_manage
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: ldap_group_manage.json
+    module: empty
