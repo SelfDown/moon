@@ -1,7 +1,7 @@
 # 后台低代码配置 golang
 http后台接口都可以配置，支持数据库增删改查，发http请求，shell等
 
-    示例中用sqlite ，为了方便连接数据库，不用搭建一个mysql,生产请换成mysql,其他数据库
+    conf/application.properties示例中用sqlite ，为了方便连接数据库，不用搭建一个mysql,生产请换成mysql,其他数据库
 ## 示例
 ```yaml
   - key: version
