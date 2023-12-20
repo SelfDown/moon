@@ -8,12 +8,12 @@ const TableNameCollectDocDemo = "collect_doc_demo"
 
 // CollectDocDemo mapped from table <collect_doc_demo>
 type CollectDocDemo struct {
-	DocDemoID    string  `gorm:"column:doc_demo_id;primaryKey" json:"doc_demo_id"`
-	CollectDocID *string `gorm:"column:collect_doc_id" json:"collect_doc_id"`
-	Name         *string `gorm:"column:name" json:"name"`
-	Code         *string `gorm:"column:code" json:"code"`
-	OrderIndex   *int32  `gorm:"column:order_index" json:"order_index"`
-	CodeResult   *string `gorm:"column:code_result" json:"code_result"`
+	DocDemoID    *string `gorm:"column:doc_demo_id;type:varchar(50)" json:"doc_demo_id"`
+	CollectDocID *string `gorm:"column:collect_doc_id;type:varchar(50)" json:"collect_doc_id"`
+	Name         *string `gorm:"column:name;type:varchar(200)" json:"name"`
+	Code         *string `gorm:"column:code;type:text" json:"code"`
+	OrderIndex   *string `gorm:"column:order_index;type:int(11)" json:"order_index"`
+	CodeResult   *string `gorm:"column:code_result;type:mediumtext" json:"code_result"`
 }
 
 // TableName CollectDocDemo's table name
@@ -22,5 +22,5 @@ func (*CollectDocDemo) TableName() string {
 }
 
 func (*CollectDocDemo) PrimaryKey() []string {
-	return []string{"doc_demo_id"}
+	return []string{}
 }

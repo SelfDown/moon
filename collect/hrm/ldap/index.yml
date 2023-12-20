@@ -1,0 +1,489 @@
+service:
+  - key: create_ldap_with_group
+    http: true
+    module: empty
+    params:
+      add_username:
+        check:
+          template: "{{must .add_username}}"
+          err_msg: 用户名不能为空
+      nick:
+        check:
+          template: "{{must .nick}}"
+          err_msg: 昵称不能为空
+      add_password:
+        check:
+          template: "{{must .add_password}}"
+          err_msg: 密码不能为空
+      roles:
+        default: ""
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.ldap_add
+        append_param: true
+      - key: service2field
+        enable: "{{must .roles}}"
+        service:
+          service: hrm.ldap_group_query
+          roles: "[roles]"
+        save_field: ldap_group_list
+      - key: service2field
+        enable: "{{must .ldap_group_list}}"
+        service:
+          service: hrm.remote_user_ldap_group_add_bulk
+          add_username: "[add_username]"
+          ldap_group_list: "[ldap_group_list]"
+  - key: remote_user_ldap_delete_bulk
+    name: 批量删除ldap用户
+    http: true
+    params:
+      user_info_list:
+        check:
+          template: "{{must .user_info_list}}"
+          err_msg: 用户不能为空
+    module: bulk_service
+    batch:
+      foreach: "[user_info_list]"
+      item: item
+      service:
+        service: "hrm.remote_user_ldap_delete"
+        remove_username: "[username]"
+      save_field: 'result'
+  - key: remote_user_ldap_group_delete
+    module: empty
+    http: true
+    params:
+      remove_username:
+        check:
+          template: "{{must .remove_username}}"
+          err_msg: 用户不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.search_user_all_group
+          target_username: "[remove_username]"
+        save_field: user_groups
+      - key: service2field
+        enable: "{{must .user_groups}}"
+        service:
+          service: hrm.ldap_user_group_delete
+          user_groups: "[user_groups]"
+          remove_username: "[remove_username]"
+        save_field: result
+      - key: param2result
+        enable: "{{must .user_groups}}"
+        field: "[result]"
+  - key: ldap_user_group_delete
+    module: bulk_service
+    log: true
+    params:
+      user_groups:
+        check:
+          template: "{{must .user_groups}}"
+          err_msg: 用户分组不能为空
+      remove_username:
+        check:
+          template: "{{must .remove_username}}"
+          err_msg: 删除用户不能为空
+    batch:
+      foreach: "[user_groups]"
+      item: item
+      service:
+        service: "hrm.remote_user_ldap_group_remove"
+        remove_username: "[params.remove_username]"
+      save_field: 'result'
+      append_item_param: true
+  - key: ldap_user_group_delete_simple
+    module: bulk_service
+    params:
+      user_groups:
+        check:
+          template: "{{must .user_groups}}"
+          err_msg: 用户分组不能为空
+      remove_username:
+        check:
+          template: "{{must .remove_username}}"
+          err_msg: 删除用户不能为空
+    batch:
+      foreach: "[user_groups]"
+      item: item
+      service:
+        service: "hrm.remote_user_ldap_group_remove"
+        remove_username: "[params.remove_username]"
+        ou: "[item]"
+      save_field: 'result'
+
+  - key: remote_user_ldap_delete
+    name: 删除ldap 用户
+    log: true
+    http: true
+    module: ldap
+    data_file: remote_user_ldap_delete.json
+    params:
+      remove_username:
+        check:
+          template: "{{must .remove_username}}"
+          err_msg: 用户不能为空
+#      ldap_addr:
+#        template: '{{get_key "ldap_addr"}}'
+#      username:
+#        template: 'cn={{get_key "manager_username"}},{{get_key "base_dn"}}'
+#      password:
+#        template: '{{get_key "manager_password"}}'
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.remote_user_ldap_group_delete
+          remove_username: "[remove_username]"
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+
+
+  - key: remote_user_ldap_group_add_bulk
+    name: 批量添加用户group
+    log: true
+    http: true
+    params:
+      add_username:
+        check:
+          template: "{{must .add_username}}"
+          err_msg: 用户不能为空
+      ldap_group_list:
+        check:
+          template: "{{must .ldap_group_list}}"
+          err_msg: 分组不能为空
+    module: bulk_service
+    batch:
+      foreach: "[ldap_group_list]"
+      item: item
+      service:
+        service: "hrm.remote_user_ldap_group_add"
+        add_username: "[params.add_username]"
+      save_field: 'result'
+      append_item_param: true
+  - key: remote_user_ldap_group_add_bulk_simple
+    name: 批量添加用户group
+    log: true
+    http: true
+    params:
+      add_username:
+        check:
+          template: "{{must .add_username}}"
+          err_msg: 用户不能为空
+      ldap_group_list:
+        check:
+          template: "{{must .ldap_group_list}}"
+          err_msg: 分组不能为空
+    module: bulk_service
+    batch:
+      foreach: "[ldap_group_list]"
+      item: item
+      service:
+        service: "hrm.remote_user_ldap_group_add"
+        name: "[item]"
+        add_username: "[params.add_username]"
+      save_field: 'result'
+      append_item_param: true
+  - key: remote_user_ldap_group_add
+    name: 添加用户分组
+    log: true
+    module: ldap
+    http: true
+    params:
+      name:
+        check:
+          template: "{{must .name}}"
+          err_msg: 分组不能为空
+      add_username:
+        check:
+          template: "{{must .add_username}}"
+          err_msg: 用户不能为空
+#      ldap_addr:
+#        template: '{{get_key "ldap_addr"}}'
+#      username:
+#        template: 'cn={{get_key "manager_username"}},{{get_key "base_dn"}}'
+#      password:
+#        template: '{{get_key "manager_password"}}'
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_user_ldap_group_add.json
+  - key: remote_user_ldap_group_remove
+    name: 删除用户分组
+    log: true
+    http: true
+    module: ldap
+    params:
+      ou:
+        check:
+          template: "{{must .ou}}"
+          err_msg: 分组不能为空
+      remove_username:
+        check:
+          template: "{{must .remove_username}}"
+          err_msg: 用户不能为空
+#      ldap_addr:
+#        template: '{{get_key "ldap_addr"}}'
+#      username:
+#        template: 'cn={{get_key "manager_username"}},{{get_key "base_dn"}}'
+#      password:
+#        template: '{{get_key "manager_password"}}'
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_user_ldap_group_remove.json
+  - key: remote_ldap_group_delete_bulk
+    name: 服务合并
+    http: true
+    params:
+      ldap_group_list:
+        check:
+          template: "{{must .ldap_group_list}}"
+          err_msg: 分组不能为空
+    batch:
+      foreach: "[ldap_group_list]"
+      item: item
+      service:
+        service: "hrm.remote_ldap_group_delete"
+      save_field: 'result'
+      append_item_param: true
+#    data_file: service_transfer.json
+    module: bulk_service
+#    result_handler:
+#      - key: param2result
+#        field: bulk_result
+
+  - key: remote_ldap_group_delete
+    http: true
+    log: true
+    module: ldap
+    params:
+      name:
+        check:
+          template: "{{must .name}}"
+          err_msg: 名称不能为空
+
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_ldap_group_delete.json
+  - key: remote_ldap_group_edit
+    http: true
+    log: true
+    module: ldap
+    params:
+      old_name:
+        check:
+          template: "{{must .old_name}}"
+          err_msg: 旧名称不能为空
+      new_name:
+        check:
+          template: "{{must .new_name}}"
+          err_msg: 新名称不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_ldap_group_edit.json
+  - key: remote_ldap_group_name_edit
+    http: true
+    log: true
+    module: ldap
+    params:
+      old_name:
+        check:
+          template: "{{must .old_name}}"
+          err_msg: 旧名称不能为空
+      new_name:
+        check:
+          template: "{{must .new_name}}"
+          err_msg: 新名称不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+      - key: service2field
+        service:
+          service: hrm.remote_ldap_group_edit
+        append_param: true
+    data_file: remote_ldap_group_name_edit.json
+
+  - key: remote_ldap_group_create
+    http: true
+    module: ldap
+    params:
+      name:
+        check:
+          template: "{{must .name}}"
+          err_msg: 名称不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_ldap_group_create.json
+  - key: remote_ldap_group_search
+    http: true
+    module: ldap
+    params:
+      name:
+        check:
+          template: "{{must .name}}"
+          err_msg: 名称不能为空
+      to_obj:
+        default: false
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_ldap_group_search.json
+  - key: search_user_all_group
+    http: true
+    module: ldap
+    params:
+      target_username:
+        check:
+          template: "{{must .target_username}}"
+          err_msg: 名称不能为空
+      to_obj:
+        default: false
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: search_user_all_group.json
+  - key: remote_ldap_group_list
+    http: true
+    module: ldap
+    params:
+      to_obj:
+        default: false
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: remote_ldap_group_list.json
+
+  - key: ldap_add
+    http: true
+    module: ldap
+    params:
+      add_username:
+        check:
+          template: "{{must .add_username}}"
+          err_msg: 添加用户名不能为空
+      nick:
+        check:
+          template: "{{must .nick}}"
+          err_msg: 添加用户昵称不能为空
+      add_password:
+        check:
+          template: "{{must .add_password}}"
+          err_msg: 密码不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: add.json
+
+  - key: ldap_login
+    http: true
+    module: ldap
+    params:
+#      ldap_addr:
+#        template: '{{get_key "ldap_addr"}}'
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能为空
+#        template: 'cn={{.username}},{{if ne .username "Manager"}}{{get_key "ou"}},{{end}}{{get_key "base_dn"}}'
+
+      is_not_admin:
+        type: bool
+        template: "{{ne .username \"Manager\"}}"
+      password:
+        check:
+          template: "{{must .password}}"
+          err_msg: 密码不能为空
+      to_obj:
+        default: false
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: ldap_login.json
+
+  - key: ldap_search
+    http: true
+    module: ldap
+    params:
+      search_username:
+        check:
+          template: "{{must .search_username}}"
+          err_msg: 用户名不能为空
+      to_obj:
+        default: false
+    handler_params:
+      - key: service2field
+        service:
+          service: config.config_detail_query
+          group_name: ldap_config
+        save_field: ldap_config
+        template: "{{must .ldap_config}}"
+        err_msg: ldap配置不存在
+    data_file: search.json
+    result_handler:
+      - key: arr2obj
+        enable: "[to_obj]"

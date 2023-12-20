@@ -20,6 +20,9 @@ services:
   - key: 'system'
     name: '系统'
     path: 'system/service.yml'
+  - key: 'hrm'
+    name: '人资管理'
+    path: 'hrm/service.yml'
 
 
 

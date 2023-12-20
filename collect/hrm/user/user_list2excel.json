@@ -1,0 +1,93 @@
+{
+  "name": "将用户列表转excel",
+  "sheets": [
+    {
+      "sheet_index": 0,
+      "title_height": 48,
+      "desc": "16*行数",
+      "title_style": {
+        "font": {
+          "family": "宋体",
+          "size": 12,
+          "color": "#ffffff"
+        },
+        "fill": {
+          "type": "pattern",
+          "color": [
+            "#3366FF"
+          ],
+          "pattern": 1
+        },
+        "alignment": {
+          "vertical": "center",
+          "WrapText": true
+        }
+      },
+      "name_style": {
+        "font": {
+          "family": "Arial",
+          "size": 10,
+          "color": "#ffffff"
+        },
+        "fill": {
+          "type": "pattern",
+          "color": [
+            "#0066CC"
+          ],
+          "pattern": 1
+        },
+        "alignment": {
+          "vertical": "center"
+        }
+      },
+      "content_style": {
+        "NumFmt": 49
+      },
+      "title": "用户列表\r\n1.ID 是作为系统的唯一标志，如果id存在则编辑数据，空着则新增\r\n2.带* 是必须保存",
+      "data": "[user_list]",
+      "fields": [
+        {
+          "field": "[userid]",
+          "name": "id",
+          "width": 10
+        },
+        {
+          "field": "[nick]",
+          "name": "*昵称",
+          "width": 20
+        },
+        {
+          "field": "[username]",
+          "name": "*用户名",
+          "width": 20
+        },
+        {
+          "field": "[tel]",
+          "name": "电话号码",
+          "width": 20
+        },
+        {
+          "field": "[email]",
+          "name": "邮箱",
+          "width": 20
+        },
+        {
+          "field": "[statu]",
+          "template": "{{ if  eq .statu 1}} 正常 {{ else }}删除{{ end }}",
+          "name": "状态",
+          "width": 10
+        },
+        {
+          "field": "[address]",
+          "name": "地址",
+          "width": 50
+        },
+        {
+          "field": "[create_time]",
+          "name": "创建日期",
+          "width": 20
+        }
+      ]
+    }
+  ]
+}

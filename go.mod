@@ -1,10 +1,10 @@
 module moon
 
 go 1.18
+
 replace collect => F:/go/hello
 
 require collect v0.0.0-00010101000000-000000000000
-
 
 require (
 	github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e // indirect
@@ -34,6 +34,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
+	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
@@ -58,6 +59,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/datatypes v1.0.7 // indirect
 	gorm.io/driver/mysql v1.4.4 // indirect
+	gorm.io/driver/sqlite v1.4.1 // indirect
 	gorm.io/gen v0.3.18 // indirect
 	gorm.io/gorm v1.24.6 // indirect
 	gorm.io/hints v1.1.0 // indirect

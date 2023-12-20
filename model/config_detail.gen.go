@@ -8,10 +8,10 @@ const TableNameConfigDetail = "config_detail"
 
 // ConfigDetail mapped from table <config_detail>
 type ConfigDetail struct {
-	ConfigDetailID string  `gorm:"column:config_detail_id;primaryKey" json:"config_detail_id"`
-	GroupID        *string `gorm:"column:group_id" json:"group_id"`
-	Name           *string `gorm:"column:name" json:"name"`
-	Value          *string `gorm:"column:value" json:"value"`
+	ConfigDetailID *string `gorm:"column:config_detail_id;type:varchar(100)" json:"config_detail_id"`
+	GroupID        *string `gorm:"column:group_id;type:varchar(100)" json:"group_id"`
+	Name           *string `gorm:"column:name;type:varchar(100)" json:"name"`
+	Value          *string `gorm:"column:value;type:varchar(255)" json:"value"`
 }
 
 // TableName ConfigDetail's table name
@@ -20,5 +20,5 @@ func (*ConfigDetail) TableName() string {
 }
 
 func (*ConfigDetail) PrimaryKey() []string {
-	return []string{"config_detail_id"}
+	return []string{}
 }

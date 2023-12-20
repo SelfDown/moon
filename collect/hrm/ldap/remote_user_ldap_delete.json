@@ -1,0 +1,8 @@
+{
+  require(login.common),
+  "method": "delete",
+  "DeleteParams": {
+    "DN": "cn={{.remove_username}},{{.ldap_config.ldap_users}},{{.ldap_config.ldap_base_dn}}"
+  }
+
+}

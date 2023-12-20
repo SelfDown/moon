@@ -8,13 +8,13 @@ const TableNameCollectDocParams = "collect_doc_params"
 
 // CollectDocParams mapped from table <collect_doc_params>
 type CollectDocParams struct {
-	DocParamsID  string  `gorm:"column:doc_params_id;primaryKey" json:"doc_params_id"`
-	CollectDocID *string `gorm:"column:collect_doc_id" json:"collect_doc_id"`
-	Name         *string `gorm:"column:name" json:"name"`
-	Desc         *string `gorm:"column:desc" json:"desc"`
-	Type         *string `gorm:"column:type" json:"type"`
-	Must         *string `gorm:"column:must" json:"must"`
-	OrderIndex   *int32  `gorm:"column:order_index" json:"order_index"`
+	DocParamsID  *string `gorm:"column:doc_params_id;type:varchar(50)" json:"doc_params_id"`
+	CollectDocID *string `gorm:"column:collect_doc_id;type:varchar(50)" json:"collect_doc_id"`
+	Name         *string `gorm:"column:name;type:varchar(200)" json:"name"`
+	Desc         *string `gorm:"column:desc;type:varchar(2550)" json:"desc"`
+	Type         *string `gorm:"column:type;type:varchar(200)" json:"type"`
+	Must         *string `gorm:"column:must;type:varchar(200)" json:"must"`
+	OrderIndex   *string `gorm:"column:order_index;type:int(11)" json:"order_index"`
 }
 
 // TableName CollectDocParams's table name
@@ -23,5 +23,5 @@ func (*CollectDocParams) TableName() string {
 }
 
 func (*CollectDocParams) PrimaryKey() []string {
-	return []string{"doc_params_id"}
+	return []string{}
 }

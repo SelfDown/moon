@@ -1,0 +1,48 @@
+service:
+  - key: user_change_list
+    module: sql
+    http: true
+    params:
+      search:
+        template: "{{ if .search }}%{{.search}}%{{ end }}"
+      page:
+        type: int
+        default: 1
+      size:
+        default: 20
+        type: int
+      start:
+        template: " ({{.page}}-1) * {{.size}}"
+        exec: true
+        type: int
+      pagination:
+        default: true
+
+      count:
+        default: true
+    data_file: change_list.sql
+    count_file: change_list_count.sql
+    pagination: pagination
+    count: "[count]"
+
+  - key: user_change_history_save
+    log: true
+    module: bulk_create
+    params:
+      change_list:
+        check:
+          template: "{{must .change_list}}"
+          err_msg: 修改历史不能为空
+    table: "user_change_history"
+    model_field: "[change_list]"
+    handler_params:
+      - key: update_array
+        foreach: "[change_list]"
+        item: item
+        fields:
+          - field: change_id
+            template: "{{uuid}}"
+          - field: create_user
+            template: "[session_user_id]"
+          - field: create_time
+            template: "{{current_date_time}}"

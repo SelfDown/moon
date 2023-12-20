@@ -1,0 +1,7 @@
+{
+  "connection": {
+    "server": "{{.ldap_config.ldap_addr}}",
+    "user": "cn={{.username}},{{if .is_not_admin}}{{.ldap_config.ldap_users}},{{end}}{{.ldap_config.ldap_base_dn}}",
+    "password": "{{.password}}"
+  }
+}

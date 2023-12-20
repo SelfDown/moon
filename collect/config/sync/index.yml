@@ -137,13 +137,6 @@ service:
           demo_list: '[important_demo_list]'
       - key: params2result
         fields:
-          - from: "[doc_add_list]"
-            to: doc_add_list
-          - from: "[local_params]"
-            to: local_params
-          - from: "[remote_params]"
-            to: remote_params
-          - from: "[params_add_list]"
-            to: params_add_list
+
           - from: "[change_list]"
             to: change_list

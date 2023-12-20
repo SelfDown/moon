@@ -1,0 +1,70 @@
+{
+    "name":"将数据转换为excel",
+    "excel": {
+        "0": {
+            "title_row": 0,
+            "title_style": "alignment:vert center;font:color white ,height 240;pattern: pattern solid, fore_colour light_blue;",
+            "name_row": 1,
+            "name_style": "font:color white ;pattern: pattern solid, fore_colour ocean_blue",
+            "start_row": 2,
+            "frozen_col": 1,
+            "title": "jira 批量导入(1.【问题类型】：10001(故事),10002(任务),10006(缺陷),10100(需求),10101(优化),10102(设计)。2.【优先级】1-5对应危险、严重、重要、轻微、微小。3【包含脚本】10122(否)10123(是)",
+            "data": "result",
+            "fields": [
+                {
+                    "field":"summary",
+                    "name": "标题",
+                    "width": 100
+                },
+                {
+                    "name": "描述",
+                    "width": 100
+                },
+                {
+                    "name": "云豆",
+                    "width": 60
+                },
+                {
+                    "name": "模块(填写名称)",
+                    "width": 80
+                },
+                {
+                    "name": "问题类型(详情顶部)",
+                    "width": 80
+                },
+                {
+                    "name": "到期日",
+                    "width": 80
+                },
+                {
+                    "name": "报告人(登录名)",
+                    "width": 80
+                },
+                {
+                    "name": "经办人(登录名)",
+                    "width": 80
+                },
+                {
+                    "name": "空间",
+                    "width": 60
+                },
+                {
+                    "name": "优先级(详情顶部)",
+                    "width": 80
+                },
+                {
+                    "name": "标签",
+                    "width": 60
+                },
+                {
+                    "name": "包含脚本(详情顶部)",
+                    "width": 80
+                },
+                {
+                    "name": "修复版本(填写名称)",
+                    "width": 100
+                }
+            ]
+        }
+    }
+}

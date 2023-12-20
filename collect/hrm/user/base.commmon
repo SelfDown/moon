@@ -1,0 +1,11 @@
+ {
+      "key": "start",
+      "type": "start",
+      "name": "开始",
+      "next": "stop"
+    },
+    {
+      "key": "end",
+      "type": "end",
+      "name": "结束"
+    }

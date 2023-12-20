@@ -1,0 +1,257 @@
+service:
+
+  - key: ldap_group_sync
+    http: true
+    schedule:
+      enable: "{{eq (get_key \"schedule_enable\") \"true\"}}"
+      schedule_spec: "@every 30s"
+    module: empty
+    modify_config: ldap_group_modify.json
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.remote_ldap_group_list
+        save_field: remote_list
+      - key: update_array
+        foreach: "[remote_list]"
+        item: item
+        fields:
+          - field: has_group
+            template: "1"
+      - key: service2field
+        service:
+          service: hrm.ldap_group_query
+        save_field: local_list
+      - key: get_modify_data
+        save_field: change_list
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: add_list
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"remove\") (ne .item.has_group \"0\") }}"
+        save_field: remove_list
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: modify_list
+      - key: params2result
+        fields:
+          - from: "[add_list]"
+            to: "add_list"
+          - from: "[change_list]"
+            to: "change_list"
+          - from: "[remove_list]"
+            to: "remove_list"
+          - from: "[modify_list]"
+            to: "modify_list"
+      - key: service2field
+        enable: "{{gt (len .add_list) 0}}"
+        service:
+          service: hrm.ldap_group_bulk_create
+          ldap_group_list: "[add_list]"
+      - key: service2field
+        enable: "{{gt (len .remove_list) 0}}"
+        service:
+          service: hrm.ldap_group_bulk_update
+          ldap_group_list: "[remove_list]"
+          has_group: "0"
+      - key: service2field
+        enable: "{{gt (len .modify_list) 0}}"
+        service:
+          service: hrm.ldap_group_bulk_update
+          ldap_group_list: "[modify_list]"
+          has_group: "1"
+
+  - key: ldap_group_bulk_create
+    http: true
+    module: bulk_create
+    table: "ldap_group"
+    params:
+      ldap_group_list:
+        check:
+          template: "{{must .ldap_group_list}}"
+          err_msg: ldap 分组不能为空
+    model_field: ldap_group_list
+    handler_params:
+      - key: update_array
+        foreach: "[ldap_group_list]"
+        item: item
+        fields:
+          - field: ldap_group_id
+            template: "{{ uuid }}"
+          - field: name
+            template: "{{.item.after}}"
+          - field: has_group
+            template: "1"
+          - field: last_sync_time
+            template: "{{current_date_time}}"
+
+  - key: ldap_group_bulk_update
+    http: true
+    module: bulk_upsert
+    table: "ldap_group"
+    params:
+      ldap_group_list:
+        check:
+          template: "{{must .ldap_group_list}}"
+          err_msg: ldap 分组不能为空
+      has_group:
+        default: "0"
+    model_field: ldap_group_list
+    update_fields:
+      - has_group
+      - last_sync_time
+    handler_params:
+      - key: update_array
+        foreach: "[ldap_group_list]"
+        item: item
+        fields:
+          - field: has_group
+            template: "{{.has_group}}"
+          - field: last_sync_time
+            template: "{{current_date_time}}"
+
+  - key: ldap_group_delete
+    http: true
+    module: model_delete
+    table: "ldap_group"
+    filter:
+      ldap_group_id__in: "[ldap_group_id_list]"
+    params:
+      ldap_group_id_list:
+        check:
+#          template: "{{must .ldap_group_id_list}}"
+          template: "{{or (must .ldap_group_id_list) (must .ids)}}"
+          err_msg: 分组不能为空
+    handler_params:
+      - key: field2array
+        field: "[ids]"
+        enable: "{{must .ids}}"
+        save_field: ldap_group_id_list
+      - key: service2field
+        service:
+          service: hrm.ldap_group_query
+          ldap_group_id_list: "[ldap_group_id_list]"
+        save_field: ldap_group_list
+      - key: service2field
+        enable: "{{must .ldap_group_list}}"
+        service:
+          service: hrm.remote_ldap_group_delete_bulk
+          ldap_group_list: "[ldap_group_list]"
+        save_field: bulk_result
+    result_handler:
+      - key: param2result
+        field: bulk_result
+  - key: ldap_group_query
+    http: true
+    module: sql
+    params:
+      role_id_list:
+        default: []
+      roles:
+        default: ""
+      to_obj:
+        default: false
+    handler_params:
+      - key: field2array
+        enable: "{{must .roles}}"
+        field: "[roles]"
+        save_field: role_id_list
+    data_file: ldap_group_query.sql
+    result_handler:
+      - key: arr2obj
+        enable: "[to_obj]"
+  - key: ldap_group_edit
+    http: true
+    module: model_update
+    log: true
+    table: ldap_group
+    params:
+      ldap_group_id:
+        check:
+          template: "{{must .ldap_group_id}}"
+          err_msg: 分组不能为空
+      name:
+        check:
+          template: "{{must .name}}"
+          err_msg: 名称不能为空
+      order_index:
+        check:
+          template: "{{must .order_index}}"
+          err_msg: 排序号不能为空
+      has_group:
+        default: "1"
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.ldap_group_query
+          ldap_group_id: "[ldap_group_id]"
+          to_obj: true
+        save_field: local_group_data
+        template: "{{must .local_group_data}}"
+        err_msg: 分组数据不存在
+      - key: service2field
+        name: 拿数据库的名称去ldap 中查
+        service:
+          service: hrm.remote_ldap_group_search
+          name: "[local_group_data.name]"
+          to_obj: true
+        save_field: remote_group
+      - key: service2field
+        name: 远程ldap存在 并且 新名称与旧名称不同
+        enable: "{{and (must .remote_group) ( ne .local_group_data.name .name ) }}"
+        service:
+          service: hrm.remote_ldap_group_name_edit
+          old_name: "[remote_group.ou]"
+          new_name: "[name]"
+      - key: service2field
+        name: 远程ldap不存在分组则创建
+        enable: "{{ not  ( must .remote_group)  }}"
+        service:
+          service: hrm.remote_ldap_group_create
+          name: "[name]"
+    filter:
+      ldap_group_id: "[ldap_group_id]"
+
+  - key: ldap_group_create
+    http: true
+    module: model_save
+    table: ldap_group
+    params:
+      ldap_group_id:
+        template: "{{uuid}}"
+      name:
+        check:
+          template: "{{must .name}}"
+          err_msg: 名称不能为空
+      order_index:
+        check:
+          template: "{{must .order_index}}"
+          err_msg: 排序号不能为空
+      has_group:
+        default: "1"
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.ldap_group_query
+          name: "[name]"
+        save_field: local_data
+        template: "{{eq (len .local_data) 0}}"
+        err_msg: "【{{.name}}】分组已经存在,请更换名称"
+      - key: service2field
+        service:
+          service: hrm.remote_ldap_group_search
+          name: "[name]"
+        save_field: remote_ldap
+      - key: service2field
+        enable: "{{eq (len .remote_ldap) 0}}"
+        service:
+          service: hrm.remote_ldap_group_create
+          name: "[name]"
+
+

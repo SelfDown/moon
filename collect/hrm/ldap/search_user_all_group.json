@@ -1,0 +1,18 @@
+{
+  require(login.common),
+  "method": "search",
+  "scope_desc": "ScopeBaseObject   = 0\n\tScopeSingleLevel  = 1\n\tScopeWholeSubtree = 2",
+  "Split": "|",
+  "SearchParams": {
+    "BaseDN": "{{.ldap_config.ldap_groups}},{{.ldap_config.ldap_base_dn}}",
+    "Scope":2,
+    "DerefAliases": 0,
+    "filter": "(&(objectClass=groupOfUniqueNames)(uniqueMember=cn={{.target_username}},{{.ldap_config.ldap_users}},{{.ldap_config.ldap_base_dn}}))",
+    "attributes": [
+      "ou",
+      "cn",
+      "objectClass"
+    ]
+  }
+
+}
