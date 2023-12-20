@@ -42,13 +42,15 @@ http后台接口都可以配置，支持数据库增删改查，发http请求，
 
 ## 要点
 
-    * 二级服务分类，service 一般 xxx.xx。第一级表示项目，第二级表示具体服务.
-    * 服务名定义，由入口文件services下的key+叶子目录下key2个拼接组成。比如hrm.user_list,是最上层collect/service.yml的key=hrm,user_list 是hrm/user/index.yml下面的key=user_list服务 。定义的时候就得保证唯一
-    * collect/service.yml 定义了所有模块、处理器。就是为了写配置的时候方便看一眼，有印象
+    1. 二级服务分类，service 一般 xxx.xx。第一级表示项目，第二级表示具体服务.
+    2. 服务名定义，由入口文件services下的key+叶子目录下key2个拼接组成。比如hrm.user_list,是最上层collect/service.yml的key=hrm,user_list 是hrm/user/index.yml下面的key=user_list服务 。定义的时候就得保证唯一
+    3. collect/service.yml 定义了所有模块、处理器。就是为了写配置的时候方便看一眼，有印象
 ## 启动服务
+源代码模式运行
 ```cmd
 go run main.go
 ```
+或则点击moon.exe
 ```shell
 http://127.0.0.1:8080/console/static
 ```
