@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/config/doc/demo_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/demo_query.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/config/doc/import_list_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/import_list_query.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/config/doc/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/config/doc/params_query.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/doc/params_query.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/config/sync/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/sync/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/alert_ignore.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/alert_ignore.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +61,7 @@
       <recent name="F:\go\moon\collect\jira\issue" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\go\moon\img" />
       <recent name="F:\go\moon\collect\project" />
     </key>
   </component>

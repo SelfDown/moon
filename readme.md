@@ -1,7 +1,16 @@
 # 什么是服务Service(服务描述)
 ## 示例
 ```yaml
-module: empty
+  - key: version
+    http: true
+    params:
+      version:
+        template: "{{snow_id}}"
+        default: "1.0.0"
+    handler_params:
+      - key: param2result
+        field: version
+    module: empty
 ```
 ## 描述
 
