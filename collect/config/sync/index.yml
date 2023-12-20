@@ -114,11 +114,13 @@ service:
         if_template: "{{and (eq .item.operation \"add\" ) (eq .item.field \"[doc_demo_id]\")}}"
         save_field: important_demo_list
       - key: service2field
-        enable: "{{must .add_list}}"
+        name: 添加文档
+        enable: "{{must .doc_add_list}}"
         service:
           service: config.doc_create
           collect_list: '[doc_add_list]'
       - key: service2field
+        name: 添加参数
         enable: "{{must .params_add_list}}"
         service:
           service: config.params_bulk_create
@@ -135,5 +137,13 @@ service:
           demo_list: '[important_demo_list]'
       - key: params2result
         fields:
+          - from: "[doc_add_list]"
+            to: doc_add_list
+          - from: "[local_params]"
+            to: local_params
+          - from: "[remote_params]"
+            to: remote_params
+          - from: "[params_add_list]"
+            to: params_add_list
           - from: "[change_list]"
             to: change_list

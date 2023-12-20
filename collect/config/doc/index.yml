@@ -303,6 +303,7 @@ service:
   - key: params_query
     module: sql
     http: true
+    log: true
     params:
       collect_doc_id:
         default: ""
