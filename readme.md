@@ -51,8 +51,8 @@ http后台接口都可以配置，支持数据库增删改查，发http请求，
 go run main.go
 ```
 或则点击moon.exe
-```shell
-http://127.0.0.1:8080/console/static
+```
+浏览器打开 http://127.0.0.1:8080/console/static
 ```
 访问会得到控制台地址![img.png](img/img.png)
 
