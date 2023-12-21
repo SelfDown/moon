@@ -10,10 +10,10 @@ import (
 	"moon/plugins"
 )
 
-func main1() {
+func main() {
 	gen.GenModel()
 }
-func main() {
+func main1() {
 
 	// todo go profile 使用
 	//gin.SetMode(gin.ReleaseMode)
