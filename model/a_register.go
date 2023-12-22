@@ -1,8 +1,8 @@
 package model
 
 import (
-	templateService "collect/src/collect/service_imp"
-	utils "collect/src/collect/utils"
+	templateService "github.com/SelfDown/collect/src/collect/service_imp"
+	utils "github.com/SelfDown/collect/src/collect/utils"
 )
 
 var modelMap map[string]interface{}

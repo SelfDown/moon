@@ -1,10 +1,10 @@
 package plugins
 
 import (
-	common "collect/src/collect/common"
-	config "collect/src/collect/config"
-	templateService "collect/src/collect/service_imp"
-	utils "collect/src/collect/utils"
+	common "github.com/SelfDown/collect/src/collect/common"
+	config "github.com/SelfDown/collect/src/collect/config"
+	templateService "github.com/SelfDown/collect/src/collect/service_imp"
+	utils "github.com/SelfDown/collect/src/collect/utils"
 	"github.com/demdxx/gocast"
 	"golang.org/x/crypto/ssh"
 	"strings"

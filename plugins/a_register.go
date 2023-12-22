@@ -1,7 +1,7 @@
 package plugins
 
 import (
-	templateService "collect/src/collect/service_imp"
+	templateService "github.com/SelfDown/collect/src/collect/service_imp"
 )
 
 func GetRegisterList() []templateService.ModuleResult {
