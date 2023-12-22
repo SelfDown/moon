@@ -16,7 +16,13 @@ http后台接口都可以配置，支持数据库增删改查，发http请求，
         field: version
     module: empty
 ```
-post json 请求后返回
+对/template_data/data。  发post的json的请求
+```json
+{
+   "service": "version.version"
+}
+```
+请求后返回
 ```json
 {
 	"status": 0,
