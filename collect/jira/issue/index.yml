@@ -9,6 +9,7 @@ service:
     data_file: update_issue_status.sql
   - key: jira_issue_slice_save
     module: bulk_create
+    table: "jira_issue_slice"
     params:
       issue_list:
         check:
@@ -39,6 +40,7 @@ service:
   - key: jira_issue_update
     http: true
     module: empty
+    log: true
     schedule:
       enable: "{{eq (get_key \"schedule_enable\") \"true\"}}"
       schedule_spec: "@every 300s"
@@ -71,6 +73,7 @@ service:
         if_template: "{{eq .item.operation \"add\" }}"
         save_field: add_list
       - key: service2field
+        name: 添加列表
         enable: "{{must .add_list}}"
         service:
           service: jira.jira_issue_slice_save

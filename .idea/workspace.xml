@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/jira/issue/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/jira/issue/index.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/add_table.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/add_table.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/collect_doc.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/collect_doc_demo.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/collect_doc_important.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/collect_doc_params.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/collect_doc_result.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/config_detail.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/config_group.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/doc_group.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/collect_doc.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/collect_doc_demo.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/collect_doc_important.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/collect_doc_params.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/collect_doc_result.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/config_detail.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/config_group.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/doc_group.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/gen.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
