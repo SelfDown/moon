@@ -3,7 +3,7 @@ http后台接口都可以配置，支持数据库增删改查，发http请求，
 
     conf/application.properties示例中用sqlite ，为了方便连接数据库，不用搭建一个mysql,生产请换成mysql,其他数据库
 ## 示例
-这是个简单接口示例，它对外返回一个雪花ID。基于模板生成了一个雪花ID,然后返回
+这是collect/version下简单接口示例。项目名为version,服务名为version。它对外返回一个雪花ID。基于模板生成了一个雪花ID,然后返回
 ```yaml
   - key: version
     http: true
