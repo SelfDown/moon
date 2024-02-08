@@ -23,7 +23,7 @@ type ReqInfoModifyTrace struct {
 	OpTime       *time.Time `gorm:"column:op_time" json:"op_time"`
 	CreateTime   *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
 	ModifyTime   *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
-	Comments     *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
+	Comments     *string    `gorm:"column:comments" json:"comments"`
 	ReqID        *string    `gorm:"column:req_id" json:"req_id"`
 }
 

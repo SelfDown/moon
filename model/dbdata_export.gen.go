@@ -9,6 +9,7 @@ const TableNameDbdataExport = "dbdata_export"
 // DbdataExport mapped from table <dbdata_export>
 type DbdataExport struct {
 	DbdataExportID      string  `gorm:"column:dbdata_export_id;primaryKey" json:"dbdata_export_id"`
+	Title               *string `gorm:"column:title" json:"title"`
 	InstallSoftID       *string `gorm:"column:install_soft_id" json:"install_soft_id"`
 	SoftUserID          *string `gorm:"column:soft_user_id" json:"soft_user_id"`
 	AddTime             *string `gorm:"column:add_time" json:"add_time"`
@@ -27,7 +28,6 @@ type DbdataExport struct {
 	AllMetaDumpFilename *string `gorm:"column:all_meta_dump_filename" json:"all_meta_dump_filename"`
 	Sid                 *string `gorm:"column:sid" json:"sid"`
 	AllMetaLogFilename  *string `gorm:"column:all_meta_log_filename" json:"all_meta_log_filename"`
-	Title               *string `gorm:"column:title" json:"title"`
 	IsDelete            *string `gorm:"column:is_delete;default:0" json:"is_delete"`
 }
 

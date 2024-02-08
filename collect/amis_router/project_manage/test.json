@@ -1,146 +1,35 @@
 {
   "title": "带边栏联动",
   "type": "page",
+  "asideResizor": true,
   "aside": {
     "type": "form",
     "wrapWithPanel": false,
     "target": "window",
     "submitOnInit": true,
+    "reload":"detailCRUD?server_env_id=${server_env_id}",
     "body": [
       {
         "type": "input-tree",
-        "name": "cat",
+        "name": "server_env_id",
         "inputClassName": "no-border no-padder mt-1",
         "heightAuto": true,
         "submitOnChange": true,
         "selectFirst": true,
+        "labelField": "server_env_name",
+        "valueField": "server_env_id",
         "inputOnly": true,
-        "options": [
-          {
-            "label": "分类1",
-            "value": "cat1"
+        "searchable": true,
+
+        "source": {
+          "url": "/template_data/data",
+          "method": "post",
+          "data": {
+            "service": "project.project_list",
+            "with_env_tree": true
           },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类2",
-            "value": "cat2",
-            "children": [
-              {
-                "label": "分类 2.1",
-                "value": "cat2.1"
-              },
-              {
-                "label": "分类 2.2",
-                "value": "cat2.2"
-              }
-            ]
-          },
-          {
-            "label": "分类3",
-            "value": "cat3"
-          },
-          {
-            "label": "分类4",
-            "value": "cat4"
-          }
-        ]
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        }
       }
     ]
   },
@@ -204,10 +93,17 @@
   ],
   "body": {
     "type": "crud",
+    "name": "detailCRUD",
     "draggable": true,
     "api": {
-      "url": "/amis/api/sample",
-      "sendOn": "this.cat"
+      "sendOn": "${server_env_id}",
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "project.server_list",
+        "search": "${search}",
+        "server_env_id": "${server_env_id}"
+      }
     },
     "filter": {
       "title": "条件搜索",
@@ -261,188 +157,203 @@
     ],
     "quickSaveApi": "/amis/api/sample/bulkUpdate",
     "quickSaveItemApi": "/amis/api/sample/$id",
+    "syncLocation": false,
     "columns": [
       {
-        "name": "id",
-        "label": "ID",
-        "width": 30,
-        "sortable": true,
-        "type": "text",
-        "toggled": true
+        "label": "ip",
+        "name": "server_ip"
       },
       {
-        "name": "engine",
-        "label": "Rendering engine",
-        "sortable": true,
-        "searchable": true,
-        "type": "text",
-        "toggled": true
+        "label": "名称",
+        "name": "server_name"
       },
       {
-        "name": "browser",
-        "label": "Browser",
-        "sortable": true,
-        "type": "text",
-        "toggled": true
+        "label": "环境类型",
+        "name": "env_type_name"
       },
       {
-        "name": "platform",
-        "label": "Platform(s)",
-        "sortable": true,
-        "type": "text",
-        "toggled": true
-      },
-      {
-        "name": "version",
-        "label": "Engine version",
-        "quickEdit": true,
-        "type": "text",
-        "toggled": true
-      },
-      {
-        "name": "grade",
-        "label": "CSS grade",
-        "quickEdit": {
-          "mode": "inline",
-          "type": "select",
-          "options": [
-            "A",
-            "B",
-            "C",
-            "D",
-            "X"
-          ],
-          "saveImmediately": true
-        },
-        "type": "text",
-        "toggled": true
+        "label": "排序号",
+        "name": "order_id"
       },
       {
         "type": "operation",
+        "fixed": "right",
+        "width": 100,
         "label": "操作",
-        "width": 130,
         "buttons": [
           {
+            "label": "详情",
             "type": "button",
-            "icon": "fa fa-eye",
+            "level": "link",
             "actionType": "dialog",
             "dialog": {
-              "title": "查看",
-              "body": {
-                "type": "form",
-                "body": [
-                  {
-                    "type": "static",
-                    "name": "engine",
-                    "label": "Engine"
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "static",
-                    "name": "browser",
-                    "label": "Browser"
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "static",
-                    "name": "platform",
-                    "label": "Platform(s)"
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "static",
-                    "name": "version",
-                    "label": "Engine version"
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "static",
-                    "name": "grade",
-                    "label": "CSS grade"
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "html",
-                    "html": "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "type": "button",
-            "icon": "fa fa-pencil",
-            "actionType": "dialog",
-            "dialog": {
-              "title": "编辑",
+              "title": "查看详情",
+              "size": "lg",
               "body": {
                 "type": "form",
                 "name": "sample-edit-form",
-                "api": "/amis/api/sample/$id",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "project.server_env_update",
+                    "server_env_id": "${server_env_id}",
+                    "sys_project_id": "${sys_project_id}",
+                    "parent_id": "${parent_id}",
+                    "server_env_code": "${server_env_code}",
+                    "server_env_name": "${server_env_name}",
+                    "env_code": "${env_code}",
+                    "leader": "${leader}",
+                    "comments": "${comments}",
+                    "order_id": "${order_id}"
+                  },
+                  "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                },
+                "collapsable": true,
                 "body": [
                   {
-                    "type": "input-text",
-                    "name": "engine",
-                    "label": "Engine",
-                    "required": true
+                    "type": "fieldSet",
+                    "title": "项目节点",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "name": "sys_project_id",
+                            "label": "项目",
+                            "required": true,
+                            "valueField": "sys_project_id",
+                            "labelField": "project_name",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "project.project_list"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+                          {
+                            "type": "tree-select",
+                            "name": "parent_id",
+                            "label": "上级节点",
+                            "clearable": true,
+                            "valueField": "server_env_id",
+                            "labelField": "server_env_name",
+                            "selectMode": "true",
+                            "initFetchOn": "data.sys_project_id",
+                            "menuTpl": "${server_env_name}(${server_env_code})",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data?sys_project_id=${sys_project_id}",
+                              "data": {
+                                "service": "project.env_tree",
+                                "sys_project_id": "${sys_project_id}"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "divider"
+                      }
+                    ]
                   },
                   {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "browser",
-                    "label": "Browser",
-                    "required": true
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "platform",
-                    "label": "Platform(s)",
-                    "required": true
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "version",
-                    "label": "Engine version"
-                  },
-                  {
-                    "type": "divider"
-                  },
-                  {
-                    "type": "input-text",
-                    "name": "grade",
-                    "label": "CSS grade"
+                    "type": "fieldSet",
+                    "title": "基本信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "server_env_code",
+                            "label": "环境编码",
+                            "required": true
+                          },
+                          {
+                            "type": "input-text",
+                            "name": "server_env_name",
+                            "label": "环境名称",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "name": "env_code",
+                            "label": "类型",
+                            "value": "4",
+                            "required": true,
+                            "valueField": "env_code",
+                            "labelField": "env_name",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "project.sys_env_query"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+                          {
+                            "type": "input-number",
+                            "name": "order_id",
+                            "label": "排序号",
+                            "remark": "越小越靠前",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "leader",
+                            "label": "负责人"
+                          },
+                          {
+                            "type": "textarea",
+                            "name": "comments",
+                            "label": "备注"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
             }
           },
           {
+            "label": "删除",
             "type": "button",
-            "icon": "fa fa-times text-danger",
+            "level": "link",
+            "className": "text-danger",
             "actionType": "ajax",
-            "confirmText": "您确认要删除?",
-            "api": "delete:/amis/api/sample/$id"
+            "confirmText": "确定要删除【${server_env_name}(${server_env_code})】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "project.server_env_delete",
+                "server_env_id_list": [
+                  "${server_env_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
           }
-        ],
-        "toggled": true
+        ]
       }
     ]
   }

@@ -37,7 +37,6 @@ var (
 	BeanReport                          *beanReport
 	BeanReportIssues                    *beanReportIssues
 	BeanReportTeam                      *beanReportTeam
-	BlackList                           *blackList
 	BuildFlow                           *buildFlow
 	BuildGroup                          *buildGroup
 	BuildGroupDetail                    *buildGroupDetail
@@ -50,7 +49,6 @@ var (
 	ConfigDetail                        *configDetail
 	ConfigGroup                         *configGroup
 	DashboardRelatedServers             *dashboardRelatedServers
-	DbaApk                              *dbaApk
 	DbdataCompare                       *dbdataCompare
 	DbdataCompareChangeList             *dbdataCompareChangeList
 	DbdataExpTableStandard              *dbdataExpTableStandard
@@ -88,7 +86,10 @@ var (
 	DeployTaskOnce                      *deployTaskOnce
 	DeployTaskOnceFlow                  *deployTaskOnceFlow
 	DeployTasklist                      *deployTasklist
+	DeployTasklist88                    *deployTasklist88
+	DeployTasklistCopy                  *deployTasklistCopy
 	DeptaskSpringbootConf               *deptaskSpringbootConf
+	DeptaskSpringbootConfCopy1          *deptaskSpringbootConfCopy1
 	DishBind                            *dishBind
 	DishType                            *dishType
 	DishTypeRule                        *dishTypeRule
@@ -138,12 +139,10 @@ var (
 	InstallOsUser801                    *installOsUser801
 	IssueCommit                         *issueCommit
 	IssueFlow                           *issueFlow
-	IssueFow                            *issueFow
 	IssueImg                            *issueImg
 	IssueRecordImg                      *issueRecordImg
 	ItResourceNode                      *itResourceNode
 	Items                               *items
-	JbosslogcategoryOperator            *jbosslogcategoryOperator
 	JiraBackendStatus                   *jiraBackendStatus
 	JiraIssueSlice                      *jiraIssueSlice
 	JiraOpLog                           *jiraOpLog
@@ -152,9 +151,6 @@ var (
 	JobsRelServer                       *jobsRelServer
 	LdapGroup                           *ldapGroup
 	MTest1                              *mTest1
-	MergePublish                        *mergePublish
-	MergePublishDetail                  *mergePublishDetail
-	MergePublishWarDetail               *mergePublishWarDetail
 	MergeRequestHistory                 *mergeRequestHistory
 	MessageSendLog                      *messageSendLog
 	MessageSendServerEnv                *messageSendServerEnv
@@ -173,7 +169,6 @@ var (
 	MonitorRecoveryAccess               *monitorRecoveryAccess
 	MonitorRecoveryAccessRel            *monitorRecoveryAccessRel
 	MonitorServerDashboard              *monitorServerDashboard
-	MoongodEventExe                     *moongodEventExe
 	MrToken                             *mrToken
 	MsgSendForbid                       *msgSendForbid
 	MsgSendLog                          *msgSendLog
@@ -221,7 +216,6 @@ var (
 	PublishPannel                       *publishPannel
 	PublishRedisCache                   *publishRedisCache
 	PublishReq                          *publishReq
-	PublishReqBefore                    *publishReqBefore
 	PublishReqCopy                      *publishReqCopy
 	PublishReqDbscript                  *publishReqDbscript
 	PublishReqDeployEvent               *publishReqDeployEvent
@@ -338,12 +332,10 @@ var (
 	SysWar731                           *sysWar731
 	SysWarName                          *sysWarName
 	SysWebsite                          *sysWebsite
-	T1                                  *t1
 	TagDesc                             *tagDesc
 	TemplateEventLog                    *templateEventLog
 	Tmp                                 *tmp
 	TopographyMap                       *topographyMap
-	UePlanning                          *uePlanning
 	UeplainIssues                       *ueplainIssues
 	UpgradePlanDbscript                 *upgradePlanDbscript
 	UpgradePlanDeatils                  *upgradePlanDeatils
@@ -364,13 +356,9 @@ var (
 	UserRoleIDList                      *userRoleIDList
 	UserRoleMenu                        *userRoleMenu
 	UserTag                             *userTag
-	Users                               *users
 	UsersGroups                         *usersGroups
 	UsersPermissions                    *usersPermissions
 	VMHosts                             *vMHosts
-	VersionPlan                         *versionPlan
-	ViewServerEnvList                   *viewServerEnvList
-	WebshellAction                      *webshellAction
 	WebshellBlacklist                   *webshellBlacklist
 	WebshellCapture                     *webshellCapture
 	WebshellCaptureDbcontent            *webshellCaptureDbcontent
@@ -378,6 +366,7 @@ var (
 	WebshellGroupRel                    *webshellGroupRel
 	WebshellRoleRel                     *webshellRoleRel
 	WebshellSrcRel                      *webshellSrcRel
+	WebshellToken                       *webshellToken
 	WebshellWatch                       *webshellWatch
 	WebsocketMsg                        *websocketMsg
 	WebsocketMsgPid                     *websocketMsgPid
@@ -417,7 +406,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	BeanReport = &Q.BeanReport
 	BeanReportIssues = &Q.BeanReportIssues
 	BeanReportTeam = &Q.BeanReportTeam
-	BlackList = &Q.BlackList
 	BuildFlow = &Q.BuildFlow
 	BuildGroup = &Q.BuildGroup
 	BuildGroupDetail = &Q.BuildGroupDetail
@@ -430,7 +418,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	ConfigDetail = &Q.ConfigDetail
 	ConfigGroup = &Q.ConfigGroup
 	DashboardRelatedServers = &Q.DashboardRelatedServers
-	DbaApk = &Q.DbaApk
 	DbdataCompare = &Q.DbdataCompare
 	DbdataCompareChangeList = &Q.DbdataCompareChangeList
 	DbdataExpTableStandard = &Q.DbdataExpTableStandard
@@ -468,7 +455,10 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	DeployTaskOnce = &Q.DeployTaskOnce
 	DeployTaskOnceFlow = &Q.DeployTaskOnceFlow
 	DeployTasklist = &Q.DeployTasklist
+	DeployTasklist88 = &Q.DeployTasklist88
+	DeployTasklistCopy = &Q.DeployTasklistCopy
 	DeptaskSpringbootConf = &Q.DeptaskSpringbootConf
+	DeptaskSpringbootConfCopy1 = &Q.DeptaskSpringbootConfCopy1
 	DishBind = &Q.DishBind
 	DishType = &Q.DishType
 	DishTypeRule = &Q.DishTypeRule
@@ -518,12 +508,10 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	InstallOsUser801 = &Q.InstallOsUser801
 	IssueCommit = &Q.IssueCommit
 	IssueFlow = &Q.IssueFlow
-	IssueFow = &Q.IssueFow
 	IssueImg = &Q.IssueImg
 	IssueRecordImg = &Q.IssueRecordImg
 	ItResourceNode = &Q.ItResourceNode
 	Items = &Q.Items
-	JbosslogcategoryOperator = &Q.JbosslogcategoryOperator
 	JiraBackendStatus = &Q.JiraBackendStatus
 	JiraIssueSlice = &Q.JiraIssueSlice
 	JiraOpLog = &Q.JiraOpLog
@@ -532,9 +520,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	JobsRelServer = &Q.JobsRelServer
 	LdapGroup = &Q.LdapGroup
 	MTest1 = &Q.MTest1
-	MergePublish = &Q.MergePublish
-	MergePublishDetail = &Q.MergePublishDetail
-	MergePublishWarDetail = &Q.MergePublishWarDetail
 	MergeRequestHistory = &Q.MergeRequestHistory
 	MessageSendLog = &Q.MessageSendLog
 	MessageSendServerEnv = &Q.MessageSendServerEnv
@@ -553,7 +538,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	MonitorRecoveryAccess = &Q.MonitorRecoveryAccess
 	MonitorRecoveryAccessRel = &Q.MonitorRecoveryAccessRel
 	MonitorServerDashboard = &Q.MonitorServerDashboard
-	MoongodEventExe = &Q.MoongodEventExe
 	MrToken = &Q.MrToken
 	MsgSendForbid = &Q.MsgSendForbid
 	MsgSendLog = &Q.MsgSendLog
@@ -601,7 +585,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PublishPannel = &Q.PublishPannel
 	PublishRedisCache = &Q.PublishRedisCache
 	PublishReq = &Q.PublishReq
-	PublishReqBefore = &Q.PublishReqBefore
 	PublishReqCopy = &Q.PublishReqCopy
 	PublishReqDbscript = &Q.PublishReqDbscript
 	PublishReqDeployEvent = &Q.PublishReqDeployEvent
@@ -718,12 +701,10 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SysWar731 = &Q.SysWar731
 	SysWarName = &Q.SysWarName
 	SysWebsite = &Q.SysWebsite
-	T1 = &Q.T1
 	TagDesc = &Q.TagDesc
 	TemplateEventLog = &Q.TemplateEventLog
 	Tmp = &Q.Tmp
 	TopographyMap = &Q.TopographyMap
-	UePlanning = &Q.UePlanning
 	UeplainIssues = &Q.UeplainIssues
 	UpgradePlanDbscript = &Q.UpgradePlanDbscript
 	UpgradePlanDeatils = &Q.UpgradePlanDeatils
@@ -744,13 +725,9 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	UserRoleIDList = &Q.UserRoleIDList
 	UserRoleMenu = &Q.UserRoleMenu
 	UserTag = &Q.UserTag
-	Users = &Q.Users
 	UsersGroups = &Q.UsersGroups
 	UsersPermissions = &Q.UsersPermissions
 	VMHosts = &Q.VMHosts
-	VersionPlan = &Q.VersionPlan
-	ViewServerEnvList = &Q.ViewServerEnvList
-	WebshellAction = &Q.WebshellAction
 	WebshellBlacklist = &Q.WebshellBlacklist
 	WebshellCapture = &Q.WebshellCapture
 	WebshellCaptureDbcontent = &Q.WebshellCaptureDbcontent
@@ -758,6 +735,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	WebshellGroupRel = &Q.WebshellGroupRel
 	WebshellRoleRel = &Q.WebshellRoleRel
 	WebshellSrcRel = &Q.WebshellSrcRel
+	WebshellToken = &Q.WebshellToken
 	WebshellWatch = &Q.WebshellWatch
 	WebsocketMsg = &Q.WebsocketMsg
 	WebsocketMsgPid = &Q.WebsocketMsgPid
@@ -798,7 +776,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		BeanReport:                          newBeanReport(db, opts...),
 		BeanReportIssues:                    newBeanReportIssues(db, opts...),
 		BeanReportTeam:                      newBeanReportTeam(db, opts...),
-		BlackList:                           newBlackList(db, opts...),
 		BuildFlow:                           newBuildFlow(db, opts...),
 		BuildGroup:                          newBuildGroup(db, opts...),
 		BuildGroupDetail:                    newBuildGroupDetail(db, opts...),
@@ -811,7 +788,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		ConfigDetail:                        newConfigDetail(db, opts...),
 		ConfigGroup:                         newConfigGroup(db, opts...),
 		DashboardRelatedServers:             newDashboardRelatedServers(db, opts...),
-		DbaApk:                              newDbaApk(db, opts...),
 		DbdataCompare:                       newDbdataCompare(db, opts...),
 		DbdataCompareChangeList:             newDbdataCompareChangeList(db, opts...),
 		DbdataExpTableStandard:              newDbdataExpTableStandard(db, opts...),
@@ -849,7 +825,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		DeployTaskOnce:                      newDeployTaskOnce(db, opts...),
 		DeployTaskOnceFlow:                  newDeployTaskOnceFlow(db, opts...),
 		DeployTasklist:                      newDeployTasklist(db, opts...),
+		DeployTasklist88:                    newDeployTasklist88(db, opts...),
+		DeployTasklistCopy:                  newDeployTasklistCopy(db, opts...),
 		DeptaskSpringbootConf:               newDeptaskSpringbootConf(db, opts...),
+		DeptaskSpringbootConfCopy1:          newDeptaskSpringbootConfCopy1(db, opts...),
 		DishBind:                            newDishBind(db, opts...),
 		DishType:                            newDishType(db, opts...),
 		DishTypeRule:                        newDishTypeRule(db, opts...),
@@ -899,12 +878,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		InstallOsUser801:                    newInstallOsUser801(db, opts...),
 		IssueCommit:                         newIssueCommit(db, opts...),
 		IssueFlow:                           newIssueFlow(db, opts...),
-		IssueFow:                            newIssueFow(db, opts...),
 		IssueImg:                            newIssueImg(db, opts...),
 		IssueRecordImg:                      newIssueRecordImg(db, opts...),
 		ItResourceNode:                      newItResourceNode(db, opts...),
 		Items:                               newItems(db, opts...),
-		JbosslogcategoryOperator:            newJbosslogcategoryOperator(db, opts...),
 		JiraBackendStatus:                   newJiraBackendStatus(db, opts...),
 		JiraIssueSlice:                      newJiraIssueSlice(db, opts...),
 		JiraOpLog:                           newJiraOpLog(db, opts...),
@@ -913,9 +890,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		JobsRelServer:                       newJobsRelServer(db, opts...),
 		LdapGroup:                           newLdapGroup(db, opts...),
 		MTest1:                              newMTest1(db, opts...),
-		MergePublish:                        newMergePublish(db, opts...),
-		MergePublishDetail:                  newMergePublishDetail(db, opts...),
-		MergePublishWarDetail:               newMergePublishWarDetail(db, opts...),
 		MergeRequestHistory:                 newMergeRequestHistory(db, opts...),
 		MessageSendLog:                      newMessageSendLog(db, opts...),
 		MessageSendServerEnv:                newMessageSendServerEnv(db, opts...),
@@ -934,7 +908,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		MonitorRecoveryAccess:               newMonitorRecoveryAccess(db, opts...),
 		MonitorRecoveryAccessRel:            newMonitorRecoveryAccessRel(db, opts...),
 		MonitorServerDashboard:              newMonitorServerDashboard(db, opts...),
-		MoongodEventExe:                     newMoongodEventExe(db, opts...),
 		MrToken:                             newMrToken(db, opts...),
 		MsgSendForbid:                       newMsgSendForbid(db, opts...),
 		MsgSendLog:                          newMsgSendLog(db, opts...),
@@ -982,7 +955,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PublishPannel:                       newPublishPannel(db, opts...),
 		PublishRedisCache:                   newPublishRedisCache(db, opts...),
 		PublishReq:                          newPublishReq(db, opts...),
-		PublishReqBefore:                    newPublishReqBefore(db, opts...),
 		PublishReqCopy:                      newPublishReqCopy(db, opts...),
 		PublishReqDbscript:                  newPublishReqDbscript(db, opts...),
 		PublishReqDeployEvent:               newPublishReqDeployEvent(db, opts...),
@@ -1099,12 +1071,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SysWar731:                           newSysWar731(db, opts...),
 		SysWarName:                          newSysWarName(db, opts...),
 		SysWebsite:                          newSysWebsite(db, opts...),
-		T1:                                  newT1(db, opts...),
 		TagDesc:                             newTagDesc(db, opts...),
 		TemplateEventLog:                    newTemplateEventLog(db, opts...),
 		Tmp:                                 newTmp(db, opts...),
 		TopographyMap:                       newTopographyMap(db, opts...),
-		UePlanning:                          newUePlanning(db, opts...),
 		UeplainIssues:                       newUeplainIssues(db, opts...),
 		UpgradePlanDbscript:                 newUpgradePlanDbscript(db, opts...),
 		UpgradePlanDeatils:                  newUpgradePlanDeatils(db, opts...),
@@ -1125,13 +1095,9 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		UserRoleIDList:                      newUserRoleIDList(db, opts...),
 		UserRoleMenu:                        newUserRoleMenu(db, opts...),
 		UserTag:                             newUserTag(db, opts...),
-		Users:                               newUsers(db, opts...),
 		UsersGroups:                         newUsersGroups(db, opts...),
 		UsersPermissions:                    newUsersPermissions(db, opts...),
 		VMHosts:                             newVMHosts(db, opts...),
-		VersionPlan:                         newVersionPlan(db, opts...),
-		ViewServerEnvList:                   newViewServerEnvList(db, opts...),
-		WebshellAction:                      newWebshellAction(db, opts...),
 		WebshellBlacklist:                   newWebshellBlacklist(db, opts...),
 		WebshellCapture:                     newWebshellCapture(db, opts...),
 		WebshellCaptureDbcontent:            newWebshellCaptureDbcontent(db, opts...),
@@ -1139,6 +1105,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		WebshellGroupRel:                    newWebshellGroupRel(db, opts...),
 		WebshellRoleRel:                     newWebshellRoleRel(db, opts...),
 		WebshellSrcRel:                      newWebshellSrcRel(db, opts...),
+		WebshellToken:                       newWebshellToken(db, opts...),
 		WebshellWatch:                       newWebshellWatch(db, opts...),
 		WebsocketMsg:                        newWebsocketMsg(db, opts...),
 		WebsocketMsgPid:                     newWebsocketMsgPid(db, opts...),
@@ -1180,7 +1147,6 @@ type Query struct {
 	BeanReport                          beanReport
 	BeanReportIssues                    beanReportIssues
 	BeanReportTeam                      beanReportTeam
-	BlackList                           blackList
 	BuildFlow                           buildFlow
 	BuildGroup                          buildGroup
 	BuildGroupDetail                    buildGroupDetail
@@ -1193,7 +1159,6 @@ type Query struct {
 	ConfigDetail                        configDetail
 	ConfigGroup                         configGroup
 	DashboardRelatedServers             dashboardRelatedServers
-	DbaApk                              dbaApk
 	DbdataCompare                       dbdataCompare
 	DbdataCompareChangeList             dbdataCompareChangeList
 	DbdataExpTableStandard              dbdataExpTableStandard
@@ -1231,7 +1196,10 @@ type Query struct {
 	DeployTaskOnce                      deployTaskOnce
 	DeployTaskOnceFlow                  deployTaskOnceFlow
 	DeployTasklist                      deployTasklist
+	DeployTasklist88                    deployTasklist88
+	DeployTasklistCopy                  deployTasklistCopy
 	DeptaskSpringbootConf               deptaskSpringbootConf
+	DeptaskSpringbootConfCopy1          deptaskSpringbootConfCopy1
 	DishBind                            dishBind
 	DishType                            dishType
 	DishTypeRule                        dishTypeRule
@@ -1281,12 +1249,10 @@ type Query struct {
 	InstallOsUser801                    installOsUser801
 	IssueCommit                         issueCommit
 	IssueFlow                           issueFlow
-	IssueFow                            issueFow
 	IssueImg                            issueImg
 	IssueRecordImg                      issueRecordImg
 	ItResourceNode                      itResourceNode
 	Items                               items
-	JbosslogcategoryOperator            jbosslogcategoryOperator
 	JiraBackendStatus                   jiraBackendStatus
 	JiraIssueSlice                      jiraIssueSlice
 	JiraOpLog                           jiraOpLog
@@ -1295,9 +1261,6 @@ type Query struct {
 	JobsRelServer                       jobsRelServer
 	LdapGroup                           ldapGroup
 	MTest1                              mTest1
-	MergePublish                        mergePublish
-	MergePublishDetail                  mergePublishDetail
-	MergePublishWarDetail               mergePublishWarDetail
 	MergeRequestHistory                 mergeRequestHistory
 	MessageSendLog                      messageSendLog
 	MessageSendServerEnv                messageSendServerEnv
@@ -1316,7 +1279,6 @@ type Query struct {
 	MonitorRecoveryAccess               monitorRecoveryAccess
 	MonitorRecoveryAccessRel            monitorRecoveryAccessRel
 	MonitorServerDashboard              monitorServerDashboard
-	MoongodEventExe                     moongodEventExe
 	MrToken                             mrToken
 	MsgSendForbid                       msgSendForbid
 	MsgSendLog                          msgSendLog
@@ -1364,7 +1326,6 @@ type Query struct {
 	PublishPannel                       publishPannel
 	PublishRedisCache                   publishRedisCache
 	PublishReq                          publishReq
-	PublishReqBefore                    publishReqBefore
 	PublishReqCopy                      publishReqCopy
 	PublishReqDbscript                  publishReqDbscript
 	PublishReqDeployEvent               publishReqDeployEvent
@@ -1481,12 +1442,10 @@ type Query struct {
 	SysWar731                           sysWar731
 	SysWarName                          sysWarName
 	SysWebsite                          sysWebsite
-	T1                                  t1
 	TagDesc                             tagDesc
 	TemplateEventLog                    templateEventLog
 	Tmp                                 tmp
 	TopographyMap                       topographyMap
-	UePlanning                          uePlanning
 	UeplainIssues                       ueplainIssues
 	UpgradePlanDbscript                 upgradePlanDbscript
 	UpgradePlanDeatils                  upgradePlanDeatils
@@ -1507,13 +1466,9 @@ type Query struct {
 	UserRoleIDList                      userRoleIDList
 	UserRoleMenu                        userRoleMenu
 	UserTag                             userTag
-	Users                               users
 	UsersGroups                         usersGroups
 	UsersPermissions                    usersPermissions
 	VMHosts                             vMHosts
-	VersionPlan                         versionPlan
-	ViewServerEnvList                   viewServerEnvList
-	WebshellAction                      webshellAction
 	WebshellBlacklist                   webshellBlacklist
 	WebshellCapture                     webshellCapture
 	WebshellCaptureDbcontent            webshellCaptureDbcontent
@@ -1521,6 +1476,7 @@ type Query struct {
 	WebshellGroupRel                    webshellGroupRel
 	WebshellRoleRel                     webshellRoleRel
 	WebshellSrcRel                      webshellSrcRel
+	WebshellToken                       webshellToken
 	WebshellWatch                       webshellWatch
 	WebsocketMsg                        websocketMsg
 	WebsocketMsgPid                     websocketMsgPid
@@ -1563,7 +1519,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		BeanReport:                          q.BeanReport.clone(db),
 		BeanReportIssues:                    q.BeanReportIssues.clone(db),
 		BeanReportTeam:                      q.BeanReportTeam.clone(db),
-		BlackList:                           q.BlackList.clone(db),
 		BuildFlow:                           q.BuildFlow.clone(db),
 		BuildGroup:                          q.BuildGroup.clone(db),
 		BuildGroupDetail:                    q.BuildGroupDetail.clone(db),
@@ -1576,7 +1531,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		ConfigDetail:                        q.ConfigDetail.clone(db),
 		ConfigGroup:                         q.ConfigGroup.clone(db),
 		DashboardRelatedServers:             q.DashboardRelatedServers.clone(db),
-		DbaApk:                              q.DbaApk.clone(db),
 		DbdataCompare:                       q.DbdataCompare.clone(db),
 		DbdataCompareChangeList:             q.DbdataCompareChangeList.clone(db),
 		DbdataExpTableStandard:              q.DbdataExpTableStandard.clone(db),
@@ -1614,7 +1568,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		DeployTaskOnce:                      q.DeployTaskOnce.clone(db),
 		DeployTaskOnceFlow:                  q.DeployTaskOnceFlow.clone(db),
 		DeployTasklist:                      q.DeployTasklist.clone(db),
+		DeployTasklist88:                    q.DeployTasklist88.clone(db),
+		DeployTasklistCopy:                  q.DeployTasklistCopy.clone(db),
 		DeptaskSpringbootConf:               q.DeptaskSpringbootConf.clone(db),
+		DeptaskSpringbootConfCopy1:          q.DeptaskSpringbootConfCopy1.clone(db),
 		DishBind:                            q.DishBind.clone(db),
 		DishType:                            q.DishType.clone(db),
 		DishTypeRule:                        q.DishTypeRule.clone(db),
@@ -1664,12 +1621,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		InstallOsUser801:                    q.InstallOsUser801.clone(db),
 		IssueCommit:                         q.IssueCommit.clone(db),
 		IssueFlow:                           q.IssueFlow.clone(db),
-		IssueFow:                            q.IssueFow.clone(db),
 		IssueImg:                            q.IssueImg.clone(db),
 		IssueRecordImg:                      q.IssueRecordImg.clone(db),
 		ItResourceNode:                      q.ItResourceNode.clone(db),
 		Items:                               q.Items.clone(db),
-		JbosslogcategoryOperator:            q.JbosslogcategoryOperator.clone(db),
 		JiraBackendStatus:                   q.JiraBackendStatus.clone(db),
 		JiraIssueSlice:                      q.JiraIssueSlice.clone(db),
 		JiraOpLog:                           q.JiraOpLog.clone(db),
@@ -1678,9 +1633,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		JobsRelServer:                       q.JobsRelServer.clone(db),
 		LdapGroup:                           q.LdapGroup.clone(db),
 		MTest1:                              q.MTest1.clone(db),
-		MergePublish:                        q.MergePublish.clone(db),
-		MergePublishDetail:                  q.MergePublishDetail.clone(db),
-		MergePublishWarDetail:               q.MergePublishWarDetail.clone(db),
 		MergeRequestHistory:                 q.MergeRequestHistory.clone(db),
 		MessageSendLog:                      q.MessageSendLog.clone(db),
 		MessageSendServerEnv:                q.MessageSendServerEnv.clone(db),
@@ -1699,7 +1651,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		MonitorRecoveryAccess:               q.MonitorRecoveryAccess.clone(db),
 		MonitorRecoveryAccessRel:            q.MonitorRecoveryAccessRel.clone(db),
 		MonitorServerDashboard:              q.MonitorServerDashboard.clone(db),
-		MoongodEventExe:                     q.MoongodEventExe.clone(db),
 		MrToken:                             q.MrToken.clone(db),
 		MsgSendForbid:                       q.MsgSendForbid.clone(db),
 		MsgSendLog:                          q.MsgSendLog.clone(db),
@@ -1747,7 +1698,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PublishPannel:                       q.PublishPannel.clone(db),
 		PublishRedisCache:                   q.PublishRedisCache.clone(db),
 		PublishReq:                          q.PublishReq.clone(db),
-		PublishReqBefore:                    q.PublishReqBefore.clone(db),
 		PublishReqCopy:                      q.PublishReqCopy.clone(db),
 		PublishReqDbscript:                  q.PublishReqDbscript.clone(db),
 		PublishReqDeployEvent:               q.PublishReqDeployEvent.clone(db),
@@ -1864,12 +1814,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SysWar731:                           q.SysWar731.clone(db),
 		SysWarName:                          q.SysWarName.clone(db),
 		SysWebsite:                          q.SysWebsite.clone(db),
-		T1:                                  q.T1.clone(db),
 		TagDesc:                             q.TagDesc.clone(db),
 		TemplateEventLog:                    q.TemplateEventLog.clone(db),
 		Tmp:                                 q.Tmp.clone(db),
 		TopographyMap:                       q.TopographyMap.clone(db),
-		UePlanning:                          q.UePlanning.clone(db),
 		UeplainIssues:                       q.UeplainIssues.clone(db),
 		UpgradePlanDbscript:                 q.UpgradePlanDbscript.clone(db),
 		UpgradePlanDeatils:                  q.UpgradePlanDeatils.clone(db),
@@ -1890,13 +1838,9 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		UserRoleIDList:                      q.UserRoleIDList.clone(db),
 		UserRoleMenu:                        q.UserRoleMenu.clone(db),
 		UserTag:                             q.UserTag.clone(db),
-		Users:                               q.Users.clone(db),
 		UsersGroups:                         q.UsersGroups.clone(db),
 		UsersPermissions:                    q.UsersPermissions.clone(db),
 		VMHosts:                             q.VMHosts.clone(db),
-		VersionPlan:                         q.VersionPlan.clone(db),
-		ViewServerEnvList:                   q.ViewServerEnvList.clone(db),
-		WebshellAction:                      q.WebshellAction.clone(db),
 		WebshellBlacklist:                   q.WebshellBlacklist.clone(db),
 		WebshellCapture:                     q.WebshellCapture.clone(db),
 		WebshellCaptureDbcontent:            q.WebshellCaptureDbcontent.clone(db),
@@ -1904,6 +1848,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		WebshellGroupRel:                    q.WebshellGroupRel.clone(db),
 		WebshellRoleRel:                     q.WebshellRoleRel.clone(db),
 		WebshellSrcRel:                      q.WebshellSrcRel.clone(db),
+		WebshellToken:                       q.WebshellToken.clone(db),
 		WebshellWatch:                       q.WebshellWatch.clone(db),
 		WebsocketMsg:                        q.WebsocketMsg.clone(db),
 		WebsocketMsgPid:                     q.WebsocketMsgPid.clone(db),
@@ -1953,7 +1898,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		BeanReport:                          q.BeanReport.replaceDB(db),
 		BeanReportIssues:                    q.BeanReportIssues.replaceDB(db),
 		BeanReportTeam:                      q.BeanReportTeam.replaceDB(db),
-		BlackList:                           q.BlackList.replaceDB(db),
 		BuildFlow:                           q.BuildFlow.replaceDB(db),
 		BuildGroup:                          q.BuildGroup.replaceDB(db),
 		BuildGroupDetail:                    q.BuildGroupDetail.replaceDB(db),
@@ -1966,7 +1910,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		ConfigDetail:                        q.ConfigDetail.replaceDB(db),
 		ConfigGroup:                         q.ConfigGroup.replaceDB(db),
 		DashboardRelatedServers:             q.DashboardRelatedServers.replaceDB(db),
-		DbaApk:                              q.DbaApk.replaceDB(db),
 		DbdataCompare:                       q.DbdataCompare.replaceDB(db),
 		DbdataCompareChangeList:             q.DbdataCompareChangeList.replaceDB(db),
 		DbdataExpTableStandard:              q.DbdataExpTableStandard.replaceDB(db),
@@ -2004,7 +1947,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		DeployTaskOnce:                      q.DeployTaskOnce.replaceDB(db),
 		DeployTaskOnceFlow:                  q.DeployTaskOnceFlow.replaceDB(db),
 		DeployTasklist:                      q.DeployTasklist.replaceDB(db),
+		DeployTasklist88:                    q.DeployTasklist88.replaceDB(db),
+		DeployTasklistCopy:                  q.DeployTasklistCopy.replaceDB(db),
 		DeptaskSpringbootConf:               q.DeptaskSpringbootConf.replaceDB(db),
+		DeptaskSpringbootConfCopy1:          q.DeptaskSpringbootConfCopy1.replaceDB(db),
 		DishBind:                            q.DishBind.replaceDB(db),
 		DishType:                            q.DishType.replaceDB(db),
 		DishTypeRule:                        q.DishTypeRule.replaceDB(db),
@@ -2054,12 +2000,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		InstallOsUser801:                    q.InstallOsUser801.replaceDB(db),
 		IssueCommit:                         q.IssueCommit.replaceDB(db),
 		IssueFlow:                           q.IssueFlow.replaceDB(db),
-		IssueFow:                            q.IssueFow.replaceDB(db),
 		IssueImg:                            q.IssueImg.replaceDB(db),
 		IssueRecordImg:                      q.IssueRecordImg.replaceDB(db),
 		ItResourceNode:                      q.ItResourceNode.replaceDB(db),
 		Items:                               q.Items.replaceDB(db),
-		JbosslogcategoryOperator:            q.JbosslogcategoryOperator.replaceDB(db),
 		JiraBackendStatus:                   q.JiraBackendStatus.replaceDB(db),
 		JiraIssueSlice:                      q.JiraIssueSlice.replaceDB(db),
 		JiraOpLog:                           q.JiraOpLog.replaceDB(db),
@@ -2068,9 +2012,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		JobsRelServer:                       q.JobsRelServer.replaceDB(db),
 		LdapGroup:                           q.LdapGroup.replaceDB(db),
 		MTest1:                              q.MTest1.replaceDB(db),
-		MergePublish:                        q.MergePublish.replaceDB(db),
-		MergePublishDetail:                  q.MergePublishDetail.replaceDB(db),
-		MergePublishWarDetail:               q.MergePublishWarDetail.replaceDB(db),
 		MergeRequestHistory:                 q.MergeRequestHistory.replaceDB(db),
 		MessageSendLog:                      q.MessageSendLog.replaceDB(db),
 		MessageSendServerEnv:                q.MessageSendServerEnv.replaceDB(db),
@@ -2089,7 +2030,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		MonitorRecoveryAccess:               q.MonitorRecoveryAccess.replaceDB(db),
 		MonitorRecoveryAccessRel:            q.MonitorRecoveryAccessRel.replaceDB(db),
 		MonitorServerDashboard:              q.MonitorServerDashboard.replaceDB(db),
-		MoongodEventExe:                     q.MoongodEventExe.replaceDB(db),
 		MrToken:                             q.MrToken.replaceDB(db),
 		MsgSendForbid:                       q.MsgSendForbid.replaceDB(db),
 		MsgSendLog:                          q.MsgSendLog.replaceDB(db),
@@ -2137,7 +2077,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PublishPannel:                       q.PublishPannel.replaceDB(db),
 		PublishRedisCache:                   q.PublishRedisCache.replaceDB(db),
 		PublishReq:                          q.PublishReq.replaceDB(db),
-		PublishReqBefore:                    q.PublishReqBefore.replaceDB(db),
 		PublishReqCopy:                      q.PublishReqCopy.replaceDB(db),
 		PublishReqDbscript:                  q.PublishReqDbscript.replaceDB(db),
 		PublishReqDeployEvent:               q.PublishReqDeployEvent.replaceDB(db),
@@ -2254,12 +2193,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SysWar731:                           q.SysWar731.replaceDB(db),
 		SysWarName:                          q.SysWarName.replaceDB(db),
 		SysWebsite:                          q.SysWebsite.replaceDB(db),
-		T1:                                  q.T1.replaceDB(db),
 		TagDesc:                             q.TagDesc.replaceDB(db),
 		TemplateEventLog:                    q.TemplateEventLog.replaceDB(db),
 		Tmp:                                 q.Tmp.replaceDB(db),
 		TopographyMap:                       q.TopographyMap.replaceDB(db),
-		UePlanning:                          q.UePlanning.replaceDB(db),
 		UeplainIssues:                       q.UeplainIssues.replaceDB(db),
 		UpgradePlanDbscript:                 q.UpgradePlanDbscript.replaceDB(db),
 		UpgradePlanDeatils:                  q.UpgradePlanDeatils.replaceDB(db),
@@ -2280,13 +2217,9 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		UserRoleIDList:                      q.UserRoleIDList.replaceDB(db),
 		UserRoleMenu:                        q.UserRoleMenu.replaceDB(db),
 		UserTag:                             q.UserTag.replaceDB(db),
-		Users:                               q.Users.replaceDB(db),
 		UsersGroups:                         q.UsersGroups.replaceDB(db),
 		UsersPermissions:                    q.UsersPermissions.replaceDB(db),
 		VMHosts:                             q.VMHosts.replaceDB(db),
-		VersionPlan:                         q.VersionPlan.replaceDB(db),
-		ViewServerEnvList:                   q.ViewServerEnvList.replaceDB(db),
-		WebshellAction:                      q.WebshellAction.replaceDB(db),
 		WebshellBlacklist:                   q.WebshellBlacklist.replaceDB(db),
 		WebshellCapture:                     q.WebshellCapture.replaceDB(db),
 		WebshellCaptureDbcontent:            q.WebshellCaptureDbcontent.replaceDB(db),
@@ -2294,6 +2227,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		WebshellGroupRel:                    q.WebshellGroupRel.replaceDB(db),
 		WebshellRoleRel:                     q.WebshellRoleRel.replaceDB(db),
 		WebshellSrcRel:                      q.WebshellSrcRel.replaceDB(db),
+		WebshellToken:                       q.WebshellToken.replaceDB(db),
 		WebshellWatch:                       q.WebshellWatch.replaceDB(db),
 		WebsocketMsg:                        q.WebsocketMsg.replaceDB(db),
 		WebsocketMsgPid:                     q.WebsocketMsgPid.replaceDB(db),
@@ -2333,7 +2267,6 @@ type queryCtx struct {
 	BeanReport                          IBeanReportDo
 	BeanReportIssues                    IBeanReportIssuesDo
 	BeanReportTeam                      IBeanReportTeamDo
-	BlackList                           IBlackListDo
 	BuildFlow                           IBuildFlowDo
 	BuildGroup                          IBuildGroupDo
 	BuildGroupDetail                    IBuildGroupDetailDo
@@ -2346,7 +2279,6 @@ type queryCtx struct {
 	ConfigDetail                        IConfigDetailDo
 	ConfigGroup                         IConfigGroupDo
 	DashboardRelatedServers             IDashboardRelatedServersDo
-	DbaApk                              IDbaApkDo
 	DbdataCompare                       IDbdataCompareDo
 	DbdataCompareChangeList             IDbdataCompareChangeListDo
 	DbdataExpTableStandard              IDbdataExpTableStandardDo
@@ -2384,7 +2316,10 @@ type queryCtx struct {
 	DeployTaskOnce                      IDeployTaskOnceDo
 	DeployTaskOnceFlow                  IDeployTaskOnceFlowDo
 	DeployTasklist                      IDeployTasklistDo
+	DeployTasklist88                    IDeployTasklist88Do
+	DeployTasklistCopy                  IDeployTasklistCopyDo
 	DeptaskSpringbootConf               IDeptaskSpringbootConfDo
+	DeptaskSpringbootConfCopy1          IDeptaskSpringbootConfCopy1Do
 	DishBind                            IDishBindDo
 	DishType                            IDishTypeDo
 	DishTypeRule                        IDishTypeRuleDo
@@ -2434,12 +2369,10 @@ type queryCtx struct {
 	InstallOsUser801                    IInstallOsUser801Do
 	IssueCommit                         IIssueCommitDo
 	IssueFlow                           IIssueFlowDo
-	IssueFow                            IIssueFowDo
 	IssueImg                            IIssueImgDo
 	IssueRecordImg                      IIssueRecordImgDo
 	ItResourceNode                      IItResourceNodeDo
 	Items                               IItemsDo
-	JbosslogcategoryOperator            IJbosslogcategoryOperatorDo
 	JiraBackendStatus                   IJiraBackendStatusDo
 	JiraIssueSlice                      IJiraIssueSliceDo
 	JiraOpLog                           IJiraOpLogDo
@@ -2448,9 +2381,6 @@ type queryCtx struct {
 	JobsRelServer                       IJobsRelServerDo
 	LdapGroup                           ILdapGroupDo
 	MTest1                              IMTest1Do
-	MergePublish                        IMergePublishDo
-	MergePublishDetail                  IMergePublishDetailDo
-	MergePublishWarDetail               IMergePublishWarDetailDo
 	MergeRequestHistory                 IMergeRequestHistoryDo
 	MessageSendLog                      IMessageSendLogDo
 	MessageSendServerEnv                IMessageSendServerEnvDo
@@ -2469,7 +2399,6 @@ type queryCtx struct {
 	MonitorRecoveryAccess               IMonitorRecoveryAccessDo
 	MonitorRecoveryAccessRel            IMonitorRecoveryAccessRelDo
 	MonitorServerDashboard              IMonitorServerDashboardDo
-	MoongodEventExe                     IMoongodEventExeDo
 	MrToken                             IMrTokenDo
 	MsgSendForbid                       IMsgSendForbidDo
 	MsgSendLog                          IMsgSendLogDo
@@ -2517,7 +2446,6 @@ type queryCtx struct {
 	PublishPannel                       IPublishPannelDo
 	PublishRedisCache                   IPublishRedisCacheDo
 	PublishReq                          IPublishReqDo
-	PublishReqBefore                    IPublishReqBeforeDo
 	PublishReqCopy                      IPublishReqCopyDo
 	PublishReqDbscript                  IPublishReqDbscriptDo
 	PublishReqDeployEvent               IPublishReqDeployEventDo
@@ -2634,12 +2562,10 @@ type queryCtx struct {
 	SysWar731                           ISysWar731Do
 	SysWarName                          ISysWarNameDo
 	SysWebsite                          ISysWebsiteDo
-	T1                                  IT1Do
 	TagDesc                             ITagDescDo
 	TemplateEventLog                    ITemplateEventLogDo
 	Tmp                                 ITmpDo
 	TopographyMap                       ITopographyMapDo
-	UePlanning                          IUePlanningDo
 	UeplainIssues                       IUeplainIssuesDo
 	UpgradePlanDbscript                 IUpgradePlanDbscriptDo
 	UpgradePlanDeatils                  IUpgradePlanDeatilsDo
@@ -2660,13 +2586,9 @@ type queryCtx struct {
 	UserRoleIDList                      IUserRoleIDListDo
 	UserRoleMenu                        IUserRoleMenuDo
 	UserTag                             IUserTagDo
-	Users                               IUsersDo
 	UsersGroups                         IUsersGroupsDo
 	UsersPermissions                    IUsersPermissionsDo
 	VMHosts                             IVMHostsDo
-	VersionPlan                         IVersionPlanDo
-	ViewServerEnvList                   IViewServerEnvListDo
-	WebshellAction                      IWebshellActionDo
 	WebshellBlacklist                   IWebshellBlacklistDo
 	WebshellCapture                     IWebshellCaptureDo
 	WebshellCaptureDbcontent            IWebshellCaptureDbcontentDo
@@ -2674,6 +2596,7 @@ type queryCtx struct {
 	WebshellGroupRel                    IWebshellGroupRelDo
 	WebshellRoleRel                     IWebshellRoleRelDo
 	WebshellSrcRel                      IWebshellSrcRelDo
+	WebshellToken                       IWebshellTokenDo
 	WebshellWatch                       IWebshellWatchDo
 	WebsocketMsg                        IWebsocketMsgDo
 	WebsocketMsgPid                     IWebsocketMsgPidDo
@@ -2713,7 +2636,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		BeanReport:                          q.BeanReport.WithContext(ctx),
 		BeanReportIssues:                    q.BeanReportIssues.WithContext(ctx),
 		BeanReportTeam:                      q.BeanReportTeam.WithContext(ctx),
-		BlackList:                           q.BlackList.WithContext(ctx),
 		BuildFlow:                           q.BuildFlow.WithContext(ctx),
 		BuildGroup:                          q.BuildGroup.WithContext(ctx),
 		BuildGroupDetail:                    q.BuildGroupDetail.WithContext(ctx),
@@ -2726,7 +2648,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		ConfigDetail:                        q.ConfigDetail.WithContext(ctx),
 		ConfigGroup:                         q.ConfigGroup.WithContext(ctx),
 		DashboardRelatedServers:             q.DashboardRelatedServers.WithContext(ctx),
-		DbaApk:                              q.DbaApk.WithContext(ctx),
 		DbdataCompare:                       q.DbdataCompare.WithContext(ctx),
 		DbdataCompareChangeList:             q.DbdataCompareChangeList.WithContext(ctx),
 		DbdataExpTableStandard:              q.DbdataExpTableStandard.WithContext(ctx),
@@ -2764,7 +2685,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		DeployTaskOnce:                      q.DeployTaskOnce.WithContext(ctx),
 		DeployTaskOnceFlow:                  q.DeployTaskOnceFlow.WithContext(ctx),
 		DeployTasklist:                      q.DeployTasklist.WithContext(ctx),
+		DeployTasklist88:                    q.DeployTasklist88.WithContext(ctx),
+		DeployTasklistCopy:                  q.DeployTasklistCopy.WithContext(ctx),
 		DeptaskSpringbootConf:               q.DeptaskSpringbootConf.WithContext(ctx),
+		DeptaskSpringbootConfCopy1:          q.DeptaskSpringbootConfCopy1.WithContext(ctx),
 		DishBind:                            q.DishBind.WithContext(ctx),
 		DishType:                            q.DishType.WithContext(ctx),
 		DishTypeRule:                        q.DishTypeRule.WithContext(ctx),
@@ -2814,12 +2738,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		InstallOsUser801:                    q.InstallOsUser801.WithContext(ctx),
 		IssueCommit:                         q.IssueCommit.WithContext(ctx),
 		IssueFlow:                           q.IssueFlow.WithContext(ctx),
-		IssueFow:                            q.IssueFow.WithContext(ctx),
 		IssueImg:                            q.IssueImg.WithContext(ctx),
 		IssueRecordImg:                      q.IssueRecordImg.WithContext(ctx),
 		ItResourceNode:                      q.ItResourceNode.WithContext(ctx),
 		Items:                               q.Items.WithContext(ctx),
-		JbosslogcategoryOperator:            q.JbosslogcategoryOperator.WithContext(ctx),
 		JiraBackendStatus:                   q.JiraBackendStatus.WithContext(ctx),
 		JiraIssueSlice:                      q.JiraIssueSlice.WithContext(ctx),
 		JiraOpLog:                           q.JiraOpLog.WithContext(ctx),
@@ -2828,9 +2750,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		JobsRelServer:                       q.JobsRelServer.WithContext(ctx),
 		LdapGroup:                           q.LdapGroup.WithContext(ctx),
 		MTest1:                              q.MTest1.WithContext(ctx),
-		MergePublish:                        q.MergePublish.WithContext(ctx),
-		MergePublishDetail:                  q.MergePublishDetail.WithContext(ctx),
-		MergePublishWarDetail:               q.MergePublishWarDetail.WithContext(ctx),
 		MergeRequestHistory:                 q.MergeRequestHistory.WithContext(ctx),
 		MessageSendLog:                      q.MessageSendLog.WithContext(ctx),
 		MessageSendServerEnv:                q.MessageSendServerEnv.WithContext(ctx),
@@ -2849,7 +2768,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		MonitorRecoveryAccess:               q.MonitorRecoveryAccess.WithContext(ctx),
 		MonitorRecoveryAccessRel:            q.MonitorRecoveryAccessRel.WithContext(ctx),
 		MonitorServerDashboard:              q.MonitorServerDashboard.WithContext(ctx),
-		MoongodEventExe:                     q.MoongodEventExe.WithContext(ctx),
 		MrToken:                             q.MrToken.WithContext(ctx),
 		MsgSendForbid:                       q.MsgSendForbid.WithContext(ctx),
 		MsgSendLog:                          q.MsgSendLog.WithContext(ctx),
@@ -2897,7 +2815,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PublishPannel:                       q.PublishPannel.WithContext(ctx),
 		PublishRedisCache:                   q.PublishRedisCache.WithContext(ctx),
 		PublishReq:                          q.PublishReq.WithContext(ctx),
-		PublishReqBefore:                    q.PublishReqBefore.WithContext(ctx),
 		PublishReqCopy:                      q.PublishReqCopy.WithContext(ctx),
 		PublishReqDbscript:                  q.PublishReqDbscript.WithContext(ctx),
 		PublishReqDeployEvent:               q.PublishReqDeployEvent.WithContext(ctx),
@@ -3014,12 +2931,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SysWar731:                           q.SysWar731.WithContext(ctx),
 		SysWarName:                          q.SysWarName.WithContext(ctx),
 		SysWebsite:                          q.SysWebsite.WithContext(ctx),
-		T1:                                  q.T1.WithContext(ctx),
 		TagDesc:                             q.TagDesc.WithContext(ctx),
 		TemplateEventLog:                    q.TemplateEventLog.WithContext(ctx),
 		Tmp:                                 q.Tmp.WithContext(ctx),
 		TopographyMap:                       q.TopographyMap.WithContext(ctx),
-		UePlanning:                          q.UePlanning.WithContext(ctx),
 		UeplainIssues:                       q.UeplainIssues.WithContext(ctx),
 		UpgradePlanDbscript:                 q.UpgradePlanDbscript.WithContext(ctx),
 		UpgradePlanDeatils:                  q.UpgradePlanDeatils.WithContext(ctx),
@@ -3040,13 +2955,9 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		UserRoleIDList:                      q.UserRoleIDList.WithContext(ctx),
 		UserRoleMenu:                        q.UserRoleMenu.WithContext(ctx),
 		UserTag:                             q.UserTag.WithContext(ctx),
-		Users:                               q.Users.WithContext(ctx),
 		UsersGroups:                         q.UsersGroups.WithContext(ctx),
 		UsersPermissions:                    q.UsersPermissions.WithContext(ctx),
 		VMHosts:                             q.VMHosts.WithContext(ctx),
-		VersionPlan:                         q.VersionPlan.WithContext(ctx),
-		ViewServerEnvList:                   q.ViewServerEnvList.WithContext(ctx),
-		WebshellAction:                      q.WebshellAction.WithContext(ctx),
 		WebshellBlacklist:                   q.WebshellBlacklist.WithContext(ctx),
 		WebshellCapture:                     q.WebshellCapture.WithContext(ctx),
 		WebshellCaptureDbcontent:            q.WebshellCaptureDbcontent.WithContext(ctx),
@@ -3054,6 +2965,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		WebshellGroupRel:                    q.WebshellGroupRel.WithContext(ctx),
 		WebshellRoleRel:                     q.WebshellRoleRel.WithContext(ctx),
 		WebshellSrcRel:                      q.WebshellSrcRel.WithContext(ctx),
+		WebshellToken:                       q.WebshellToken.WithContext(ctx),
 		WebshellWatch:                       q.WebshellWatch.WithContext(ctx),
 		WebsocketMsg:                        q.WebsocketMsg.WithContext(ctx),
 		WebsocketMsgPid:                     q.WebsocketMsgPid.WithContext(ctx),

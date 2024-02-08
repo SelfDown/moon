@@ -33,8 +33,8 @@ func newIconProject(db *gorm.DB, opts ...gen.DOOption) iconProject {
 	_iconProject.CreateUser = field.NewString(tableName, "create_user")
 	_iconProject.IsDelete = field.NewString(tableName, "is_delete")
 	_iconProject.BuildPath = field.NewString(tableName, "build_path")
-	_iconProject.LastBuildTime = field.NewString(tableName, "last_build_time")
 	_iconProject.Prefix = field.NewString(tableName, "prefix")
+	_iconProject.LastBuildTime = field.NewString(tableName, "last_build_time")
 
 	_iconProject.fillFieldMap()
 
@@ -51,8 +51,8 @@ type iconProject struct {
 	CreateUser    field.String
 	IsDelete      field.String
 	BuildPath     field.String
-	LastBuildTime field.String
 	Prefix        field.String
+	LastBuildTime field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -75,8 +75,8 @@ func (i *iconProject) updateTableName(table string) *iconProject {
 	i.CreateUser = field.NewString(table, "create_user")
 	i.IsDelete = field.NewString(table, "is_delete")
 	i.BuildPath = field.NewString(table, "build_path")
-	i.LastBuildTime = field.NewString(table, "last_build_time")
 	i.Prefix = field.NewString(table, "prefix")
+	i.LastBuildTime = field.NewString(table, "last_build_time")
 
 	i.fillFieldMap()
 
@@ -100,8 +100,8 @@ func (i *iconProject) fillFieldMap() {
 	i.fieldMap["create_user"] = i.CreateUser
 	i.fieldMap["is_delete"] = i.IsDelete
 	i.fieldMap["build_path"] = i.BuildPath
-	i.fieldMap["last_build_time"] = i.LastBuildTime
 	i.fieldMap["prefix"] = i.Prefix
+	i.fieldMap["last_build_time"] = i.LastBuildTime
 }
 
 func (i iconProject) clone(db *gorm.DB) iconProject {

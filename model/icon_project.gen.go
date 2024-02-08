@@ -14,8 +14,8 @@ type IconProject struct {
 	CreateUser    *string `gorm:"column:create_user" json:"create_user"`
 	IsDelete      *string `gorm:"column:is_delete" json:"is_delete"`
 	BuildPath     *string `gorm:"column:build_path" json:"build_path"`
-	LastBuildTime *string `gorm:"column:last_build_time" json:"last_build_time"`
 	Prefix        *string `gorm:"column:prefix" json:"prefix"`
+	LastBuildTime *string `gorm:"column:last_build_time" json:"last_build_time"`
 }
 
 // TableName IconProject's table name

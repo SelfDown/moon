@@ -36,7 +36,7 @@ func newDbdataImportExecuteLog(db *gorm.DB, opts ...gen.DOOption) dbdataImportEx
 	_dbdataImportExecuteLog.SyncStatu = field.NewString(tableName, "sync_statu")
 	_dbdataImportExecuteLog.SyncScript = field.NewString(tableName, "sync_script")
 	_dbdataImportExecuteLog.SyncLog = field.NewString(tableName, "sync_log")
-	_dbdataImportExecuteLog.Size = field.NewInt32(tableName, "size")
+	_dbdataImportExecuteLog.Size = field.NewInt64(tableName, "size")
 	_dbdataImportExecuteLog.Msg = field.NewString(tableName, "msg")
 	_dbdataImportExecuteLog.RemoteShellPath = field.NewString(tableName, "remote_shell_path")
 	_dbdataImportExecuteLog.LogPath = field.NewString(tableName, "log_path")
@@ -67,7 +67,7 @@ type dbdataImportExecuteLog struct {
 	SyncStatu                field.String
 	SyncScript               field.String
 	SyncLog                  field.String
-	Size                     field.Int32
+	Size                     field.Int64
 	Msg                      field.String
 	RemoteShellPath          field.String
 	LogPath                  field.String
@@ -104,7 +104,7 @@ func (d *dbdataImportExecuteLog) updateTableName(table string) *dbdataImportExec
 	d.SyncStatu = field.NewString(table, "sync_statu")
 	d.SyncScript = field.NewString(table, "sync_script")
 	d.SyncLog = field.NewString(table, "sync_log")
-	d.Size = field.NewInt32(table, "size")
+	d.Size = field.NewInt64(table, "size")
 	d.Msg = field.NewString(table, "msg")
 	d.RemoteShellPath = field.NewString(table, "remote_shell_path")
 	d.LogPath = field.NewString(table, "log_path")

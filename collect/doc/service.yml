@@ -1,0 +1,4 @@
+# 项目点路由
+service:
+  - name: "文档读取"
+    path: "ui/index.yml"

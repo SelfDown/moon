@@ -61,7 +61,7 @@ type publishReqDetails struct {
 	ModifyTime       field.Time   // 记录修改时间（数据库自动写入）
 	Comments         field.String // 备注说明
 	RollbackVersion  field.String // 回退版本
-	User             field.String // 负责人id
+	User             field.String
 	CommonIsVersion  field.String // common是否版本分支
 
 	fieldMap map[string]field.Expr

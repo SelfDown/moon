@@ -31,8 +31,8 @@ type PublishReqPlan struct {
 	IsDelete             *string    `gorm:"column:is_delete" json:"is_delete"` // 是否删除
 	ModifyUser           *string    `gorm:"column:modify_user" json:"modify_user"`
 	PublishReqID         *string    `gorm:"column:publish_req_id" json:"publish_req_id"`
-	ProductFrom          *string    `gorm:"column:product_from" json:"product_from"`
 	IsProduct            *string    `gorm:"column:is_product" json:"is_product"`
+	ProductFrom          *string    `gorm:"column:product_from" json:"product_from"`
 }
 
 // TableName PublishReqPlan's table name

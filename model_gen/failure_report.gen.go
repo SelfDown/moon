@@ -90,7 +90,7 @@ type failureReport struct {
 	RelativeVersion  field.String
 	RelativeReason   field.String
 	FailureType      field.String
-	ProblemReasons   field.String // 研发错误原因
+	ProblemReasons   field.String
 
 	fieldMap map[string]field.Expr
 }

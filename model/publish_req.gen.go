@@ -39,10 +39,9 @@ type PublishReq struct {
 	TestExpectFinishTime *string    `gorm:"column:test_expect_finish_time" json:"test_expect_finish_time"`
 	TestServerEnvID      *string    `gorm:"column:test_server_env_id" json:"test_server_env_id"`
 	PublishTestEnv       *string    `gorm:"column:publish_test_env" json:"publish_test_env"`
-	ProductFrom          *string    `gorm:"column:product_from" json:"product_from"`
 	IsProduct            *string    `gorm:"column:is_product" json:"is_product"`
-	DutyTeam             *string    `gorm:"column:duty_team" json:"duty_team"` // 责任团队
-	RequireFinishTime    *string    `gorm:"column:require_finish_time" json:"require_finish_time"`
+	ProductFrom          *string    `gorm:"column:product_from" json:"product_from"`
+	DutyTeam             *string    `gorm:"column:duty_team" json:"duty_team"`
 }
 
 // TableName PublishReq's table name

@@ -30,24 +30,24 @@ type HisIssueRecord struct {
 	CreateTime         *string `gorm:"column:create_time" json:"create_time"`
 	ModifyTime         *string `gorm:"column:modify_time" json:"modify_time"`
 	IsDelete           *string `gorm:"column:is_delete" json:"is_delete"`
-	Duedate            *string `gorm:"column:duedate" json:"duedate"`
 	Receiver           *string `gorm:"column:receiver" json:"receiver"`
 	ReceiverTel        *string `gorm:"column:receiver_tel" json:"receiver_tel"`
 	IsEmergency        *string `gorm:"column:is_emergency" json:"is_emergency"`
 	EmergencyMsg       *string `gorm:"column:emergency_msg" json:"emergency_msg"`
 	EmergencyTime      *string `gorm:"column:emergency_time" json:"emergency_time"`
 	WorkCode           *string `gorm:"column:work_code" json:"work_code"`
+	Duedate            *string `gorm:"column:duedate" json:"duedate"`
 	RoomCode           *string `gorm:"column:room_code" json:"room_code"`
 	AreaCode           *string `gorm:"column:area_code" json:"area_code"`
 	Priority           *string `gorm:"column:priority" json:"priority"`
 	WorkStation        *string `gorm:"column:work_station" json:"work_station"`
-	ExpectFinishDate   *string `gorm:"column:expect_finish_date" json:"expect_finish_date"`
 	WorkStationName    *string `gorm:"column:work_station_name" json:"work_station_name"`
+	ExpectFinishDate   *string `gorm:"column:expect_finish_date" json:"expect_finish_date"`
 	HisIsConfirm       *string `gorm:"column:his_is_confirm" json:"his_is_confirm"`
 	HisConfirmUser     *string `gorm:"column:his_confirm_user" json:"his_confirm_user"`
+	HisConfirmWorkCode *string `gorm:"column:his_confirm_work_code" json:"his_confirm_work_code"`
 	HisConfirmPhone    *string `gorm:"column:his_confirm_phone" json:"his_confirm_phone"`
 	HisConfirmComment  *string `gorm:"column:his_confirm_comment" json:"his_confirm_comment"`
-	HisConfirmWorkCode *string `gorm:"column:his_confirm_work_code" json:"his_confirm_work_code"`
 }
 
 // TableName HisIssueRecord's table name

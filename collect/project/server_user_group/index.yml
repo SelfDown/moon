@@ -1,0 +1,5 @@
+service:
+  - key: server_user_group
+    http: true
+    module: sql
+    data_file: server_user_group.sql

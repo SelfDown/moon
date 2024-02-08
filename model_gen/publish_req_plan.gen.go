@@ -46,8 +46,8 @@ func newPublishReqPlan(db *gorm.DB, opts ...gen.DOOption) publishReqPlan {
 	_publishReqPlan.IsDelete = field.NewString(tableName, "is_delete")
 	_publishReqPlan.ModifyUser = field.NewString(tableName, "modify_user")
 	_publishReqPlan.PublishReqID = field.NewString(tableName, "publish_req_id")
-	_publishReqPlan.ProductFrom = field.NewString(tableName, "product_from")
 	_publishReqPlan.IsProduct = field.NewString(tableName, "is_product")
+	_publishReqPlan.ProductFrom = field.NewString(tableName, "product_from")
 
 	_publishReqPlan.fillFieldMap()
 
@@ -77,8 +77,8 @@ type publishReqPlan struct {
 	IsDelete             field.String // 是否删除
 	ModifyUser           field.String
 	PublishReqID         field.String
-	ProductFrom          field.String
 	IsProduct            field.String
+	ProductFrom          field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -114,8 +114,8 @@ func (p *publishReqPlan) updateTableName(table string) *publishReqPlan {
 	p.IsDelete = field.NewString(table, "is_delete")
 	p.ModifyUser = field.NewString(table, "modify_user")
 	p.PublishReqID = field.NewString(table, "publish_req_id")
-	p.ProductFrom = field.NewString(table, "product_from")
 	p.IsProduct = field.NewString(table, "is_product")
+	p.ProductFrom = field.NewString(table, "product_from")
 
 	p.fillFieldMap()
 
@@ -152,8 +152,8 @@ func (p *publishReqPlan) fillFieldMap() {
 	p.fieldMap["is_delete"] = p.IsDelete
 	p.fieldMap["modify_user"] = p.ModifyUser
 	p.fieldMap["publish_req_id"] = p.PublishReqID
-	p.fieldMap["product_from"] = p.ProductFrom
 	p.fieldMap["is_product"] = p.IsProduct
+	p.fieldMap["product_from"] = p.ProductFrom
 }
 
 func (p publishReqPlan) clone(db *gorm.DB) publishReqPlan {

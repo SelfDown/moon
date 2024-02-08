@@ -10,12 +10,12 @@ service:
     data_file: project_list.sql
     result_handler:
       - key: result2params
-        enable: "{{must .with_env_tree}}"
+        enable: "[with_env_tree]"
         fields:
           - to: "[project_list]"
 
       - key: update_array
-        enable: "{{must .with_env_tree}}"
+        enable: "[with_env_tree]"
         foreach: "[project_list]"
         item: item
         fields:
@@ -23,12 +23,12 @@ service:
             template: "[item.project_name]"
 
       - key: service2field
-        enable: "{{must .with_env_tree}}"
+        enable: "[with_env_tree]"
         service:
           service: project.env_tree
         save_field: env_tree
       - key: combine_array
-        enable: "{{must .with_env_tree}}"
+        enable: "[with_env_tree]"
         foreach: "[project_list]"
         field: "[sys_project_id]"
         right: "[env_tree]"

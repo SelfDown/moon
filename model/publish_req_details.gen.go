@@ -23,8 +23,8 @@ type PublishReqDetails struct {
 	ModifyTime       *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
 	Comments         *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
 	RollbackVersion  *string    `gorm:"column:rollback_version" json:"rollback_version"`                          // 回退版本
-	User             string     `gorm:"column:user;not null" json:"user"`                                         // 负责人id
-	CommonIsVersion  *string    `gorm:"column:common_is_version" json:"common_is_version"`                        // common是否版本分支
+	User             *string    `gorm:"column:user" json:"user"`
+	CommonIsVersion  *string    `gorm:"column:common_is_version" json:"common_is_version"` // common是否版本分支
 }
 
 // TableName PublishReqDetails's table name

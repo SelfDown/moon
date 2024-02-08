@@ -4,7 +4,7 @@ service:
     module: sql
     data_file: update_issue_status_list_all.sql
   - key: update_issue_status
-    log: true
+
     module: sql
     data_file: update_issue_status.sql
   - key: jira_issue_slice_save
@@ -40,7 +40,7 @@ service:
   - key: jira_issue_update
     http: true
     module: empty
-    log: true
+
     schedule:
       enable: "{{eq (get_key \"schedule_enable\") \"true\"}}"
       schedule_spec: "@every 300s"

@@ -1,9 +1,9 @@
 {{ if .exclude }}
-and a.user_id != {{.exclude}}
+and a.userid != {{.exclude}}
 {{ end }}
 
 {{  if .user_id }}
-and a.user_id = {{.user_id}}
+and a.userid = {{.user_id}}
 {{ end }}
 {{  if .user_id }}
 and a.user_id = {{.user_id}}
@@ -19,7 +19,7 @@ and (
 {{ end  }}
 
 {{  if  .username }}
-and a.user_name = {{.username}}
+and a.username = {{.username}}
 {{ end }}
 
 {{ if .user_status }}

@@ -18,7 +18,6 @@ type DbdataExpTableStandard struct {
 	ExportWay       *string    `gorm:"column:export_way" json:"export_way"`             // all、数据和结构  meta仅结构，query 条件,backlist
 	ModifyTime      *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"`
 	Comments        *string    `gorm:"column:comments" json:"comments"`
-	IsBlacklist     *string    `gorm:"column:is_blacklist" json:"is_blacklist"`
 }
 
 // TableName DbdataExpTableStandard's table name

@@ -5,9 +5,52 @@ service:
       version:
         template: "{{snow_id}}"
         default: "1.0.0"
+      password:
+        default: "wghis"
+      password_arr:
+        default: []
     handler_params:
-      - key: param2result
-        field: version
+      - key: handler_password
+        operation: "encrypt"
+        field: "[password]"
+        save_field:  password_after_simple
+
+      - key: handler_password
+        operation: "decrypt"
+        field: "[password_after_simple]"
+        save_field:  password_original_simple
+
+      - key: handler_password
+        operation: "encrypt"
+        foreach: "[password_arr]"
+        field: "[password]"
+        save_field:  password_after
+
+      - key: handler_password
+        foreach: "[password_arr]"
+        operation: "decrypt"
+        field: "[password]"
+        save_field:  password_original
+
+      - key: params2result
+        fields:
+          - from: "[version]"
+            to: "version"
+          - from: "[password_original]"
+            to: "password_original"
+
+          - from: "[password_after]"
+            to: "password_after"
+
+          - from: "[password_arr]"
+            to: "password_arr"
+
+          - from: "[password_after_simple]"
+            to: "password_after_simple"
+
+          - from: "[password_original_simple]"
+            to: "password_original_simple"
+
     module: empty
   - key: alert_ignore_save
     http: true

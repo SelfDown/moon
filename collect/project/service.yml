@@ -7,3 +7,9 @@ service:
 
   - name: "服务器管理"
     path: "server/index.yml"
+
+  - name: "服务器用户管理"
+    path: "server_os_users/index.yml"
+
+  - name: "服务器用户类型管理"
+    path: "server_user_group/index.yml"

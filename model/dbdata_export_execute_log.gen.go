@@ -17,7 +17,7 @@ type DbdataExportExecuteLog struct {
 	SyncStatu                *string `gorm:"column:sync_statu" json:"sync_statu"`
 	SyncScript               *string `gorm:"column:sync_script" json:"sync_script"`
 	SyncLog                  *string `gorm:"column:sync_log" json:"sync_log"`
-	Size                     *string `gorm:"column:size" json:"size"`
+	Size                     *int64  `gorm:"column:size" json:"size"`
 	Msg                      *string `gorm:"column:msg" json:"msg"`
 	RemoteShellPath          *string `gorm:"column:remote_shell_path" json:"remote_shell_path"`
 	LogPath                  *string `gorm:"column:log_path" json:"log_path"`

@@ -288,6 +288,8 @@ service:
       group_by:
         default: true
     data_file: config_detail_query_all.sql
+    count_file: count.sql
+    name: 注意这个count主要为了启动运行一下count，多线程执行sql后面就快些
     result_handler:
       - key: result2params
         enable: "[group_by]"

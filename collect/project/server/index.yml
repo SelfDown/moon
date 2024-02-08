@@ -1,16 +1,308 @@
 service:
+  - key: server_instance_save
+    module: model_save
+    table: server_instance
+  - key: server_instance_update
+    module: model_update
+    params:
+      server_id:
+        check:
+          template: "{{must .server_id}}"
+          err_msg: 服务器IP不能为空
+    filter:
+      server_id: "[server_id]"
+    table: server_instance
+  - key: server_delete
+    http: true
+    module: model_update
+    params:
+      server_id_list:
+        check:
+          template: "{{must .server_id_list}}"
+          err_msg: 服务器不能为空
+      is_del:
+        template: "1"
+    table: server_instance
+    filter:
+      server_id__in: "[server_id_list]"
+  - key: server_modify
+    http: true
+    module: empty
+    params:
+      server_id:
+        check:
+          template: "{{must .server_id}}"
+          err_msg: 服务器不能为空
+      server_ip:
+        check:
+          template: "{{must .server_ip}}"
+          err_msg: 服务器IP不能为空
+      server_env_id:
+        check:
+          template: "{{must .server_env_id}}"
+          err_msg: 环境不能为空
+
+    handler_params:
+      - key: service2field
+        service:
+          service: project.server_list
+          server_ip: "[server_ip]"
+          server_env_id: "[server_env_id]"
+          exclude: "[server_id]"
+        save_field: current_server
+        template: "{{is_empty .current_server}}"
+        err_msg: "[{{.server_ip}}] 已经存在请更换IP"
+      - key: service2field
+        service:
+          service: project.server_instance_update
+        append_param: true
+      - key: update_array
+        enable: "{{must .users_table}}"
+        foreach: "[users_table]"
+        item: item
+        fields:
+          - field: server_id
+            template: "{{ .server_id }}"
+      - key: handler_password
+        enable: "{{must .users_table}}"
+        foreach: "[users_table]"
+        operation: "encrypt"
+        field: "[user_pwd]"
+      - key: service2field
+        service:
+          service: project.server_os_users_query
+          server_id: "[server_id]"
+        save_field: server_os_users
+      - key: service2field
+        enable: "{{must .users_table}}"
+        service:
+          service: project.get_diff_users_by_server
+          server_users: "[users_table]"
+          local_server_users: "[server_os_users]"
+        save_field: "user_change_list"
+      - key: filter_arr
+        enable: "{{ must .user_change_list }}"
+        foreach: "[user_change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: user_add_list
+      - key: filter_arr
+        enable: "{{must .user_change_list }}"
+        foreach: "[user_change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: user_modify_list
+      - key: filter_arr
+        enable: "{{must .user_change_list}}"
+        foreach: "[user_change_list]"
+        item: item
+        name: 存在则删除
+        if_template: "{{ eq .item.operation \"remove\" }}"
+        save_field: user_remove_list
+      - key: service2field
+        name: 修改用户
+        enable: "{{must .user_modify_list}}"
+        service:
+          service: project.server_os_users_modify
+          user_modify_list: "[user_modify_list]"
+      - key: service2field
+        name: 添加用户
+        enable: "{{must .user_add_list}}"
+        service:
+          service: project.server_os_users_save
+          user_add_list: "[user_add_list]"
+          server_id: "[server_id]"
+      - key: service2field
+        name: 删除用户
+        enable: "{{must .user_remove_list}}"
+        service:
+          service: project.server_os_users_remove
+          user_remove_list: "[user_remove_list]"
+      - key:  param2result
+        field: "[user_change_list]"
+
+  - key: server_add
+    http: true
+    module: empty
+    params:
+      server_id:
+        template: "{{uuid}}"
+      server_ip:
+        check:
+          template: "{{must .server_ip}}"
+          err_msg: 服务器IP不能为空
+      server_env_id:
+        check:
+          template: "{{must .server_env_id}}"
+          err_msg: 环境不能为空
+      is_del:
+        default: "0"
+    handler_params:
+      - key: service2field
+        service:
+          service: project.server_list
+          server_ip: "[server_ip]"
+          server_env_id: "[server_env_id]"
+        save_field: local_server
+        template: "{{is_empty .local_server}}"
+        err_msg: "[{{.server_ip}}]服务器已经存在"
+      - key: service2field
+        service:
+          service: project.server_instance_save
+        append_param: true
+      - key: handler_password
+        enable: "{{must .users_table}}"
+        foreach: "[users_table]"
+        operation: "encrypt"
+        field: "[user_pwd]"
+      - key: service2field
+        enable: "{{must .users_table}}"
+        service:
+          service: project.server_os_users_save
+          user_add_list: "[users_table]"
+          server_id: "[server_id]"
+
+  - key: server_bulk_update
+    http: true
+    module: empty
+    log: true
+    params:
+      ids:
+        check:
+          template: "{{must .ids}}"
+          err_msg: ID 不能为空
+    handler_params:
+      - key: field2array
+        field: "[ids]"
+        enable: "{{must .ids}}"
+        save_field: server_id_list
+      - key: param_key2arr
+        name: 将参数 _enable 结尾字段，字段转成数组
+        if_template: "{{if .param_value }}true{{end}}"
+        field: "(.*)_enable"
+        save_field: fields
+      - key: rename_field
+        name: 将 _content 结尾字段,去掉_content
+        field: "(.*)_content"
+      - key: service2field
+        name: 处理服务服务器
+        enable: "{{must .fields}}"
+        service:
+          service: project.server_instance_bulk_update_data
+        append_param: true
+      - key: service2field
+        name: 对比改变的用户
+        service:
+          service: project.get_diff_users
+          server_id_list: "[server_id_list]"
+          users_table: "[users_table]"
+          users_change: "[users_change]"
+        save_field: user_change_list
+      - key: service2field
+        name: 处理用户
+        enable: "{{and (must .user_change_list) (must .users_type)}}"
+        service:
+          service: project.handler_diff_users
+          user_change_list: "[user_change_list]"
+          users_type: "[users_type]"
+        save_field: diff
+      - key: params2result
+        fields:
+          - from: "[fields]"
+            to: "fields"
+          - from: "[diff]"
+            to: "diff"
+
+
+  - key: server_instance_bulk_update_data
+    module: model_update
+    log: true
+    params:
+      fields:
+        check:
+          template: "{{must .fields}}"
+          err_msg: 字段不能为空
+      server_id_list:
+        check:
+          template: "{{must .server_id_list}}"
+          err_msg: 服务器不能为空
+    options: "[fields]"
+    table: server_instance
+    filter:
+      server_id__in: "[server_id_list]"
+
   - key: server_info
     http: true
     module: ssh
     data_json: server_info.json
+    data_file: value_transfer.json
     result_handler:
+      - key: value_transfer
+        name: 更新字段
+        field: "[server_info]"
       - key: param2result
         field: server_info
+  - key: connect_server
+    http: true
+    module: ssh
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      port:
+        default: 22
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+    data_json: connect_server.json
+    result_handler:
+      - key: param2result
+        field: "[server_info]"
+
   - key: server_list
     http: true
     module: sql
+    params:
+      search:
+        template: "{{if .search }}%{{.search}}%{{ end }}"
+      show_detail:
+        default: false
     data_file: server_list.sql
-
+    result_handler:
+      - key: result2params
+        enable: "[show_detail]"
+        fields:
+          - to: "[server_info]"
+      - key: prop_arr
+        enable: "[show_detail]"
+        foreach: "[server_info]"
+        value: "[server_id]"
+        save_field: server_id_list
+      - key: service2field
+        enable: "{{must .server_id_list}}"
+        service:
+          service: project.server_os_users_query
+          server_id_list: "[server_id_list]"
+        save_field: users_table
+      - key: combine_array
+        enable: "{{must .users_table}}"
+        foreach: "[server_info]"
+        field: "[server_id]"
+        right: "[users_table]"
+        right_field: "[server_id]"
+        children: "users_table"
+      - key: param2result
+        enable: "[show_detail]"
+        field: "[server_info]"
+      - key: arr2obj
+        enable: "[show_detail]"
   - key: scan_ip
     module: empty
     http: true

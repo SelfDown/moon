@@ -1,0 +1,16 @@
+{
+  "fields": [
+    {
+      "field": "server_virtualization_type",
+      "rules": {
+        "VMware~": "svt_vms"
+      }
+    },
+    {
+      "field": "server_os",
+      "rules": {
+        "CentOS~": "centos"
+      }
+    }
+  ]
+}

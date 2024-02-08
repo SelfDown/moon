@@ -33,7 +33,6 @@ func newDbdataExpTableStandard(db *gorm.DB, opts ...gen.DOOption) dbdataExpTable
 	_dbdataExpTableStandard.ExportWay = field.NewString(tableName, "export_way")
 	_dbdataExpTableStandard.ModifyTime = field.NewTime(tableName, "modify_time")
 	_dbdataExpTableStandard.Comments = field.NewString(tableName, "comments")
-	_dbdataExpTableStandard.IsBlacklist = field.NewString(tableName, "is_blacklist")
 
 	_dbdataExpTableStandard.fillFieldMap()
 
@@ -50,7 +49,6 @@ type dbdataExpTableStandard struct {
 	ExportWay       field.String // all、数据和结构  meta仅结构，query 条件,backlist
 	ModifyTime      field.Time
 	Comments        field.String
-	IsBlacklist     field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -73,7 +71,6 @@ func (d *dbdataExpTableStandard) updateTableName(table string) *dbdataExpTableSt
 	d.ExportWay = field.NewString(table, "export_way")
 	d.ModifyTime = field.NewTime(table, "modify_time")
 	d.Comments = field.NewString(table, "comments")
-	d.IsBlacklist = field.NewString(table, "is_blacklist")
 
 	d.fillFieldMap()
 
@@ -90,14 +87,13 @@ func (d *dbdataExpTableStandard) GetFieldByName(fieldName string) (field.OrderEx
 }
 
 func (d *dbdataExpTableStandard) fillFieldMap() {
-	d.fieldMap = make(map[string]field.Expr, 7)
+	d.fieldMap = make(map[string]field.Expr, 6)
 	d.fieldMap["table_standard_id"] = d.TableStandardID
 	d.fieldMap["table_name"] = d.TableName_
 	d.fieldMap["filter_where_sql"] = d.FilterWhereSql
 	d.fieldMap["export_way"] = d.ExportWay
 	d.fieldMap["modify_time"] = d.ModifyTime
 	d.fieldMap["comments"] = d.Comments
-	d.fieldMap["is_blacklist"] = d.IsBlacklist
 }
 
 func (d dbdataExpTableStandard) clone(db *gorm.DB) dbdataExpTableStandard {

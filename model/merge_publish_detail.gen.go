@@ -9,8 +9,8 @@ const TableNameMergePublishDetail = "merge_publish_detail"
 // MergePublishDetail mapped from table <merge_publish_detail>
 type MergePublishDetail struct {
 	MergePublishDetailID string  `gorm:"column:merge_publish_detail_id;primaryKey" json:"merge_publish_detail_id"`
-	MergePublishID       string  `gorm:"column:merge_publish_id;not null" json:"merge_publish_id"`
-	PublishVersion       string  `gorm:"column:publish_version;not null" json:"publish_version"`
+	ReqID                string  `gorm:"column:req_id;not null" json:"req_id"`
+	MergeReqID           string  `gorm:"column:merge_req_id;not null" json:"merge_req_id"`
 	CreateUser           *string `gorm:"column:create_user" json:"create_user"`
 	CreateTime           *string `gorm:"column:create_time" json:"create_time"`
 }

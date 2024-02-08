@@ -547,6 +547,12 @@
                             </el-button>
                             <el-button @click="toJSON" size="mini" primary icon="el-icon-s-opportunity">请求格式化</el-button>
                             <el-button @click="addDoc('service',params,result)" size="mini" icon="el-icon-document-add">新建文档</el-button>
+                            <el-button size="mini" @click="connectWebsocket" style="margin-left: 20px">
+                                连接websocket
+                            </el-button>
+                            <el-button size="mini" @click="sendWebsocketData">
+                                发送websocket
+                            </el-button>
                         </div>
                         <div class="bottom-console">
                             <textarea v-model="result" class="code-area" ></textarea>
@@ -1288,6 +1294,7 @@
 <script src="./axios.min.js"></script>
 <!-- import JavaScript -->
 <script src="./index.js"></script>
+<script src="./dayjs.min.js"></script>
 <script>
 
     new Vue({
@@ -1392,227 +1399,8 @@
                 result: "",
                 show_download_file: false,
                 show_upload_file: false,
-                urls: [
-                    {
-                        type: "title",
-                        name: '缓存'
-                    },
-                    {
-                        type: "url",
-                        name: "批量缓存参数",
-                        data: '{"service":"config.config_detail_cache_all"}'
-                    },
-                    {
-                        type: "url",
-                        name: "单个获取缓存参数",
-                        data: '{"service":"config.config_detail_query","group_name":"ldap_config"}'
-                    },
-                    {
-                        type: "title",
-                        name: 'amis 路由'
-                    },
-                    {
-                        type: "url",
-                        name: "用户管理",
-                        data: '{"service": "amis_router.user_manage"}'
-                    },
-                    {
-                        type: "url",
-                        name: "项目总路由",
-                        data: '{"service": "amis_router.project_router"}'
-                    },
-                    {
-                        type: "title",
-                        name: "ldap 管理"
-                    },
-                    {
-                        type: "url",
-                        name: "ldap分组删除",
-                        data: '{"service":"hrm.ldap_group_delete","ldap_group_id_list":["835ced1b-637e-40ae-9fb1-ac0fc1597530","a568f7ed-14d3-401b-957e-e7cc58abf6a5"]}'
-                    },
-                    {
-                        type: "url",
-                        name: "ldap同步",
-                        data: '{"service":"hrm.ldap_group_sync"}'
-                    },
-                    {
-                        type: "url",
-                        name: "ldap分组修改",
-                        data: '{"service":"hrm.ldap_group_edit","ldap_group_id":"835ced1b-637e-40ae-9fb1-ac0fc1597530","name":"test3","order_index":1}'
-                    },
-                    {
-                        type: "url",
-                        name: "远程ldap分组修改",
-                        data: '{"service":"hrm.remote_ldap_group_name_edit","old_name":"test","new_name":"test3","order_index":1}'
-                    },
-                    {
-                        type: "url",
-                        name: "远程ldap分组删除",
-                        data: '{"service":"hrm.remote_ldap_group_delete","name":"test2"}'
-                    },
-                    {
-                        type: "url",
-                        name: "创建ldap分组",
-                        data: '{"service":"hrm.ldap_group_create","name":"test","order_index":1}'
-                    },
-                    {
-                        type: "url",
-                        name: "系统+ldap登陆",
-                        data: '{"service":"hrm.system_login","username":"jira","password":"zhang@888"}'
-                    },
-                    {
-                        type: "url",
-                        name: "ldap 登陆",
-                        data: '{"service":"hrm.ldap_login","username":"zhangzhi","password":"zhangzhi@888"}'
-                    },
-                    {
-                        type: "url",
-                        name: "ldap 搜索",
-                        data: '{"service":"hrm.ldap_search","search_username":"zhangzhi","to_obj":true}'
-                    },
-                    {
-                        type: "url",
-                        name: "ldap创建用户",
-                        data: '{"service":"hrm.ldap_add","add_username":"zhangsan","add_password":"123456","email":"1@163.com","statu":"1","nick":"张三","address":"长沙","phone":"18874948657"}'
-                    },
-                    {
-                        type: "title",
-                        name: "用户管理"
-                    },
-                    {
-                        type: "url",
-                        name: "修改用户流程",
-                        data: '{"create_ldap":"1","email":"tanjingcheng@weigaogroup.com","entry_date":"2022-05-05","nick":"谭晶城","phone":"15116423684","roles":"development","service":"hrm.edit_user_flow","user_id":"6f2b3a9f-7ccd-47f5-a5fd-f7988b760127","user_status":"trial","username":"tanjingcheng","work_code":"00119297"}'
-                    },
-                    {
-                        type: "url",
-                        name: "服务合并，用户管理+ldap服务",
-                        data: '{"service":"hrm.get_user_info","service_list":[{"tag":"hrm.user_list","user_id":"f065a00f-1dfc-4808-83f4-3d57ec9d6215","to_obj":true,"page":1,"size":20},{"tag":"hrm.ldap_search","search_username":"zhangzhi","to_obj":true}]}'
-                    },
-                    {
-                        type: "url",
-                        name: "用户查询",
-                        data: '{"service":"hrm.user_list","search":"张","page":1,"size":20}'
-                    },
-                    {
-                        type: "url",
-                        name: "角色管理查询",
-                        data: '{"service":"hrm.role_query"}'
-                    },
-                    {
-                        type: "url",
-                        name: "创建用户",
-                        data: '{"service":"hrm.create_user","username":"zhangsan","email":"1@163.com","statu":"1","nick":"张三","address":"长沙","tel":"188********"}'
-                    },
-                    {
-                        type: "url",
-                        name: "创建用户+角色关系",
-                        data: '{"service":"hrm.user_role_bulk_create","user_role_list":[{"role_id":"common","user_id":"739ade44-7e83-48a2-8c60-9a7c1e9f3d0a","user_role_id":"0575fdac-2260-444b-aeb8-294212a63b57"}]}'
-                    },
-                    {
-                        type: "url",
-                        name: "创建用户+角色+ldap",
-                        data: '{"service":"hrm.create_user_flow","username":"zhangsan","password":"123456","email":"1@163.com","statu":"1","nick":"张三","address":"长沙","phone":"18874948657","roles":"common","create_ldap":"1"}'
-                    },
-                    {
-                        type: "url",
-                        name: "编辑用户+角色+ldap",
-                        data: '{"service":"hrm.edit_user_flow","user_id":"f065a00f-1dfc-4808-83f4-3d57ec9d6215","user_status":"leave","username":"zhangsan","password":"123456","email":"1@163.com","statu":"1","nick":"张三","address":"长沙","tel":"18874948657","roles":"common,deliver","create_ldap":"1"}'
-                    },
-                    {
-                        type: "url",
-                        name: "编辑获取用户的改变数据",
-                        data: '{"service":"hrm.get_user_modify_data","user_id":"f065a00f-1dfc-4808-83f4-3d57ec9d6215","user_status":"leave","username":"zhangsan","password":"123456","email":"1@163.com","statu":"1","nick":"张三","address":"长沙","tel":"18874948657","roles":"","create_ldap":"1"}'
-                    },
-                    {
-                        type: "url",
-                        name: "根据中文名称获取拼音码",
-                        data: '{"service":"hrm.get_pinyin","content":"张治","result_name":"username"}'
-                    },
-                    {
-                        type: "url",
-                        name: "修改用户",
-                        data: '{"service":"hrm.update_user_by_userid","userid":"c85ed77a-4815-46c8-ad06-9ba2fdb257de","username":"zhangsan","email":"1@163.com","statu":"1","nick":"张三","address":"长沙","tel":"188********"}'
-                    },
-                    {
-                        type: "url",
-                        name: "删除用户",
-                        data: '{"service":"hrm.delete_user_by_user_id_list","user_id_list":["330bc524-f934-4ddd-8560-405dce4a45d6"]}'
-                    },
-                    {
-                        type: "url",
-                        name: "批量更新用户,统一字段",
-                        data: '{"service":"hrm.update_user_by_userid_list","userid_list":["c85ed77a-4815-46c8-ad06-9ba2fdb257de","e0ade542-1a41-45d8-bd31-5a5a32502ef9","fa44609d-2d24-424e-9be2-0cca94d678e1"],"fields":["*"],"nick":"张三","comments":""}'
-                    },
-                    {
-                        type: "url",
-                        name: "批量新建用户",
-                        data: '{"service":"hrm.bulk_create_user","user_list":[{"username":"zhangsan","nick":"张治","email":"1@163.com","statu":1,"userpwd":"123456","address":"cs","tel":"18874948657"},{"username":"zhangsan3","nick":"张治1","email":"1@163.com","statu":1,"userpwd":"123456","address":"长沙","tel":"18874948657"}]}'
-                    },
-                    {
-                        type: "url",
-                        name: "根据用户ID批量更新",
-                        data: '{"service":"hrm.bulk_update_user","fields":["*"],"user_list":[{"userid":"62bf15d1-5564-447d-ae80-34c529b3d17d","username":"zhangsan","nick":"张治1111","email":"1@163.com","statu":1,"userpwd":"123456","address":"cs11","tel":"18874948657"},{"username":"zhangsan3","userid":"d67e5dd6-909b-415b-aa73-dd4f532725f5","nick":"张治111","email":"1@163.com","statu":1,"userpwd":"123456","address":"长沙1111","tel":"18874948657"}]}'
-                    },
-                    {
-                        type: "url",
-                        name: "用户下载",
-                        show_download_file: true,
-                        data: '{"service":"hrm.user_list_download","search":"张","page":1,"size":20}'
-                    },
-                    {
-                        type: "url",
-                        name: "用户上传",
-                        show_upload_file: true,
-                        data: '{"service":"hrm.user_list_import"}'
-                    },
-                    {
-                        type: "title",
-                        name: "企业微信"
-                    },
-                    {
-                        type: "url",
-                        name: "企业微信生成token",
-                        data: '{"service":"wechat.gettoken"}'
-                    },
-                    {
-                        type: "url",
-                        name: "获取企业微信用户列表",
-                        data: '{"service":"wechat.user_list"}'
-                    },
-                    {
-                        type: "url",
-                        name: "根据电话号码获取用户ID",
-                        data: '{"service":"wechat.get_userid"}'
-                    },
-                    {
-                        type: "title",
-                        name: "zabbix"
-                    },
-                    {
-                        type: "url",
-                        name: "查看zabbix分组，测试设置头",
-                        data: '{"service":"zabbix.hostgroup"}'
-                    },
-                    {
-                        type: "title",
-                        name: "nexus"
-                    },
-                    {
-                        type: "url",
-                        name: "查看nexus 版本，测试basic auth",
-                        data: '{"service":"nexus.version_search"}'
-                    },
-                    {
-                        type: "title",
-                        name: "partner"
-                    },
-                    {
-                        type: "url",
-                        name: "推送消息，直接传字符串",
-                        data: '{"service":"partner.pushalertmsgzbx"}'
-                    }
-                ],
+                urls:[],
+                websocket:null,
                 test: {
                     result33_search: '{"service":"hrm.empty_test","username":"zhangzhi"}',
                     result35_search: '{"service":"system.login","username":"zhangzhi","password":"zhangzhi@888"}',
@@ -1979,6 +1767,19 @@
 
 
                 }
+            },
+            connectWebsocket(){
+                if(this.websocket){
+                    this.websocket.close()
+                }
+                this.websocket = new WebSocket("ws://127.0.0.1:8009/template_data/ws/1")
+                this.websocket.onmessage=(evt)=>{
+                    console.log(evt.data)
+                    this.result=dayjs().format('YYYY-MM-DD HH:mm:ss')+"\n"+evt.data+"\n----------------------------\n"+this.result
+                }
+            },
+            sendWebsocketData(){
+                this.websocket.send(this.params+"\t\r\n")
             },
             addDoc(type,code="",result="") {
                 this.opShow = true

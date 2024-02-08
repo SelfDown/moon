@@ -2,23 +2,31 @@ module moon
 
 go 1.18
 
-//replace collect => F:/go/hello
+replace github.com/SelfDown/collect v0.0.0-20231222050221-035e5cb34448 => F:/go/hello
+
 //
 //require collect v0.0.0-00010101000000-000000000000
 
 require (
+	github.com/SelfDown/collect v0.0.0-20231222050221-035e5cb34448
+	github.com/demdxx/gocast v1.2.0
+	github.com/gin-contrib/sessions v0.0.5
+	github.com/gin-gonic/gin v1.8.2
+	golang.org/x/crypto v0.14.0
+	gorm.io/gen v0.3.18
+	gorm.io/gorm v1.24.6
+	gorm.io/plugin/dbresolver v1.3.0
+)
+
+require (
 	github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e // indirect
-	github.com/SelfDown/collect v0.0.0-20231222050221-035e5cb34448 // indirect
 	github.com/bwmarrin/snowflake v0.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
-	github.com/demdxx/gocast v1.2.0 // indirect
 	github.com/dengsgo/math-engine v0.0.0-20220911070221-a5a560a8684b // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
-	github.com/gin-contrib/sessions v0.0.5 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.8.2 // indirect
 	github.com/go-asn1-ber/asn1-ber v1.5.4 // indirect
 	github.com/go-ldap/ldap/v3 v3.4.4 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
@@ -50,19 +58,16 @@ require (
 	github.com/xuri/efp v0.0.0-20220603152613-6918739fd470 // indirect
 	github.com/xuri/excelize/v2 v2.7.0 // indirect
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
-	golang.org/x/crypto v0.5.0 // indirect
-	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
-	golang.org/x/net v0.5.0 // indirect
-	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/text v0.6.0 // indirect
-	golang.org/x/tools v0.1.12 // indirect
+	golang.org/x/mod v0.8.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/tools v0.6.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/datatypes v1.0.7 // indirect
 	gorm.io/driver/mysql v1.4.4 // indirect
 	gorm.io/driver/sqlite v1.4.1 // indirect
-	gorm.io/gen v0.3.18 // indirect
-	gorm.io/gorm v1.24.6 // indirect
 	gorm.io/hints v1.1.0 // indirect
-	gorm.io/plugin/dbresolver v1.3.0 // indirect
+	github.com/gorilla/websocket v1.5.1
 )

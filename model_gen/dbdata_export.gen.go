@@ -28,6 +28,7 @@ func newDbdataExport(db *gorm.DB, opts ...gen.DOOption) dbdataExport {
 	tableName := _dbdataExport.dbdataExportDo.TableName()
 	_dbdataExport.ALL = field.NewAsterisk(tableName)
 	_dbdataExport.DbdataExportID = field.NewString(tableName, "dbdata_export_id")
+	_dbdataExport.Title = field.NewString(tableName, "title")
 	_dbdataExport.InstallSoftID = field.NewString(tableName, "install_soft_id")
 	_dbdataExport.SoftUserID = field.NewString(tableName, "soft_user_id")
 	_dbdataExport.AddTime = field.NewString(tableName, "add_time")
@@ -46,7 +47,6 @@ func newDbdataExport(db *gorm.DB, opts ...gen.DOOption) dbdataExport {
 	_dbdataExport.AllMetaDumpFilename = field.NewString(tableName, "all_meta_dump_filename")
 	_dbdataExport.Sid = field.NewString(tableName, "sid")
 	_dbdataExport.AllMetaLogFilename = field.NewString(tableName, "all_meta_log_filename")
-	_dbdataExport.Title = field.NewString(tableName, "title")
 	_dbdataExport.IsDelete = field.NewString(tableName, "is_delete")
 
 	_dbdataExport.fillFieldMap()
@@ -59,6 +59,7 @@ type dbdataExport struct {
 
 	ALL                 field.Asterisk
 	DbdataExportID      field.String
+	Title               field.String
 	InstallSoftID       field.String
 	SoftUserID          field.String
 	AddTime             field.String
@@ -77,7 +78,6 @@ type dbdataExport struct {
 	AllMetaDumpFilename field.String
 	Sid                 field.String
 	AllMetaLogFilename  field.String
-	Title               field.String
 	IsDelete            field.String
 
 	fieldMap map[string]field.Expr
@@ -96,6 +96,7 @@ func (d dbdataExport) As(alias string) *dbdataExport {
 func (d *dbdataExport) updateTableName(table string) *dbdataExport {
 	d.ALL = field.NewAsterisk(table)
 	d.DbdataExportID = field.NewString(table, "dbdata_export_id")
+	d.Title = field.NewString(table, "title")
 	d.InstallSoftID = field.NewString(table, "install_soft_id")
 	d.SoftUserID = field.NewString(table, "soft_user_id")
 	d.AddTime = field.NewString(table, "add_time")
@@ -114,7 +115,6 @@ func (d *dbdataExport) updateTableName(table string) *dbdataExport {
 	d.AllMetaDumpFilename = field.NewString(table, "all_meta_dump_filename")
 	d.Sid = field.NewString(table, "sid")
 	d.AllMetaLogFilename = field.NewString(table, "all_meta_log_filename")
-	d.Title = field.NewString(table, "title")
 	d.IsDelete = field.NewString(table, "is_delete")
 
 	d.fillFieldMap()
@@ -134,6 +134,7 @@ func (d *dbdataExport) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 func (d *dbdataExport) fillFieldMap() {
 	d.fieldMap = make(map[string]field.Expr, 21)
 	d.fieldMap["dbdata_export_id"] = d.DbdataExportID
+	d.fieldMap["title"] = d.Title
 	d.fieldMap["install_soft_id"] = d.InstallSoftID
 	d.fieldMap["soft_user_id"] = d.SoftUserID
 	d.fieldMap["add_time"] = d.AddTime
@@ -152,7 +153,6 @@ func (d *dbdataExport) fillFieldMap() {
 	d.fieldMap["all_meta_dump_filename"] = d.AllMetaDumpFilename
 	d.fieldMap["sid"] = d.Sid
 	d.fieldMap["all_meta_log_filename"] = d.AllMetaLogFilename
-	d.fieldMap["title"] = d.Title
 	d.fieldMap["is_delete"] = d.IsDelete
 }
 

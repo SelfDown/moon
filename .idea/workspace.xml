@@ -5,9 +5,99 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/collect/config/config_param/count.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/doc/service.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/doc/ui/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server/base.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server/connect_server.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server/value_transfer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_env/env_detail.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_env/service_transfer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_os_users/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_os_users/server_os_users_query.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_os_users/users_modify.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_user_group/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/project/server_user_group/server_user_group.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/webshell/service.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/webshell/token/get_info_by_token.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/webshell/token/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_handler_password.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_multi_arr.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_param_key2arr.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_read_file.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_rename_field.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_shell_term.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_value_transfer.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/amis_router/project_manage/server_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/collect/amis_router/project_manage/server_list.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/amis_router/project_manage/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/collect/amis_router/project_manage/test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/amis_router/project_router/project_router.json" beforeDir="false" afterPath="$PROJECT_DIR$/collect/amis_router/project_router/project_router.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/config/config_param/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/config/config_param/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/hrm/user/base_where.common" beforeDir="false" afterPath="$PROJECT_DIR$/collect/hrm/user/base_where.common" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/hrm/user/user_list.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/hrm/user/user_list.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/jira/issue/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/jira/issue/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/project/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/project/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/server/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/server/server_info.json" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server/server_info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/server/server_list.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server/server_list.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/server_env/env_tree.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server_env/env_tree.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/server_env/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server_env/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/service_router.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/service_router.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/version/project_version/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/version/project_version/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/add_table.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/add_table.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/black_list.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/black_list.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dba_apk.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dba_apk.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dbdata_exp_table_standard.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dbdata_exp_table_standard.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dbdata_export.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dbdata_export.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dbdata_export_execute_log.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dbdata_export_execute_log.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/dbdata_import_execute_log.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/dbdata_import_execute_log.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/failure_report.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/failure_report.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/his_issue_record.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/his_issue_record.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/icon_project.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/icon_project.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/issue_fow.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/issue_fow.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/jbosslogcategory_operator.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/jbosslogcategory_operator.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/merge_publish.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/merge_publish.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/merge_publish_detail.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/merge_publish_detail.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/merge_publish_war_detail.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/merge_publish_war_detail.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/merge_request_history.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/merge_request_history.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/moongod_event_exe.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/moongod_event_exe.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/publish_req.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/publish_req.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/publish_req_before.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/publish_req_before.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/publish_req_dbscript.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/publish_req_dbscript.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/publish_req_details.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/publish_req_details.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/publish_req_plan.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/publish_req_plan.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/req_info_modify_trace.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/req_info_modify_trace.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/t1.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/t1.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ue_planning.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/ue_planning.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/users.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/users.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/version_plan.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/version_plan.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/view_server_env_list.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/view_server_env_list.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/webshell_action.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/webshell_action.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/dbdata_exp_table_standard.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/dbdata_exp_table_standard.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/dbdata_export.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/dbdata_export.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/dbdata_export_execute_log.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/dbdata_export_execute_log.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/dbdata_import_execute_log.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/dbdata_import_execute_log.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/deploy_tasklist.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/deploy_tasklist.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/failure_report.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/failure_report.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/his_issue_record.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/his_issue_record.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/icon_project.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/icon_project.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/merge_publish_detail.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/merge_publish_detail.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/publish_req.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/publish_req.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/publish_req_dbscript.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/publish_req_dbscript.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/publish_req_details.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/publish_req_details.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/publish_req_plan.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/publish_req_plan.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/req_info_modify_trace.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/req_info_modify_trace.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moon.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/a_register.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/a_register.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/module_ssh.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/module_ssh.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/console/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/console/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +137,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/go/moon/collect&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/go/moon/collect/project/server_env&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
@@ -56,18 +146,35 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\go\moon\collect" />
+      <recent name="F:\go\moon\collect\project\server_env" />
       <recent name="F:\go\moon\plugins" />
+      <recent name="F:\go\moon\collect\project\server" />
+      <recent name="F:\go\moon\collect\webshell" />
       <recent name="F:\go\moon\collect\amis_router\project_manage" />
-      <recent name="F:\go\moon\collect\jira" />
-      <recent name="F:\go\moon\collect\jira\issue" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\go\moon\img" />
       <recent name="F:\go\moon\collect\project" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go run moon">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="moon" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build moon/test" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="moon" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="moon/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/test/test.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go run moon" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="moon" />
       <working_directory value="$PROJECT_DIR$" />
@@ -75,6 +182,15 @@
       <package value="moon" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="moon" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -110,14 +226,24 @@
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.24.6/chainable_api.go</url>
-          <line>38</line>
+          <url>file://$PROJECT_DIR$/../hello/src/collect/service_imp/handler_params_update_field.go</url>
+          <line>2</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/test.go</url>
+          <line>71</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/test.go</url>
+          <line>59</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.24.6/finisher_api.go</url>
-          <line>37</line>
-          <option name="timeStamp" value="27" />
+          <url>file://$PROJECT_DIR$/test.go</url>
+          <line>169</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

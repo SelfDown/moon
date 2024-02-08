@@ -54,10 +54,9 @@ func newPublishReq(db *gorm.DB, opts ...gen.DOOption) publishReq {
 	_publishReq.TestExpectFinishTime = field.NewString(tableName, "test_expect_finish_time")
 	_publishReq.TestServerEnvID = field.NewString(tableName, "test_server_env_id")
 	_publishReq.PublishTestEnv = field.NewString(tableName, "publish_test_env")
-	_publishReq.ProductFrom = field.NewString(tableName, "product_from")
 	_publishReq.IsProduct = field.NewString(tableName, "is_product")
+	_publishReq.ProductFrom = field.NewString(tableName, "product_from")
 	_publishReq.DutyTeam = field.NewString(tableName, "duty_team")
-	_publishReq.RequireFinishTime = field.NewString(tableName, "require_finish_time")
 
 	_publishReq.fillFieldMap()
 
@@ -95,10 +94,9 @@ type publishReq struct {
 	TestExpectFinishTime field.String
 	TestServerEnvID      field.String
 	PublishTestEnv       field.String
-	ProductFrom          field.String
 	IsProduct            field.String
-	DutyTeam             field.String // 责任团队
-	RequireFinishTime    field.String
+	ProductFrom          field.String
+	DutyTeam             field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -142,10 +140,9 @@ func (p *publishReq) updateTableName(table string) *publishReq {
 	p.TestExpectFinishTime = field.NewString(table, "test_expect_finish_time")
 	p.TestServerEnvID = field.NewString(table, "test_server_env_id")
 	p.PublishTestEnv = field.NewString(table, "publish_test_env")
-	p.ProductFrom = field.NewString(table, "product_from")
 	p.IsProduct = field.NewString(table, "is_product")
+	p.ProductFrom = field.NewString(table, "product_from")
 	p.DutyTeam = field.NewString(table, "duty_team")
-	p.RequireFinishTime = field.NewString(table, "require_finish_time")
 
 	p.fillFieldMap()
 
@@ -162,7 +159,7 @@ func (p *publishReq) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *publishReq) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 31)
+	p.fieldMap = make(map[string]field.Expr, 30)
 	p.fieldMap["req_id"] = p.ReqID
 	p.fieldMap["req_summary"] = p.ReqSummary
 	p.fieldMap["dev_user"] = p.DevUser
@@ -190,10 +187,9 @@ func (p *publishReq) fillFieldMap() {
 	p.fieldMap["test_expect_finish_time"] = p.TestExpectFinishTime
 	p.fieldMap["test_server_env_id"] = p.TestServerEnvID
 	p.fieldMap["publish_test_env"] = p.PublishTestEnv
-	p.fieldMap["product_from"] = p.ProductFrom
 	p.fieldMap["is_product"] = p.IsProduct
+	p.fieldMap["product_from"] = p.ProductFrom
 	p.fieldMap["duty_team"] = p.DutyTeam
-	p.fieldMap["require_finish_time"] = p.RequireFinishTime
 }
 
 func (p publishReq) clone(db *gorm.DB) publishReq {

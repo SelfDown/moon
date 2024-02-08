@@ -1,4 +1,56 @@
 service:
+  - key: get_env_detail_service
+    http: true
+    module: empty
+    params:
+      current_project:
+        template: "{{get_key \"current_project_code\"}}"
+    data_file: env_detail.json
+    handler_params:
+      - key: file2datajson
+        save_field: service_list
+      - key: param2result
+        field: service_list
+  - key: my_env_tree
+    name: 获取环境信息树
+    http: true
+    data_file: service_transfer.json
+    module: bulk_service
+    handler_params:
+      - key: service2field
+        service:
+          service: project.get_env_detail_service
+        save_field: service_list
+    batch:
+      foreach: "[service_list]"
+      service:
+        service: "[service]"
+      append_item_param: true
+      save_field: 'result'
+    result_handler:
+      - key: result2params
+        fields:
+          - to: "[result_list]"
+      - key: arr2dict
+        foreach: "[result_list]"
+        field: "[target_field]"
+        value: "[result.data]"
+        save_field: result_data
+      - key: combine_array
+        foreach: "[result_data.env_tree]"
+        field: "[server_env_id]"
+        right: "[result_data.server_list]"
+        right_field: "[server_env_id]"
+        children: "children"
+      - key: to_tree
+        foreach: "[result_data.env_tree]"
+        id: server_env_id
+        pid: parent_id
+        children: children
+        save_field: env_tree
+      - key: param2result
+        field: "[env_tree]"
+
   - key: env_tree
     name: 环境保存
     http: true

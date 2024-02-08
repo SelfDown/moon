@@ -60,7 +60,7 @@ type publishReqDbscript struct {
 	ModifyTime  field.Time   // 记录修改时间（数据库自动写入）
 	Comments    field.String // 备注说明
 	SqlScriptID field.String
-	OrderIndex  field.String // 执行排序字段
+	OrderIndex  field.String
 
 	fieldMap map[string]field.Expr
 }

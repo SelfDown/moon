@@ -9,7 +9,7 @@ const TableNameMergeRequestHistory = "merge_request_history"
 // MergeRequestHistory mapped from table <merge_request_history>
 type MergeRequestHistory struct {
 	MergeRequestHistoryID string  `gorm:"column:merge_request_history_id;primaryKey" json:"merge_request_history_id"`
-	GitlabURL             string  `gorm:"column:gitlab_url;not null" json:"gitlab_url"`
+	GitlabURL             *string `gorm:"column:gitlab_url" json:"gitlab_url"`
 	ProjectID             string  `gorm:"column:project_id;not null" json:"project_id"`
 	FromBranch            string  `gorm:"column:from_branch;not null" json:"from_branch"`
 	ToBranch              string  `gorm:"column:to_branch;not null" json:"to_branch"`

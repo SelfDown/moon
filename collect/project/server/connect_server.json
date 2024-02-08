@@ -1,0 +1,29 @@
+{
+  "connect": {
+    "server_ip": "[server_info.server_ip]",
+    "user": "[server_info.user_name]",
+    "password": "[server_info.user_pwd]",
+    "port": "[port]"
+  },
+  "services": [
+    {
+      "node_key": "start",
+      "node_type": "start",
+      "name": "开始",
+      "node_next": "info"
+    },
+    {
+      "node_key": "info",
+      "node_type": "node",
+      "name": "执行shell",
+      "key": "shell_term",
+      "node_next": "end",
+      "node_fail": "end"
+    },
+    {
+      "node_key": "end",
+      "node_type": "end",
+      "name": "结束"
+    }
+  ]
+}

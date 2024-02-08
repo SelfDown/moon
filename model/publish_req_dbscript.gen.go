@@ -26,7 +26,7 @@ type PublishReqDbscript struct {
 	ModifyTime  *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
 	Comments    *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
 	SqlScriptID *string    `gorm:"column:sql_script_id" json:"sql_script_id"`
-	OrderIndex  *string    `gorm:"column:order_index" json:"order_index"` // 执行排序字段
+	OrderIndex  *string    `gorm:"column:order_index" json:"order_index"`
 }
 
 // TableName PublishReqDbscript's table name

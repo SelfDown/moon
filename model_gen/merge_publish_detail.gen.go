@@ -28,8 +28,8 @@ func newMergePublishDetail(db *gorm.DB, opts ...gen.DOOption) mergePublishDetail
 	tableName := _mergePublishDetail.mergePublishDetailDo.TableName()
 	_mergePublishDetail.ALL = field.NewAsterisk(tableName)
 	_mergePublishDetail.MergePublishDetailID = field.NewString(tableName, "merge_publish_detail_id")
-	_mergePublishDetail.MergePublishID = field.NewString(tableName, "merge_publish_id")
-	_mergePublishDetail.PublishVersion = field.NewString(tableName, "publish_version")
+	_mergePublishDetail.ReqID = field.NewString(tableName, "req_id")
+	_mergePublishDetail.MergeReqID = field.NewString(tableName, "merge_req_id")
 	_mergePublishDetail.CreateUser = field.NewString(tableName, "create_user")
 	_mergePublishDetail.CreateTime = field.NewString(tableName, "create_time")
 
@@ -43,8 +43,8 @@ type mergePublishDetail struct {
 
 	ALL                  field.Asterisk
 	MergePublishDetailID field.String
-	MergePublishID       field.String
-	PublishVersion       field.String
+	ReqID                field.String
+	MergeReqID           field.String
 	CreateUser           field.String
 	CreateTime           field.String
 
@@ -64,8 +64,8 @@ func (m mergePublishDetail) As(alias string) *mergePublishDetail {
 func (m *mergePublishDetail) updateTableName(table string) *mergePublishDetail {
 	m.ALL = field.NewAsterisk(table)
 	m.MergePublishDetailID = field.NewString(table, "merge_publish_detail_id")
-	m.MergePublishID = field.NewString(table, "merge_publish_id")
-	m.PublishVersion = field.NewString(table, "publish_version")
+	m.ReqID = field.NewString(table, "req_id")
+	m.MergeReqID = field.NewString(table, "merge_req_id")
 	m.CreateUser = field.NewString(table, "create_user")
 	m.CreateTime = field.NewString(table, "create_time")
 
@@ -86,8 +86,8 @@ func (m *mergePublishDetail) GetFieldByName(fieldName string) (field.OrderExpr, 
 func (m *mergePublishDetail) fillFieldMap() {
 	m.fieldMap = make(map[string]field.Expr, 5)
 	m.fieldMap["merge_publish_detail_id"] = m.MergePublishDetailID
-	m.fieldMap["merge_publish_id"] = m.MergePublishID
-	m.fieldMap["publish_version"] = m.PublishVersion
+	m.fieldMap["req_id"] = m.ReqID
+	m.fieldMap["merge_req_id"] = m.MergeReqID
 	m.fieldMap["create_user"] = m.CreateUser
 	m.fieldMap["create_time"] = m.CreateTime
 }

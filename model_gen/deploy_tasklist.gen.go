@@ -57,6 +57,7 @@ func newDeployTasklist(db *gorm.DB, opts ...gen.DOOption) deployTasklist {
 	_deployTasklist.ArtifactPath = field.NewString(tableName, "artifact_path")
 	_deployTasklist.ArtifactMd5 = field.NewString(tableName, "artifact_md5")
 	_deployTasklist.CheckWarStatusCode = field.NewString(tableName, "check_war_status_code")
+	_deployTasklist.PublishReqVer = field.NewString(tableName, "publishReqVer")
 	_deployTasklist.Deploy = field.NewInt32(tableName, "deploy_")
 	_deployTasklist.FrameworkVersion = field.NewString(tableName, "framework_version")
 	_deployTasklist.CreateTime = field.NewTime(tableName, "create_time")
@@ -122,6 +123,7 @@ type deployTasklist struct {
 		值：存HTTP_code
 	*/
 	CheckWarStatusCode        field.String
+	PublishReqVer             field.String // 同字段，publish_req_ver  ，用于新旧版本兼容
 	Deploy                    field.Int32
 	FrameworkVersion          field.String // java应用依赖的框架版本
 	CreateTime                field.Time   // 记录创建时间（数据库自动写入）
@@ -184,6 +186,7 @@ func (d *deployTasklist) updateTableName(table string) *deployTasklist {
 	d.ArtifactPath = field.NewString(table, "artifact_path")
 	d.ArtifactMd5 = field.NewString(table, "artifact_md5")
 	d.CheckWarStatusCode = field.NewString(table, "check_war_status_code")
+	d.PublishReqVer = field.NewString(table, "publishReqVer")
 	d.Deploy = field.NewInt32(table, "deploy_")
 	d.FrameworkVersion = field.NewString(table, "framework_version")
 	d.CreateTime = field.NewTime(table, "create_time")
@@ -216,7 +219,7 @@ func (d *deployTasklist) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (d *deployTasklist) fillFieldMap() {
-	d.fieldMap = make(map[string]field.Expr, 46)
+	d.fieldMap = make(map[string]field.Expr, 47)
 	d.fieldMap["deploy_flag"] = d.DeployFlag
 	d.fieldMap["dep_task_id"] = d.DepTaskID
 	d.fieldMap["server_id"] = d.ServerID
@@ -247,6 +250,7 @@ func (d *deployTasklist) fillFieldMap() {
 	d.fieldMap["artifact_path"] = d.ArtifactPath
 	d.fieldMap["artifact_md5"] = d.ArtifactMd5
 	d.fieldMap["check_war_status_code"] = d.CheckWarStatusCode
+	d.fieldMap["publishReqVer"] = d.PublishReqVer
 	d.fieldMap["deploy_"] = d.Deploy
 	d.fieldMap["framework_version"] = d.FrameworkVersion
 	d.fieldMap["create_time"] = d.CreateTime

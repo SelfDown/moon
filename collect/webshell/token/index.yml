@@ -1,0 +1,91 @@
+service:
+  - key: gen_token_from_token
+    http: true
+    log: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: webshell.gen_token
+          server_os_users_id: "[server_info.server_os_users_id]"
+        save_field: token
+      - key: param2result
+        field: "[token]"
+  - key: gen_token
+    http: true
+    module: model_save
+    params:
+      server_os_users_id:
+        check:
+          template: "{{must .server_os_users_id}}"
+          err_msg: 服务器用户不能为空
+      token:
+        template: "{{snow_id}}"
+      webshell_token_id:
+        template: "{{uuid}}"
+      create_user:
+        template: "{{.session_user_id}}"
+      create_time:
+        template: "{{current_date_time}}"
+      is_valid:
+        default: "1"
+    table: webshell_token
+    handler_params:
+      - key: param2result
+        field: "[token]"
+  - key: update_invalid_token
+    params:
+      is_valid:
+        default: "0"
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能空
+    module: model_update
+    table: "webshell_token"
+    filter:
+      token: "[token]"
+  - key: get_info_by_token
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      once_token:
+        name: 是否更新token一次性使用
+        default: true
+    module: sql
+    data_file: get_info_by_token.sql
+    result_handler:
+      - key: service2field
+        enable: "[once_token]"
+        service:
+          service: webshell.update_invalid_token
+          token: "[token]"
+      - key: result2params
+        enable: "[once_token]"
+        fields:
+          - to: data
+      - key: handler_password
+        enable: "{{must .data}}"
+        foreach: "[data]"
+        operation: "decrypt"
+        field: "[user_pwd]"
+        save_field: after
+      - key: param2result
+        enable: "{{must .data}}"
+        field: "[after]"
+      - key: arr2obj

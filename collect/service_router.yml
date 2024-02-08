@@ -24,6 +24,14 @@ services:
     name: '人资管理'
     path: 'hrm/service.yml'
 
+  - key: 'doc'
+    name: '文档读取'
+    path: 'doc/service.yml'
+
+  - key: 'webshell'
+    name: '文档读取'
+    path: 'webshell/service.yml'
+
 
 
 # 模块处理器
@@ -83,6 +91,10 @@ module_handler:
     name: 执行shell
     type: outer
     path: Ssh
+  - key: read_file
+    name: 文件读取
+    type: outer
+    path: ReadFile
 # 数据处理
 data_handler:
   - key: update_field
@@ -230,6 +242,30 @@ data_handler:
     name: shell
     type: outer
     path: Shell
+  - key: shell_term
+    name: shell
+    type: outer
+    path: ShellTerm
+  - key: param_key2arr
+    name: 参数key字段转数组
+    type: outer
+    path: ParamKey2Arr
+  - key: rename_field
+    name: 请求字段重命名
+    type: outer
+    path: RenameField
+  - key: multi_arr
+    name: 数组乘以数组
+    type: outer
+    path: MultiArr
+  - key: handler_password
+    name: 处理密码
+    type: outer
+    path: HandlerPassword
+  - key: value_transfer
+    name: 值转换
+    type: outer
+    path: ValueTransfer
 
 # 加载启动配置，读取文件内容
 load_startup_plugin:

@@ -55,9 +55,9 @@ type reqInfoModifyTrace struct {
 	ReqEventType field.String
 	OpUser       field.String
 	OpTime       field.Time
-	CreateTime   field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime   field.Time   // 记录修改时间（数据库自动写入）
-	Comments     field.String // 备注说明
+	CreateTime   field.Time // 记录创建时间（数据库自动写入）
+	ModifyTime   field.Time // 记录修改时间（数据库自动写入）
+	Comments     field.String
 	ReqID        field.String
 
 	fieldMap map[string]field.Expr

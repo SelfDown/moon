@@ -34,7 +34,7 @@ type FailureReport struct {
 	RelativeVersion  *string  `gorm:"column:relative_version" json:"relative_version"`
 	RelativeReason   *string  `gorm:"column:relative_reason" json:"relative_reason"`
 	FailureType      *string  `gorm:"column:failure_type" json:"failure_type"`
-	ProblemReasons   *string  `gorm:"column:problem_reasons" json:"problem_reasons"` // 研发错误原因
+	ProblemReasons   *string  `gorm:"column:problem_reasons" json:"problem_reasons"`
 }
 
 // TableName FailureReport's table name

@@ -49,24 +49,24 @@ func newHisIssueRecord(db *gorm.DB, opts ...gen.DOOption) hisIssueRecord {
 	_hisIssueRecord.CreateTime = field.NewString(tableName, "create_time")
 	_hisIssueRecord.ModifyTime = field.NewString(tableName, "modify_time")
 	_hisIssueRecord.IsDelete = field.NewString(tableName, "is_delete")
-	_hisIssueRecord.Duedate = field.NewString(tableName, "duedate")
 	_hisIssueRecord.Receiver = field.NewString(tableName, "receiver")
 	_hisIssueRecord.ReceiverTel = field.NewString(tableName, "receiver_tel")
 	_hisIssueRecord.IsEmergency = field.NewString(tableName, "is_emergency")
 	_hisIssueRecord.EmergencyMsg = field.NewString(tableName, "emergency_msg")
 	_hisIssueRecord.EmergencyTime = field.NewString(tableName, "emergency_time")
 	_hisIssueRecord.WorkCode = field.NewString(tableName, "work_code")
+	_hisIssueRecord.Duedate = field.NewString(tableName, "duedate")
 	_hisIssueRecord.RoomCode = field.NewString(tableName, "room_code")
 	_hisIssueRecord.AreaCode = field.NewString(tableName, "area_code")
 	_hisIssueRecord.Priority = field.NewString(tableName, "priority")
 	_hisIssueRecord.WorkStation = field.NewString(tableName, "work_station")
-	_hisIssueRecord.ExpectFinishDate = field.NewString(tableName, "expect_finish_date")
 	_hisIssueRecord.WorkStationName = field.NewString(tableName, "work_station_name")
+	_hisIssueRecord.ExpectFinishDate = field.NewString(tableName, "expect_finish_date")
 	_hisIssueRecord.HisIsConfirm = field.NewString(tableName, "his_is_confirm")
 	_hisIssueRecord.HisConfirmUser = field.NewString(tableName, "his_confirm_user")
+	_hisIssueRecord.HisConfirmWorkCode = field.NewString(tableName, "his_confirm_work_code")
 	_hisIssueRecord.HisConfirmPhone = field.NewString(tableName, "his_confirm_phone")
 	_hisIssueRecord.HisConfirmComment = field.NewString(tableName, "his_confirm_comment")
-	_hisIssueRecord.HisConfirmWorkCode = field.NewString(tableName, "his_confirm_work_code")
 
 	_hisIssueRecord.fillFieldMap()
 
@@ -99,24 +99,24 @@ type hisIssueRecord struct {
 	CreateTime         field.String
 	ModifyTime         field.String
 	IsDelete           field.String
-	Duedate            field.String
 	Receiver           field.String
 	ReceiverTel        field.String
 	IsEmergency        field.String
 	EmergencyMsg       field.String
 	EmergencyTime      field.String
 	WorkCode           field.String
+	Duedate            field.String
 	RoomCode           field.String
 	AreaCode           field.String
 	Priority           field.String
 	WorkStation        field.String
-	ExpectFinishDate   field.String
 	WorkStationName    field.String
+	ExpectFinishDate   field.String
 	HisIsConfirm       field.String
 	HisConfirmUser     field.String
+	HisConfirmWorkCode field.String
 	HisConfirmPhone    field.String
 	HisConfirmComment  field.String
-	HisConfirmWorkCode field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -155,24 +155,24 @@ func (h *hisIssueRecord) updateTableName(table string) *hisIssueRecord {
 	h.CreateTime = field.NewString(table, "create_time")
 	h.ModifyTime = field.NewString(table, "modify_time")
 	h.IsDelete = field.NewString(table, "is_delete")
-	h.Duedate = field.NewString(table, "duedate")
 	h.Receiver = field.NewString(table, "receiver")
 	h.ReceiverTel = field.NewString(table, "receiver_tel")
 	h.IsEmergency = field.NewString(table, "is_emergency")
 	h.EmergencyMsg = field.NewString(table, "emergency_msg")
 	h.EmergencyTime = field.NewString(table, "emergency_time")
 	h.WorkCode = field.NewString(table, "work_code")
+	h.Duedate = field.NewString(table, "duedate")
 	h.RoomCode = field.NewString(table, "room_code")
 	h.AreaCode = field.NewString(table, "area_code")
 	h.Priority = field.NewString(table, "priority")
 	h.WorkStation = field.NewString(table, "work_station")
-	h.ExpectFinishDate = field.NewString(table, "expect_finish_date")
 	h.WorkStationName = field.NewString(table, "work_station_name")
+	h.ExpectFinishDate = field.NewString(table, "expect_finish_date")
 	h.HisIsConfirm = field.NewString(table, "his_is_confirm")
 	h.HisConfirmUser = field.NewString(table, "his_confirm_user")
+	h.HisConfirmWorkCode = field.NewString(table, "his_confirm_work_code")
 	h.HisConfirmPhone = field.NewString(table, "his_confirm_phone")
 	h.HisConfirmComment = field.NewString(table, "his_confirm_comment")
-	h.HisConfirmWorkCode = field.NewString(table, "his_confirm_work_code")
 
 	h.fillFieldMap()
 
@@ -212,24 +212,24 @@ func (h *hisIssueRecord) fillFieldMap() {
 	h.fieldMap["create_time"] = h.CreateTime
 	h.fieldMap["modify_time"] = h.ModifyTime
 	h.fieldMap["is_delete"] = h.IsDelete
-	h.fieldMap["duedate"] = h.Duedate
 	h.fieldMap["receiver"] = h.Receiver
 	h.fieldMap["receiver_tel"] = h.ReceiverTel
 	h.fieldMap["is_emergency"] = h.IsEmergency
 	h.fieldMap["emergency_msg"] = h.EmergencyMsg
 	h.fieldMap["emergency_time"] = h.EmergencyTime
 	h.fieldMap["work_code"] = h.WorkCode
+	h.fieldMap["duedate"] = h.Duedate
 	h.fieldMap["room_code"] = h.RoomCode
 	h.fieldMap["area_code"] = h.AreaCode
 	h.fieldMap["priority"] = h.Priority
 	h.fieldMap["work_station"] = h.WorkStation
-	h.fieldMap["expect_finish_date"] = h.ExpectFinishDate
 	h.fieldMap["work_station_name"] = h.WorkStationName
+	h.fieldMap["expect_finish_date"] = h.ExpectFinishDate
 	h.fieldMap["his_is_confirm"] = h.HisIsConfirm
 	h.fieldMap["his_confirm_user"] = h.HisConfirmUser
+	h.fieldMap["his_confirm_work_code"] = h.HisConfirmWorkCode
 	h.fieldMap["his_confirm_phone"] = h.HisConfirmPhone
 	h.fieldMap["his_confirm_comment"] = h.HisConfirmComment
-	h.fieldMap["his_confirm_work_code"] = h.HisConfirmWorkCode
 }
 
 func (h hisIssueRecord) clone(db *gorm.DB) hisIssueRecord {
