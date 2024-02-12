@@ -64,6 +64,7 @@ func main() {
 		templateService.HandlerRequest(c)
 	})
 	r.GET("/template_data/ws/:token", func(context *gin.Context) {
+
 		templateService.HandlerWsRequest(context)
 		//ws(context.Writer, context.Request)
 	})

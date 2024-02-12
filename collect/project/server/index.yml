@@ -231,6 +231,45 @@ service:
     filter:
       server_id__in: "[server_id_list]"
 
+  - key: server_dir
+    http: true
+    module: ssh
+    params:
+      path:
+        default: ""
+      port:
+        default: 22
+    data_json: server_dir.json
+    result_handler:
+      - key: param2result
+        field: "[dir_info]"
+  - key: server_file_download
+    http: true
+    module: ssh
+    params:
+      path:
+        default: ""
+      port:
+        default: 22
+    data_json: server_file_download.json
+  - key: server_file_remove
+    http: true
+    module: ssh
+    params:
+      path:
+        default: ""
+      port:
+        default: 22
+    data_json: server_file_remove.json
+  - key: server_file_upload
+    http: true
+    module: ssh
+    params:
+      path:
+        default: ""
+      port:
+        default: 22
+    data_json: server_file_upload.json
   - key: server_info
     http: true
     module: ssh
@@ -244,6 +283,7 @@ service:
         field: server_info
   - key: connect_server
     http: true
+    log: true
     module: ssh
     params:
       token:

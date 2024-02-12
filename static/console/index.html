@@ -380,9 +380,14 @@
         }
 
         .box-controller{
+            display: flex;
+            align-items: center;
             background: #FAFAFA;
             padding: 4px 2px;
             cursor: move;
+        }
+        form{
+            margin-bottom: 0px;
         }
         .bottom-console{
             flex: 1;
@@ -547,11 +552,21 @@
                             </el-button>
                             <el-button @click="toJSON" size="mini" primary icon="el-icon-s-opportunity">请求格式化</el-button>
                             <el-button @click="addDoc('service',params,result)" size="mini" icon="el-icon-document-add">新建文档</el-button>
-                            <el-button size="mini" @click="connectWebsocket" style="margin-left: 20px">
+                            <el-button size="mini" @click="connectWebsocket" style="margin-left: 40px">
                                 连接websocket
                             </el-button>
                             <el-button size="mini" @click="sendWebsocketData">
                                 发送websocket
+                            </el-button>
+                            <el-button style="margin-left: 80px" size="mini" @click="download">
+                                下载文件
+                            </el-button>
+
+                            <form id="form"  style="margin-left: 10px;text-align-last: end">
+                                <input type="file" name="file" ref="uploadFile">
+                            </form>
+                            <el-button size="mini" @click="upload">
+                                上传文件
                             </el-button>
                         </div>
                         <div class="bottom-console">
@@ -1803,49 +1818,49 @@
                     result: [],
                 }
             },
+            // upload() {
+            //     let formData = new FormData($("#form")[0])
+            //     formData.append()
+            //     let _this = this
+            //     $.ajax({
+            //         url: _this.url,
+            //         type: "post",
+            //         data: formData,
+            //         cache: false,
+            //         contentType: false,
+            //         processData: false,
+            //         success: function (res) {
+            //             // console.log(res)
+            //             _this.result = JSON.stringify(res, null, "\t")
+            //         },
+            //         error: function (res) {
+            //             console.log(res)
+            //
+            //         }
+            //     })
+            // },
             upload() {
-                let formData = new FormData($("#form")[0])
-                formData.append()
-                let _this = this
-                $.ajax({
-                    url: _this.url,
-                    type: "post",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        // console.log(res)
-                        _this.result = JSON.stringify(res, null, "\t")
-                    },
-                    error: function (res) {
-                        console.log(res)
-
-                    }
-                })
-            },
-            upload() {
-                let formData = new FormData($("#form")[0])
+                let formData = new FormData()
+                formData.append("file",this.$refs.uploadFile[0].files[0])
                 let params = JSON.parse(this.params)
                 for (let key in params) {
                     formData.append(key, params[key])
                 }
                 let _this = this
-                $.ajax({
+                axios({
                     url: _this.url,
-                    type: "post",
+                    method: "post",
                     data: formData,
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function (res) {
-                        // console.log(res)
-                        _this.result = JSON.stringify(res, null, "\t")
-                    },
+
                     error: function (res) {
                         console.log(res)
 
                     }
+                }).then(res=>{
+                    _this.result = JSON.stringify(res, null, "\t")
                 })
             },
 

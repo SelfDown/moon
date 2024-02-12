@@ -1,7 +1,114 @@
 service:
+  - key: upload_file_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+        type: int64
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_file_upload
+          server_info: "[server_info]"
+          path: "[path]"
+  - key: remove_file_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_file_remove
+          server_info: "[server_info]"
+          path: "[path]"
+  - key: download_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_file_download
+          server_info: "[server_info]"
+          path: "[path]"
+  - key: get_dir_info_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_dir
+          server_info: "[server_info]"
+          path: "[path]"
+        save_field: dir_info
+      - key: order_by
+        enable: "{{must .dir_info}}"
+        foreach: "[dir_info.dir]"
+        fields:
+          - field: "[is_dir]"
+            rule: "desc"
+          - field: "[name]"
+            rule: "asc"
+      - key: param2result
+        field: "[dir_info]"
   - key: gen_token_from_token
     http: true
-    log: true
     module: empty
     params:
       token:
@@ -40,12 +147,27 @@ service:
         template: "{{.session_user_id}}"
       create_time:
         template: "{{current_date_time}}"
+      close_time:
+        template: "{{\"\"}}"
       is_valid:
         default: "1"
     table: webshell_token
     handler_params:
       - key: param2result
         field: "[token]"
+  - key: update_finish_token
+    log: true
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能空
+      close_time:
+        template: "{{current_date_time}}"
+    table: webshell_token
+    module: model_update
+    filter:
+      token: "[token]"
   - key: update_invalid_token
     params:
       is_valid:
@@ -59,6 +181,8 @@ service:
     filter:
       token: "[token]"
   - key: get_info_by_token
+    http: true
+    log: true
     params:
       token:
         check:
@@ -76,7 +200,6 @@ service:
           service: webshell.update_invalid_token
           token: "[token]"
       - key: result2params
-        enable: "[once_token]"
         fields:
           - to: data
       - key: handler_password

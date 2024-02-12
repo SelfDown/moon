@@ -1,0 +1,45 @@
+{
+  "connect": {
+    "server_ip": "[server_info.server_ip]",
+    "user": "[server_info.user_name]",
+    "password": "[server_info.user_pwd]",
+    "port": "[port]"
+  },
+  "services": [
+    {
+      "node_key": "start",
+      "node_type": "start",
+      "name": "开始",
+      "node_next": "info"
+    },
+    {
+      "node_key": "info",
+      "node_type": "node",
+      "name": "获取文件目录信息",
+      "key": "sftp",
+      "fields": [
+        {
+          "name": "当前目录",
+          "save_field": "current_dir",
+          "type":"pwd",
+          "field": "{{.path}}"
+        },
+        {
+          "name": "文件列表信息",
+          "save_field": "dir",
+          "type": "dir",
+          "field": "{{.path}}"
+          }
+      ],
+      "node_next": "end",
+      "node_fail": "end",
+      "save_field": "dir_info"
+    },
+
+    {
+      "node_key": "end",
+      "node_type": "end",
+      "name": "结束"
+    }
+  ]
+}

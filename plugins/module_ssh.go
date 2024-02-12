@@ -8,6 +8,7 @@ import (
 	utils "github.com/SelfDown/collect/src/collect/utils"
 	"github.com/demdxx/gocast"
 	"golang.org/x/crypto/ssh"
+	"time"
 )
 
 type Ssh struct {
@@ -52,6 +53,7 @@ func (s *Ssh) Result(template *config.Template, ts *templateService.TemplateServ
 		Auth: []ssh.AuthMethod{
 			ssh.Password(password.(string)),
 		},
+		Timeout: 15 * time.Second,
 		Config: ssh.Config{
 			Ciphers: []string{"aes128-ctr", "aes192-ctr", "aes256-ctr", "aes128-gcm@openssh.com", "arcfour256", "arcfour128", "aes128-cbc", "3des-cbc", "aes192-cbc", "aes256-cbc"},
 		},

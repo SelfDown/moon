@@ -15,6 +15,7 @@ func GetRegisterList() []templateService.ModuleResult {
 	l = append(l, &HandlerPassword{}) // 数组成数组
 	l = append(l, &ValueTransfer{})   // 值转换
 	l = append(l, &ReadFile{})        // 值转换
+	l = append(l, &Sftp{})            // 值转换
 	// 执行shell
 	l = append(l, &Ssh{})
 	return l

@@ -12,11 +12,14 @@ require (
 	github.com/demdxx/gocast v1.2.0
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.8.2
+	github.com/pkg/sftp v1.13.6
 	golang.org/x/crypto v0.14.0
 	gorm.io/gen v0.3.18
 	gorm.io/gorm v1.24.6
 	gorm.io/plugin/dbresolver v1.3.0
 )
+
+require github.com/kr/fs v0.1.0 // indirect
 
 require (
 	github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e // indirect
@@ -38,6 +41,7 @@ require (
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/gorilla/sessions v1.2.1 // indirect
+	github.com/gorilla/websocket v1.5.1
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -69,5 +73,4 @@ require (
 	gorm.io/driver/mysql v1.4.4 // indirect
 	gorm.io/driver/sqlite v1.4.1 // indirect
 	gorm.io/hints v1.1.0 // indirect
-	github.com/gorilla/websocket v1.5.1
 )

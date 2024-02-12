@@ -5,6 +5,13 @@
     "password": "[server_info.user_pwd]",
     "port": "[port]"
   },
+  "finish": {
+    "key": "service2field",
+    "append_param": true,
+    "service": {
+      "service": "webshell.update_finish_token"
+    }
+  },
   "services": [
     {
       "node_key": "start",

@@ -6,52 +6,20 @@ import (
 	config "github.com/SelfDown/collect/src/collect/config"
 	templateService "github.com/SelfDown/collect/src/collect/service_imp"
 	utils "github.com/SelfDown/collect/src/collect/utils"
-	"github.com/gorilla/websocket"
+	//"github.com/gorilla/websocket"
 	"golang.org/x/crypto/ssh"
 	"log"
-	"net/http"
+	//"net/http"
 	"time"
-	"unicode/utf8"
+	//"unicode/utf8"
 )
 
 type ShellTerm struct {
 	templateService.BaseHandler
 }
 
-var upgrader = websocket.Upgrader{
-
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	// 解决跨域问题
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-} // use default options
-type WSoutput struct {
-	ws *websocket.Conn
-}
-
-// Write: implement Write interface to write bytes from ssh server into bytes.Buffer.
-func (w *WSoutput) Write(p []byte) (int, error) {
-	// 处理非utf8字符
-	if !utf8.Valid(p) {
-		bufStr := string(p)
-		buf := make([]rune, 0, len(bufStr))
-		for _, r := range bufStr {
-			if r == utf8.RuneError {
-				buf = append(buf, []rune("@")...)
-			} else {
-				buf = append(buf, r)
-			}
-		}
-		p = []byte(string(buf))
-	}
-	err := w.ws.WriteMessage(websocket.TextMessage, p)
-	return len(p), err
-}
 func updateTimer(timer *time.Timer) {
 	timer.Reset(time.Minute * 20)
-
 }
 
 type MessageData struct {
@@ -64,14 +32,6 @@ type MessageData struct {
 func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config.HandlerParam, ts *templateService.TemplateService) *common.Result {
 	client := ts.GetThirdData(SshName).(*ssh.Client)
 	var result interface{}
-	context := ts.GetContext()
-	w := context.Writer
-	req := context.Request
-	c, err := upgrader.Upgrade(w, req, nil)
-	if err != nil {
-		//log.Print("upgrade:", err)
-		return common.NotOk(err.Error())
-	}
 
 	session, error := client.NewSession()
 	if error != nil {
@@ -86,10 +46,8 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 	if err := session.RequestPty("linux", 80, 40, modes); err != nil {
 		log.Fatal("request for pseudo terminal failed: ", err)
 	}
-
-	wsOutput := WSoutput{
-		ws: c,
-	}
+	c := ts.GetWs()
+	wsOutput := ts.GetWsOutput()
 	session.Stdout = &wsOutput
 	session.Stderr = &wsOutput
 	pipeIn, _ := session.StdinPipe()
@@ -100,9 +58,6 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 		session.Close()
 		// ssh 客户端关闭
 		client.Close()
-		// websocket 关闭
-		c.Close()
-
 	}()
 	session.Shell()
 	// 如果30分钟内容不输入，直接关闭
@@ -127,6 +82,7 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 			} else if messageData.Type == "resize" {
 				session.WindowChange(messageData.Rows, messageData.Cols)
 			}
+
 			if err != nil {
 				log.Println(err)
 				stopCh <- struct{}{}

@@ -202,6 +202,10 @@ data_handler:
     name: 分组
     type: inner
     path: GroupBy
+  - key: order_by
+    name: 排序
+    type: inner
+    path: OrderBy
   - key: combine_array
     name: 数组添加字段
     type: inner
@@ -242,6 +246,10 @@ data_handler:
     name: shell
     type: outer
     path: Shell
+  - key: sftp
+    name: sftp
+    type: outer
+    path: Sftp
   - key: shell_term
     name: shell
     type: outer
