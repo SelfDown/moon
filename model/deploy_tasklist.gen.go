@@ -37,7 +37,6 @@ type DeployTasklist struct {
 	InstallSoftID       *string `gorm:"column:install_soft_id" json:"install_soft_id"`
 	Orderindex          *int32  `gorm:"column:orderindex" json:"orderindex"`
 	Lastdeployver       *string `gorm:"column:lastdeployver" json:"lastdeployver"`                 // 上一次部署成功的版本号
-	PublishReqVer       *string `gorm:"column:publish_req_ver" json:"publish_req_ver"`             // 升级单离线下载后，将下载时候的WAR版本更新到此，用于下次离线部署的新旧版本对比
 	WarRemotefilesize   *string `gorm:"column:war_remotefilesize" json:"war_remotefilesize"`       // war包大小
 	WarDownloadPercent  *string `gorm:"column:war_download_percent" json:"war_download_percent"`   // 下载进度
 	WarDownloadComplete *string `gorm:"column:war_download_complete" json:"war_download_complete"` // 0 待下载，下载完成。
@@ -52,6 +51,7 @@ type DeployTasklist struct {
 		值：存HTTP_code
 	*/
 	CheckWarStatusCode        *string    `gorm:"column:check_war_status_code" json:"check_war_status_code"`
+	PublishReqVer             *string    `gorm:"column:publishReqVer" json:"publishReqVer"` // 同字段，publish_req_ver  ，用于新旧版本兼容
 	Deploy                    *int32     `gorm:"column:deploy_" json:"deploy_"`
 	FrameworkVersion          *string    `gorm:"column:framework_version" json:"framework_version"`                        // java应用依赖的框架版本
 	CreateTime                *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）

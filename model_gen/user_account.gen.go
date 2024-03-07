@@ -47,6 +47,7 @@ func newUserAccount(db *gorm.DB, opts ...gen.DOOption) userAccount {
 	_userAccount.Comments = field.NewString(tableName, "comments")
 	_userAccount.Tel = field.NewString(tableName, "tel")
 	_userAccount.WechatUserid = field.NewString(tableName, "wechat_userid")
+	_userAccount.AttendanceWechat = field.NewString(tableName, "attendance_wechat")
 
 	_userAccount.fillFieldMap()
 
@@ -77,6 +78,7 @@ type userAccount struct {
 	Comments             field.String // 备注说明
 	Tel                  field.String
 	WechatUserid         field.String
+	AttendanceWechat     field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -113,6 +115,7 @@ func (u *userAccount) updateTableName(table string) *userAccount {
 	u.Comments = field.NewString(table, "comments")
 	u.Tel = field.NewString(table, "tel")
 	u.WechatUserid = field.NewString(table, "wechat_userid")
+	u.AttendanceWechat = field.NewString(table, "attendance_wechat")
 
 	u.fillFieldMap()
 
@@ -129,7 +132,7 @@ func (u *userAccount) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *userAccount) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 20)
+	u.fieldMap = make(map[string]field.Expr, 21)
 	u.fieldMap["userid"] = u.Userid
 	u.fieldMap["role_id"] = u.RoleID
 	u.fieldMap["username"] = u.Username
@@ -150,6 +153,7 @@ func (u *userAccount) fillFieldMap() {
 	u.fieldMap["comments"] = u.Comments
 	u.fieldMap["tel"] = u.Tel
 	u.fieldMap["wechat_userid"] = u.WechatUserid
+	u.fieldMap["attendance_wechat"] = u.AttendanceWechat
 }
 
 func (u userAccount) clone(db *gorm.DB) userAccount {

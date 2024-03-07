@@ -283,7 +283,6 @@ service:
         field: server_info
   - key: connect_server
     http: true
-    log: true
     module: ssh
     params:
       token:
@@ -296,7 +295,6 @@ service:
       - key: service2field
         service:
           service: webshell.get_info_by_token
-
           token: "[token]"
         save_field: server_info
         template: "{{ must .server_info}}"

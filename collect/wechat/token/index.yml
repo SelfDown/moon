@@ -1,0 +1,27 @@
+service:
+  - key: gettoken
+    name: 通讯录的
+    module: http
+    http: true
+    http_json: gettoken.json
+    success: "{{ if .access_token }}true{{ else }}false{{ end }}"
+    result_handler:
+      - key: result2params
+        fields:
+          - from: "[access_token]"
+            to: "[access_token]"
+      - key: param2result
+        field: "[access_token]"
+  - key: gettoken_app
+    name: "app 应用"
+    module: http
+    http: true
+    http_json: gettoken_app.json
+    success: "{{ if .access_token }}true{{ else }}false{{ end }}"
+    result_handler:
+      - key: result2params
+        fields:
+          - from: "[access_token]"
+            to: "[access_token]"
+      - key: param2result
+        field: "[access_token]"

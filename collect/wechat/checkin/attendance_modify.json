@@ -1,0 +1,38 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "op_field_transfer": {
+    "name": "op_name"
+  },
+  "fields": [
+
+    {
+      "rule": "array_obj_value",
+      "left_field": "[userid&sch_checkin_time]",
+      "right_field": "[userid&sch_checkin_time]",
+      "field": "[attendance]",
+      "name": "attendance",
+      "left": "[remote_checkin_data]",
+      "right": "[local_checkin_data]",
+      "with_add_remove": true,
+      "left_value_field": "[userid&sch_checkin_time]]",
+      "right_value_field": "[userid&sch_checkin_time]]",
+      "operation": "modify",
+      "append_right_fields": ["[*]"]},
+    {
+      "rule": "array_obj_value",
+      "left_field": "[userid&sch_checkin_time]",
+      "right_field": "[userid&sch_checkin_time]",
+      "field": "[attendance]",
+      "name": "attendance_time",
+      "left": "[remote_checkin_data]",
+      "right": "[local_checkin_data]",
+      "left_value_field": "[checkin_time]",
+      "right_value_field": "[checkin_time]",
+      "operation": "modify",
+      "append_left_fields": ["[*]"],
+      "append_right_fields": ["[check_in_id]"]
+    }
+  ]
+}

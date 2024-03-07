@@ -32,6 +32,7 @@ type UserAccount struct {
 	Comments             *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
 	Tel                  *string    `gorm:"column:tel" json:"tel"`
 	WechatUserid         *string    `gorm:"column:wechat_userid" json:"wechat_userid"`
+	AttendanceWechat     *string    `gorm:"column:attendance_wechat" json:"attendance_wechat"`
 }
 
 // TableName UserAccount's table name

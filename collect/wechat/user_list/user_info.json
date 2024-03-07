@@ -1,0 +1,9 @@
+{
+  "url": "https://qyapi.weixin.qq.com/cgi-bin/user/get",
+  "method": "get",
+  "result_json": true,
+  "data": {
+    "access_token": "{{.access_token}}",
+    "userid": "zz"
+  }
+}

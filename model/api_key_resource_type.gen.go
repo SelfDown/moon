@@ -26,7 +26,3 @@ type APIKeyResourceType struct {
 func (*APIKeyResourceType) TableName() string {
 	return TableNameAPIKeyResourceType
 }
-
-func (*APIKeyResourceType) PrimaryKey() []string {
-	return []string{"id"}
-}

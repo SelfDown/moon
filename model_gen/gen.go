@@ -41,6 +41,7 @@ var (
 	BuildGroup                          *buildGroup
 	BuildGroupDetail                    *buildGroupDetail
 	ChatRobotInstance                   *chatRobotInstance
+	CheckInData                         *checkInData
 	CollectDoc                          *collectDoc
 	CollectDocDemo                      *collectDocDemo
 	CollectDocImportant                 *collectDocImportant
@@ -86,8 +87,6 @@ var (
 	DeployTaskOnce                      *deployTaskOnce
 	DeployTaskOnceFlow                  *deployTaskOnceFlow
 	DeployTasklist                      *deployTasklist
-	DeployTasklist88                    *deployTasklist88
-	DeployTasklistCopy                  *deployTasklistCopy
 	DeptaskSpringbootConf               *deptaskSpringbootConf
 	DeptaskSpringbootConfCopy1          *deptaskSpringbootConfCopy1
 	DishBind                            *dishBind
@@ -364,6 +363,7 @@ var (
 	WebshellCaptureDbcontent            *webshellCaptureDbcontent
 	WebshellGroupPermision              *webshellGroupPermision
 	WebshellGroupRel                    *webshellGroupRel
+	WebshellLog                         *webshellLog
 	WebshellRoleRel                     *webshellRoleRel
 	WebshellSrcRel                      *webshellSrcRel
 	WebshellToken                       *webshellToken
@@ -410,6 +410,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	BuildGroup = &Q.BuildGroup
 	BuildGroupDetail = &Q.BuildGroupDetail
 	ChatRobotInstance = &Q.ChatRobotInstance
+	CheckInData = &Q.CheckInData
 	CollectDoc = &Q.CollectDoc
 	CollectDocDemo = &Q.CollectDocDemo
 	CollectDocImportant = &Q.CollectDocImportant
@@ -455,8 +456,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	DeployTaskOnce = &Q.DeployTaskOnce
 	DeployTaskOnceFlow = &Q.DeployTaskOnceFlow
 	DeployTasklist = &Q.DeployTasklist
-	DeployTasklist88 = &Q.DeployTasklist88
-	DeployTasklistCopy = &Q.DeployTasklistCopy
 	DeptaskSpringbootConf = &Q.DeptaskSpringbootConf
 	DeptaskSpringbootConfCopy1 = &Q.DeptaskSpringbootConfCopy1
 	DishBind = &Q.DishBind
@@ -733,6 +732,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	WebshellCaptureDbcontent = &Q.WebshellCaptureDbcontent
 	WebshellGroupPermision = &Q.WebshellGroupPermision
 	WebshellGroupRel = &Q.WebshellGroupRel
+	WebshellLog = &Q.WebshellLog
 	WebshellRoleRel = &Q.WebshellRoleRel
 	WebshellSrcRel = &Q.WebshellSrcRel
 	WebshellToken = &Q.WebshellToken
@@ -780,6 +780,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		BuildGroup:                          newBuildGroup(db, opts...),
 		BuildGroupDetail:                    newBuildGroupDetail(db, opts...),
 		ChatRobotInstance:                   newChatRobotInstance(db, opts...),
+		CheckInData:                         newCheckInData(db, opts...),
 		CollectDoc:                          newCollectDoc(db, opts...),
 		CollectDocDemo:                      newCollectDocDemo(db, opts...),
 		CollectDocImportant:                 newCollectDocImportant(db, opts...),
@@ -825,8 +826,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		DeployTaskOnce:                      newDeployTaskOnce(db, opts...),
 		DeployTaskOnceFlow:                  newDeployTaskOnceFlow(db, opts...),
 		DeployTasklist:                      newDeployTasklist(db, opts...),
-		DeployTasklist88:                    newDeployTasklist88(db, opts...),
-		DeployTasklistCopy:                  newDeployTasklistCopy(db, opts...),
 		DeptaskSpringbootConf:               newDeptaskSpringbootConf(db, opts...),
 		DeptaskSpringbootConfCopy1:          newDeptaskSpringbootConfCopy1(db, opts...),
 		DishBind:                            newDishBind(db, opts...),
@@ -1103,6 +1102,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		WebshellCaptureDbcontent:            newWebshellCaptureDbcontent(db, opts...),
 		WebshellGroupPermision:              newWebshellGroupPermision(db, opts...),
 		WebshellGroupRel:                    newWebshellGroupRel(db, opts...),
+		WebshellLog:                         newWebshellLog(db, opts...),
 		WebshellRoleRel:                     newWebshellRoleRel(db, opts...),
 		WebshellSrcRel:                      newWebshellSrcRel(db, opts...),
 		WebshellToken:                       newWebshellToken(db, opts...),
@@ -1151,6 +1151,7 @@ type Query struct {
 	BuildGroup                          buildGroup
 	BuildGroupDetail                    buildGroupDetail
 	ChatRobotInstance                   chatRobotInstance
+	CheckInData                         checkInData
 	CollectDoc                          collectDoc
 	CollectDocDemo                      collectDocDemo
 	CollectDocImportant                 collectDocImportant
@@ -1196,8 +1197,6 @@ type Query struct {
 	DeployTaskOnce                      deployTaskOnce
 	DeployTaskOnceFlow                  deployTaskOnceFlow
 	DeployTasklist                      deployTasklist
-	DeployTasklist88                    deployTasklist88
-	DeployTasklistCopy                  deployTasklistCopy
 	DeptaskSpringbootConf               deptaskSpringbootConf
 	DeptaskSpringbootConfCopy1          deptaskSpringbootConfCopy1
 	DishBind                            dishBind
@@ -1474,6 +1473,7 @@ type Query struct {
 	WebshellCaptureDbcontent            webshellCaptureDbcontent
 	WebshellGroupPermision              webshellGroupPermision
 	WebshellGroupRel                    webshellGroupRel
+	WebshellLog                         webshellLog
 	WebshellRoleRel                     webshellRoleRel
 	WebshellSrcRel                      webshellSrcRel
 	WebshellToken                       webshellToken
@@ -1523,6 +1523,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		BuildGroup:                          q.BuildGroup.clone(db),
 		BuildGroupDetail:                    q.BuildGroupDetail.clone(db),
 		ChatRobotInstance:                   q.ChatRobotInstance.clone(db),
+		CheckInData:                         q.CheckInData.clone(db),
 		CollectDoc:                          q.CollectDoc.clone(db),
 		CollectDocDemo:                      q.CollectDocDemo.clone(db),
 		CollectDocImportant:                 q.CollectDocImportant.clone(db),
@@ -1568,8 +1569,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		DeployTaskOnce:                      q.DeployTaskOnce.clone(db),
 		DeployTaskOnceFlow:                  q.DeployTaskOnceFlow.clone(db),
 		DeployTasklist:                      q.DeployTasklist.clone(db),
-		DeployTasklist88:                    q.DeployTasklist88.clone(db),
-		DeployTasklistCopy:                  q.DeployTasklistCopy.clone(db),
 		DeptaskSpringbootConf:               q.DeptaskSpringbootConf.clone(db),
 		DeptaskSpringbootConfCopy1:          q.DeptaskSpringbootConfCopy1.clone(db),
 		DishBind:                            q.DishBind.clone(db),
@@ -1846,6 +1845,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		WebshellCaptureDbcontent:            q.WebshellCaptureDbcontent.clone(db),
 		WebshellGroupPermision:              q.WebshellGroupPermision.clone(db),
 		WebshellGroupRel:                    q.WebshellGroupRel.clone(db),
+		WebshellLog:                         q.WebshellLog.clone(db),
 		WebshellRoleRel:                     q.WebshellRoleRel.clone(db),
 		WebshellSrcRel:                      q.WebshellSrcRel.clone(db),
 		WebshellToken:                       q.WebshellToken.clone(db),
@@ -1902,6 +1902,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		BuildGroup:                          q.BuildGroup.replaceDB(db),
 		BuildGroupDetail:                    q.BuildGroupDetail.replaceDB(db),
 		ChatRobotInstance:                   q.ChatRobotInstance.replaceDB(db),
+		CheckInData:                         q.CheckInData.replaceDB(db),
 		CollectDoc:                          q.CollectDoc.replaceDB(db),
 		CollectDocDemo:                      q.CollectDocDemo.replaceDB(db),
 		CollectDocImportant:                 q.CollectDocImportant.replaceDB(db),
@@ -1947,8 +1948,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		DeployTaskOnce:                      q.DeployTaskOnce.replaceDB(db),
 		DeployTaskOnceFlow:                  q.DeployTaskOnceFlow.replaceDB(db),
 		DeployTasklist:                      q.DeployTasklist.replaceDB(db),
-		DeployTasklist88:                    q.DeployTasklist88.replaceDB(db),
-		DeployTasklistCopy:                  q.DeployTasklistCopy.replaceDB(db),
 		DeptaskSpringbootConf:               q.DeptaskSpringbootConf.replaceDB(db),
 		DeptaskSpringbootConfCopy1:          q.DeptaskSpringbootConfCopy1.replaceDB(db),
 		DishBind:                            q.DishBind.replaceDB(db),
@@ -2225,6 +2224,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		WebshellCaptureDbcontent:            q.WebshellCaptureDbcontent.replaceDB(db),
 		WebshellGroupPermision:              q.WebshellGroupPermision.replaceDB(db),
 		WebshellGroupRel:                    q.WebshellGroupRel.replaceDB(db),
+		WebshellLog:                         q.WebshellLog.replaceDB(db),
 		WebshellRoleRel:                     q.WebshellRoleRel.replaceDB(db),
 		WebshellSrcRel:                      q.WebshellSrcRel.replaceDB(db),
 		WebshellToken:                       q.WebshellToken.replaceDB(db),
@@ -2271,6 +2271,7 @@ type queryCtx struct {
 	BuildGroup                          IBuildGroupDo
 	BuildGroupDetail                    IBuildGroupDetailDo
 	ChatRobotInstance                   IChatRobotInstanceDo
+	CheckInData                         ICheckInDataDo
 	CollectDoc                          ICollectDocDo
 	CollectDocDemo                      ICollectDocDemoDo
 	CollectDocImportant                 ICollectDocImportantDo
@@ -2316,8 +2317,6 @@ type queryCtx struct {
 	DeployTaskOnce                      IDeployTaskOnceDo
 	DeployTaskOnceFlow                  IDeployTaskOnceFlowDo
 	DeployTasklist                      IDeployTasklistDo
-	DeployTasklist88                    IDeployTasklist88Do
-	DeployTasklistCopy                  IDeployTasklistCopyDo
 	DeptaskSpringbootConf               IDeptaskSpringbootConfDo
 	DeptaskSpringbootConfCopy1          IDeptaskSpringbootConfCopy1Do
 	DishBind                            IDishBindDo
@@ -2594,6 +2593,7 @@ type queryCtx struct {
 	WebshellCaptureDbcontent            IWebshellCaptureDbcontentDo
 	WebshellGroupPermision              IWebshellGroupPermisionDo
 	WebshellGroupRel                    IWebshellGroupRelDo
+	WebshellLog                         IWebshellLogDo
 	WebshellRoleRel                     IWebshellRoleRelDo
 	WebshellSrcRel                      IWebshellSrcRelDo
 	WebshellToken                       IWebshellTokenDo
@@ -2640,6 +2640,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		BuildGroup:                          q.BuildGroup.WithContext(ctx),
 		BuildGroupDetail:                    q.BuildGroupDetail.WithContext(ctx),
 		ChatRobotInstance:                   q.ChatRobotInstance.WithContext(ctx),
+		CheckInData:                         q.CheckInData.WithContext(ctx),
 		CollectDoc:                          q.CollectDoc.WithContext(ctx),
 		CollectDocDemo:                      q.CollectDocDemo.WithContext(ctx),
 		CollectDocImportant:                 q.CollectDocImportant.WithContext(ctx),
@@ -2685,8 +2686,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		DeployTaskOnce:                      q.DeployTaskOnce.WithContext(ctx),
 		DeployTaskOnceFlow:                  q.DeployTaskOnceFlow.WithContext(ctx),
 		DeployTasklist:                      q.DeployTasklist.WithContext(ctx),
-		DeployTasklist88:                    q.DeployTasklist88.WithContext(ctx),
-		DeployTasklistCopy:                  q.DeployTasklistCopy.WithContext(ctx),
 		DeptaskSpringbootConf:               q.DeptaskSpringbootConf.WithContext(ctx),
 		DeptaskSpringbootConfCopy1:          q.DeptaskSpringbootConfCopy1.WithContext(ctx),
 		DishBind:                            q.DishBind.WithContext(ctx),
@@ -2963,6 +2962,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		WebshellCaptureDbcontent:            q.WebshellCaptureDbcontent.WithContext(ctx),
 		WebshellGroupPermision:              q.WebshellGroupPermision.WithContext(ctx),
 		WebshellGroupRel:                    q.WebshellGroupRel.WithContext(ctx),
+		WebshellLog:                         q.WebshellLog.WithContext(ctx),
 		WebshellRoleRel:                     q.WebshellRoleRel.WithContext(ctx),
 		WebshellSrcRel:                      q.WebshellSrcRel.WithContext(ctx),
 		WebshellToken:                       q.WebshellToken.WithContext(ctx),

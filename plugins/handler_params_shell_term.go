@@ -47,7 +47,7 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 		log.Fatal("request for pseudo terminal failed: ", err)
 	}
 	c := ts.GetWs()
-	wsOutput := ts.GetWsOutput()
+	wsOutput := ts.GetWsOutput(template.GetParams())
 	session.Stdout = &wsOutput
 	session.Stderr = &wsOutput
 	pipeIn, _ := session.StdinPipe()
@@ -61,9 +61,10 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 	}()
 	session.Shell()
 	// 如果30分钟内容不输入，直接关闭
-	timer := time.NewTimer(time.Minute * 20)
+	timer := time.NewTimer(time.Minute * 30)
 	updateTime := utils.Debounce(func() {
 		updateTimer(timer)
+
 	}, 5)
 	stopCh := make(chan struct{}, 1)
 	go func() {
@@ -78,8 +79,12 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 			}
 			updateTime()
 			if messageData.Type == "text" {
+				// 添加日志
+
 				_, err = pipeIn.Write([]byte(messageData.Data))
+
 			} else if messageData.Type == "resize" {
+
 				session.WindowChange(messageData.Rows, messageData.Cols)
 			}
 
@@ -96,6 +101,7 @@ func (si *ShellTerm) HandlerData(template *config.Template, handlerParam *config
 		case <-stopCh:
 			return common.Ok(result, "结束执行")
 		case <-timer.C:
+			wsOutput.Write([]byte("\n\n\t由于长时间没有操作,自动结束执行"))
 			return common.Ok(result, "执行超时")
 		}
 	}

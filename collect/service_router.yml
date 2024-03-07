@@ -33,6 +33,11 @@ services:
     path: 'webshell/service.yml'
 
 
+  - key: 'wechat'
+    name: '企业微信'
+    path: 'wechat/service.yml'
+
+
 
 # 模块处理器
 module_handler:

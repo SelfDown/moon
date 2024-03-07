@@ -1,0 +1,10 @@
+service:
+  - key: webshell_log_query
+    module: sql
+    http: true
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+    data_file: webshell_log_query.sql

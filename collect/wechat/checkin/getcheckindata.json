@@ -1,0 +1,12 @@
+{
+  "url": "https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata?access_token={{.access_token}}",
+  "method": "post",
+  "header": {},
+  "result_json": true,
+  "data": {
+    "opencheckindatatype": 3,
+    "starttime": "{{.start_time}}",
+    "endtime": "{{.end_time}}",
+    "useridlist": "[user_id_list]"
+  }
+}

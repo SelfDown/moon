@@ -46,7 +46,6 @@ func newDeployTasklist(db *gorm.DB, opts ...gen.DOOption) deployTasklist {
 	_deployTasklist.InstallSoftID = field.NewString(tableName, "install_soft_id")
 	_deployTasklist.Orderindex = field.NewInt32(tableName, "orderindex")
 	_deployTasklist.Lastdeployver = field.NewString(tableName, "lastdeployver")
-	_deployTasklist.PublishReqVer = field.NewString(tableName, "publish_req_ver")
 	_deployTasklist.WarRemotefilesize = field.NewString(tableName, "war_remotefilesize")
 	_deployTasklist.WarDownloadPercent = field.NewString(tableName, "war_download_percent")
 	_deployTasklist.WarDownloadComplete = field.NewString(tableName, "war_download_complete")
@@ -108,7 +107,6 @@ type deployTasklist struct {
 	InstallSoftID       field.String
 	Orderindex          field.Int32
 	Lastdeployver       field.String // 上一次部署成功的版本号
-	PublishReqVer       field.String // 升级单离线下载后，将下载时候的WAR版本更新到此，用于下次离线部署的新旧版本对比
 	WarRemotefilesize   field.String // war包大小
 	WarDownloadPercent  field.String // 下载进度
 	WarDownloadComplete field.String // 0 待下载，下载完成。
@@ -175,7 +173,6 @@ func (d *deployTasklist) updateTableName(table string) *deployTasklist {
 	d.InstallSoftID = field.NewString(table, "install_soft_id")
 	d.Orderindex = field.NewInt32(table, "orderindex")
 	d.Lastdeployver = field.NewString(table, "lastdeployver")
-	d.PublishReqVer = field.NewString(table, "publish_req_ver")
 	d.WarRemotefilesize = field.NewString(table, "war_remotefilesize")
 	d.WarDownloadPercent = field.NewString(table, "war_download_percent")
 	d.WarDownloadComplete = field.NewString(table, "war_download_complete")
@@ -219,7 +216,7 @@ func (d *deployTasklist) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (d *deployTasklist) fillFieldMap() {
-	d.fieldMap = make(map[string]field.Expr, 47)
+	d.fieldMap = make(map[string]field.Expr, 46)
 	d.fieldMap["deploy_flag"] = d.DeployFlag
 	d.fieldMap["dep_task_id"] = d.DepTaskID
 	d.fieldMap["server_id"] = d.ServerID
@@ -239,7 +236,6 @@ func (d *deployTasklist) fillFieldMap() {
 	d.fieldMap["install_soft_id"] = d.InstallSoftID
 	d.fieldMap["orderindex"] = d.Orderindex
 	d.fieldMap["lastdeployver"] = d.Lastdeployver
-	d.fieldMap["publish_req_ver"] = d.PublishReqVer
 	d.fieldMap["war_remotefilesize"] = d.WarRemotefilesize
 	d.fieldMap["war_download_percent"] = d.WarDownloadPercent
 	d.fieldMap["war_download_complete"] = d.WarDownloadComplete
