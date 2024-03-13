@@ -21,7 +21,9 @@ func main() {
 	// 生成cookies
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("session_id", store))
+
 	r.Static("/static", "./static")
+	r.Static("/ssh", "./ssh")
 	// 设置数据库
 	templateService.SetDatabaseModel(&model.TableData{})
 	// 设置外部处理器

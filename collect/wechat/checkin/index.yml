@@ -13,7 +13,7 @@ service:
     module: sql
     params:
       start_time:
-        template: "{{unix -30 \"day\"}}"
+        template: "{{unix_time -30 \"day\"}}"
     data_file: local_check_in_data.sql
   - key: check_in_data_save
     module: bulk_create
@@ -107,9 +107,9 @@ service:
     http_json: getcheckindata.json
     params:
       start_time:
-        template: "{{unix -30 \"day\"}}"
+        template: "{{unix_time -30 \"day\"}}"
       end_time:
-        template: "{{unix 0 \"day\"}}"
+        template: "{{unix_time 0 \"day\"}}"
       user_id_list:
         default: ["zz"]
     success: "{{ if eq .errmsg `ok` }}true{{ else }}false{{ end }}"

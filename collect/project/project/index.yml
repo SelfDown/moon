@@ -7,6 +7,8 @@ service:
         template: "{{ if .search }}%{{.search}}%{{ end }}"
       with_env_tree:
         default: false
+      to_obj:
+        default: false
     data_file: project_list.sql
     result_handler:
       - key: result2params
@@ -34,6 +36,8 @@ service:
         right: "[env_tree]"
         right_field: "[sys_project_id]"
         children: "children"
+      - key: arr2obj
+        enable: "[to_obj]"
   - key: add_project
     module: model_save
     http: true

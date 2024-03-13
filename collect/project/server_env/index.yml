@@ -82,6 +82,26 @@ service:
     module: sql
     data_file: sys_env_query.sql
 
+  - key: add_current_project_env
+    name: 添加当前环境
+    module: empty
+    http: true
+    params:
+      project_code:
+        template:  "{{get_key \"current_project_code\"}}"
+    handler_params:
+      - key: service2field
+        service:
+          service: project.project_list
+          project_code: "[project_code]"
+          to_obj: true
+        save_field: project
+      - key: service2field
+        service:
+          service: project.server_env_save
+          sys_project_id: "[project.sys_project_id]"
+        append_param: true
+
   - key: server_env_save
     name: 环境保存
     http: true

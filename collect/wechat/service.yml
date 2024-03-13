@@ -8,3 +8,5 @@ service:
 
   - name: "考勤"
     path: "checkin/index.yml"
+  - name: "分析考勤"
+    path: "analysis/index.yml"

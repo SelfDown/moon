@@ -5,42 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/collect/webshell/token/base.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/webshell/token/token_count.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/webshell/token/token_list.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/webshell/webshell_log/index.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/webshell/webshell_log/webshell_log_query.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/checkin/attendance_modify.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/checkin/get_attendance_user.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/checkin/getcheckindata.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/service.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/token/gettoken.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/token/gettoken_app.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/token/index.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/user_list/get_userid.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/user_list/index.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/user_list/list_id.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/user_list/user_info.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/collect/wechat/user_list/user_list.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/wechat/analysis/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/handler_params_analysis_attendance.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ssh/assets/index.8c6523c3.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ssh/assets/index.c1f8a8a0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ssh/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/project/server/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/project/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/project/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/project/server_env/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server_env/index.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/collect/service_router.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/service_router.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/webshell/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/webshell/service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/webshell/token/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/webshell/token/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/add_table.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/add_table.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/api_key_resource_type.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/api_key_resource_type.gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/deploy_tasklist.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/deploy_tasklist.gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/deploy_tasklist_88.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/deploy_tasklist_copy.gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user_account.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user_account.gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/deploy_tasklist.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/deploy_tasklist.gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_gen/user_account.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/user_account.gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugins/handler_params_shell_term.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/handler_params_shell_term.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/a_register.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/a_register.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +63,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/go/moon/collect/wechat/token&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/go/moon/ssh&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
@@ -92,11 +72,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\go\moon\ssh" />
+      <recent name="F:\go\moon\plugins" />
       <recent name="F:\go\moon\collect\wechat\token" />
       <recent name="F:\go\moon\collect\wechat\user_list" />
       <recent name="F:\go\moon\collect\wechat" />
-      <recent name="F:\go\moon\collect\project\server" />
-      <recent name="F:\go\moon\plugins" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\go\moon\img" />
@@ -158,21 +138,6 @@
           <url>file://$PROJECT_DIR$/../hello/src/collect/service_imp/handler_params_update_field.go</url>
           <line>2</line>
           <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/test.go</url>
-          <line>71</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/test.go</url>
-          <line>59</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/test.go</url>
-          <line>169</line>
-          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

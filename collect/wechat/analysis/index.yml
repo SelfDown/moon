@@ -1,0 +1,24 @@
+service:
+  - key: analysis_attendance
+    http: true
+    module: empty
+    handler_params:
+      - key: service2field
+        service:
+          service: wechat.get_local_check_in_data
+        save_field: local_checkin_data
+      - key: update_array
+        enable: "{{must .local_checkin_data}}"
+        foreach: "[local_checkin_data]"
+        item: item
+        fields:
+          - field: checkin_datetime
+            template: "{{ unix_time2datetime .item.checkin_time }}"
+          - field: sch_checkin_datetime
+            template: "{{ unix_time2datetime .item.sch_checkin_time }}"
+      - key: analysis_attendance
+        enable: "{{must .local_checkin_data}}"
+        foreach: "[local_checkin_data]"
+        save_field: attendance_data
+      - key: param2result
+        field: "[local_checkin_data]"
