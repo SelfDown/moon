@@ -1,0 +1,83 @@
+service:
+  - key: current_user
+    module: empty
+    http: true
+    handler_params:
+      - key: session_get
+        fields:
+          - key: username
+            field: username
+          - key: nick
+            field: nick
+          - key: userid
+            field: userid
+          - key: user_id
+            field: user_id
+      - key: params2result
+        fields:
+          - from: "{{.userid}}"
+            to: userid
+          - from: "{{.user_id}}"
+            to: user_id
+          - from: "{{.nick}}"
+            to: nick
+          - from: "{{.username}}"
+            to: username
+  - key: logout
+    module: empty
+    http: true
+    log: true
+    handler_params:
+      - key: session_remove
+        fields:
+          - key: username
+          - key: nick
+          - key: userid
+          - key: user_id
+
+  - key: login
+    module: empty
+    log: true
+    http: true
+
+    params:
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能为空
+      password:
+        check:
+          template: "{{must .password}}"
+          err_msg: 密码不能为空
+        template: "{{md5 .password}}"
+    must_login: false
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          username: "[username]"
+          to_obj: true
+        save_field: user_info
+        template: "{{must .user_info}}"
+        err_msg: "【{{.username}}】用户名不存在"
+      - key: check_field
+        fields:
+          - field: password
+            template: "{{eq .password .user_info.password}}"
+            err_msg: "用户名【{{.username}}】 密码错误！！！"
+      - key: session_add
+        fields:
+          - key: username
+            template: "{{.username}}"
+          - key: nick
+            template: "{{.user_info.nick}}"
+          - key: userid
+            template: "{{.user_info.user_id}}"
+          - key: user_id
+            template: "{{.user_info.user_id}}"
+      - key: service2field
+        service:
+          service: system.current_user
+        save_field: current_user
+      - key: param2result
+        field: current_user

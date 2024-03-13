@@ -1,0 +1,1 @@
+select wechat_userid from user_account where attendance_wechat = '1'

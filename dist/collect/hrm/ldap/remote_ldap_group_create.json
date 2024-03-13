@@ -1,0 +1,14 @@
+{
+  require(login.common),
+  "method": "add",
+  "AddParams": {
+    "DN": "ou={{.name}},{{.ldap_config.ldap_groups}},{{.ldap_config.ldap_base_dn}}",
+    "Attributes": [
+      {"TYPE": "cn","Vals": ["{{.name}}"]},
+      {"TYPE": "ou","Vals": ["{{.name}}"]},
+      {"TYPE": "objectClass","Vals": ["top", "groupOfUniqueNames"]},
+      {"TYPE": "uniqueMember","Vals": [""]}
+    ]
+  }
+
+}

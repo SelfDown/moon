@@ -1,0 +1,219 @@
+service:
+  - key: get_env_detail_service
+    http: true
+    module: empty
+    params:
+      current_project:
+        template: "{{get_key \"current_project_code\"}}"
+    data_file: env_detail.json
+    handler_params:
+      - key: file2datajson
+        save_field: service_list
+      - key: param2result
+        field: service_list
+  - key: my_env_tree
+    name: 获取环境信息树
+    http: true
+    data_file: service_transfer.json
+    module: bulk_service
+    handler_params:
+      - key: service2field
+        service:
+          service: project.get_env_detail_service
+        save_field: service_list
+    batch:
+      foreach: "[service_list]"
+      service:
+        service: "[service]"
+      append_item_param: true
+      save_field: 'result'
+    result_handler:
+      - key: result2params
+        fields:
+          - to: "[result_list]"
+      - key: arr2dict
+        foreach: "[result_list]"
+        field: "[target_field]"
+        value: "[result.data]"
+        save_field: result_data
+      - key: combine_array
+        foreach: "[result_data.env_tree]"
+        field: "[server_env_id]"
+        right: "[result_data.server_list]"
+        right_field: "[server_env_id]"
+        children: "children"
+      - key: to_tree
+        foreach: "[result_data.env_tree]"
+        id: server_env_id
+        pid: parent_id
+        children: children
+        save_field: env_tree
+      - key: param2result
+        field: "[env_tree]"
+
+  - key: env_tree
+    name: 环境保存
+    http: true
+    module: sql
+    params:
+      to_tree:
+        default: true
+      search:
+        template: "{{if .search}}%{{.search}}%{{end}}"
+    data_file: env_tree.sql
+    result_handler:
+      - key: result2params
+        enable: "[to_tree]"
+        fields:
+          - to: "[env_list]"
+      - key: to_tree
+        enable: "[to_tree]"
+        foreach: "[env_list]"
+        id: server_env_id
+        pid: parent_id
+        children: children
+        save_field: env_tree
+      - key: param2result
+        enable: "[to_tree]"
+        field: "[env_tree]"
+  - key: sys_env_query
+    name: 环境类型查询
+    http: true
+    module: sql
+    data_file: sys_env_query.sql
+
+  - key: add_current_project_env
+    name: 添加当前环境
+    module: empty
+    http: true
+    params:
+      project_code:
+        template:  "{{get_key \"current_project_code\"}}"
+    handler_params:
+      - key: service2field
+        service:
+          service: project.project_list
+          project_code: "[project_code]"
+          to_obj: true
+        save_field: project
+      - key: service2field
+        service:
+          service: project.server_env_save
+          sys_project_id: "[project.sys_project_id]"
+        append_param: true
+
+  - key: server_env_save
+    name: 环境保存
+    http: true
+    module: model_save
+    table: server_env
+    params:
+      server_env_id:
+        template: "{{uuid}}"
+      sys_project_id:
+        check:
+          template: "{{must .sys_project_id}}"
+          err_msg: 项目不能为空
+      server_env_name:
+        check:
+          template: "{{must .server_env_name}}"
+          err_msg: 环境名称不能为空
+      server_env_code:
+        check:
+          template: "{{must .server_env_code}}"
+          err_msg: 环境编码不能为空
+      flag_del:
+        default: "0"
+      create_time:
+        template: "{{current_date_time}}"
+    handler_params:
+      - key: service2field
+        service:
+          service: project.env_tree
+          server_env_code: "[server_env_code]"
+          sys_project_id: "[sys_project_id]"
+          to_tree: false
+        save_field: local_env
+        template: "{{is_empty .local_env}}"
+        err_msg: "[{{.server_env_code}}]已经存在"
+  - key: server_env_update
+    module: model_update
+    name: 环境保存
+    table: server_env
+    http: true
+    params:
+      server_env_id:
+        check:
+          template: "{{must .server_env_id}}"
+          err_msg: 环境不能为空
+      sys_project_id:
+        check:
+          template: "{{must .sys_project_id}}"
+          err_msg: 项目不能为空
+      modify_time:
+        template: "{{current_date_time}}"
+    handler_params:
+      - key: service2field
+        service:
+          service: project.env_tree
+          server_env_code: "[server_env_code]"
+          sys_project_id: "[sys_project_id]"
+          exclude: "[server_env_id]"
+          to_tree: false
+        save_field: local_env
+        template: "{{is_empty .local_env}}"
+        err_msg: "[{{.server_env_code}}]已经存在"
+    filter:
+      server_env_id: "[server_env_id]"
+  - key: env_update_order_bulk
+    module: bulk_upsert
+    table: server_env
+    params:
+      dataList:
+        check:
+          template: "{{must .dataList}}"
+          err_msg: 数据不能为空
+    model_field: "[dataList]"
+    update_fields:
+      - order_id
+  - key: update_env_order
+    module: empty
+    http: true
+    params:
+      dataList:
+        check:
+          template: "{{must .dataList}}"
+          err_msg: 数据不能为空
+    handler_params:
+      - key: update_order
+        foreach: "[dataList]"
+        field: "order_id"
+        children: "children"
+      - key: to_list
+        foreach: "[dataList]"
+        children: children
+        save_field: dataList
+      - key: service2field
+        service:
+          service: project.env_update_order_bulk
+          dataList: "[dataList]"
+      - key: param2result
+        field: "[dataList]"
+  - key: server_env_delete
+    http: true
+    module: model_update
+    params:
+      server_env_id_list:
+        check:
+          template: "{{must .server_env_id_list}}"
+          err_msg: 环境不能为空
+      flag_del:
+        default: "1"
+    table: server_env
+    filter:
+      server_env_id__in: "[server_env_id_list]"
+
+
+
+
+

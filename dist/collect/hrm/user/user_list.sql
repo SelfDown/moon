@@ -1,0 +1,22 @@
+select
+    a.userid as user_id,
+    a.userpwd as password,
+    (
+        SELECT GROUP_CONCAT(ur.role_des)
+        FROM user_role ur
+                 left join user_role_id_list r  on  r.role_id  = ur.role_id
+        where  r.user_id  = a.userid
+    ) as role_names,
+    (
+        SELECT GROUP_CONCAT(ur.role_code)
+        FROM user_role ur
+                 left join user_role_id_list r  on  r.role_id  = ur.role_id
+        where  r.user_id  = a.userid
+    ) as roles,
+    a.*
+from user_account a
+where
+ifnull(a.statu,'1')!='0'
+require('./base_where.common')
+
+

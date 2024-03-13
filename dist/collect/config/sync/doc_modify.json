@@ -1,0 +1,66 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "op_field_transfer": {
+    "name": "op_name"
+  },
+  "fields": [
+    {
+      "rule": "array_obj_value",
+      "field": "[collect_doc_id]",
+      "name": "文档",
+      "left": "[remote_doc]",
+      "right": "[local_doc]",
+      "with_add_remove": true,
+      "left_value_field": "[collect_doc_id]",
+      "right_value_field": "[collect_doc_id]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[*]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "field": "[doc_params_id]",
+      "name": "参数",
+      "left": "[remote_params]",
+      "right": "[local_params]",
+      "with_add_remove": true,
+      "left_value_field": "[doc_params_id]",
+      "right_value_field": "[doc_params_id]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[*]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "field": "[doc_important_id]",
+      "name": "参数",
+      "left": "[remote_important]",
+      "right": "[local_important]",
+      "with_add_remove": true,
+      "left_value_field": "[doc_important_id]",
+      "right_value_field": "[doc_important_id]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[*]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "field": "[doc_demo_id]",
+      "name": "示例",
+      "left": "[remote_demo]",
+      "right": "[local_demo]",
+      "with_add_remove": true,
+      "left_value_field": "[doc_demo_id]",
+      "right_value_field": "[doc_demo_id]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[*]"
+      ]
+    }
+  ]
+}

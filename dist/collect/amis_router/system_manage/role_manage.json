@@ -1,0 +1,321 @@
+{
+  "type": "page",
+  "title": "角色管理",
+  "cssVars": {
+    "--TableCell-height": "1.4rem"
+  },
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "新增",
+        "size": "lg",
+        "body": {
+          "type": "form",
+          "name": "sample-add-form",
+          "api": {
+            "method": "post",
+            "url": "/template_data/data",
+            "data": {
+              "service": "hrm.create_role",
+              "role_id": "${role_id}",
+              "role_code": "${role_code}",
+              "role_name": "${role_name}",
+              "order_index": "${order_index}",
+              "ldap_group_ids": "${ldap_group_ids}"
+            },
+            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+          },
+          "collapsable": true,
+          "body": [
+            {
+              "type": "fieldSet",
+              "title": "基本信息",
+              "collapsable": true,
+              "body": [
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "role_id",
+                      "label": "角色ID",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "role_code",
+                      "label": "角色编码",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "role_name",
+                      "label": "角色名称",
+                      "required": true
+                    },
+                    {
+                      "type": "input-number",
+                      "name": "order_index",
+                      "label": "排序号",
+                      "remark": "越大越靠前",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                }
+              ]
+            },
+            {
+              "type": "fieldSet",
+              "title": "关联ldap",
+              "collapsable": true,
+              "body": [
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "select",
+                      "description": "角色管理ldap分组",
+                      "name": "ldap_group_ids",
+                      "label": "ldap分组",
+                      "value": "",
+                      "valueField": "ldap_group_id",
+                      "labelField": "name",
+                      "source": {
+                        "method": "post",
+                        "url": "/template_data/data",
+                        "data": {
+                          "service": "hrm.ldap_group_query"
+                        },
+                        "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                      },
+                      "multiple": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": {
+    "type": "crud",
+    "columnsTogglable": false,
+    "autoFillHeight": true,
+    "labelTpl": "${role_name}(${role_code})",
+    "keepItemSelectionOnPageChange": true,
+    "maxKeepItemSelectionLength": 20,
+    "autoGenerateFilter": true,
+    "primaryField": "role_id",
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": {
+          "method": "post",
+          "url": "/template_data/data",
+          "data": {
+            "service": "hrm.role_delete",
+            "role_ids": "${ids}"
+          },
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        },
+        "confirmText": "确定要批量删除?"
+      }
+    ],
+    "filter": {
+      "title": "",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "search",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        }
+
+      ]
+    },
+    "api": {
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "hrm.role_query",
+        "search": "${search}"
+      },
+      "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+    },
+    "columns": [
+      {
+        "label": "ID",
+        "name": "role_id",
+        "remark": "ID和角色编码保持一直"
+      },
+      {
+        "label": "角色编码",
+        "name": "role_code",
+        "remark": "ID和角色编码保持一直"
+      },
+      {
+        "label": "角色名称",
+        "name": "role_name"
+      },
+      {
+        "label": "关联ldap分组",
+        "name": "ldap_names"
+      },
+      {
+        "label": "排序号",
+        "name": "order_index",
+        "remark": "越大越靠前"
+      },
+      {
+        "type": "operation",
+        "label": "操作",
+        "buttons": [
+          {
+            "label": "详情",
+            "type": "button",
+            "level": "link",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "size": "lg",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "hrm.edit_role",
+                    "role_id": "${role_id}",
+                    "role_code": "${role_code}",
+                    "role_name": "${role_name}",
+                    "order_index": "${order_index}",
+                    "ldap_group_ids": "${ldap_group_ids}"
+                  },
+                  "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                },
+                "collapsable": true,
+                "body": [
+                  {
+                    "type": "fieldSet",
+                    "title": "基本信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "role_id",
+                            "label": "角色ID",
+                            "required": true
+                          },
+                          {
+                            "type": "input-text",
+                            "name": "role_code",
+                            "label": "角色编码",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "role_name",
+                            "label": "角色名称",
+                            "required": true
+                          },
+                          {
+                            "type": "input-number",
+                            "name": "order_index",
+                            "label": "排序号",
+                            "remark": "越大越靠前",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "divider"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "fieldSet",
+                    "title": "关联ldap",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "description": "角色管理ldap分组",
+                            "name": "ldap_group_ids",
+                            "label": "ldap分组",
+                            "value": "",
+                            "valueField": "ldap_group_id",
+                            "labelField": "name",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "hrm.ldap_group_query"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            },
+                            "multiple": true
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "label": "删除",
+            "type": "button",
+            "level": "link",
+            "className": "text-danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除【${role_name}(${role_code})】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "hrm.role_delete",
+                "role_id_list": [
+                  "${role_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

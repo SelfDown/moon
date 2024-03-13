@@ -1,0 +1,17 @@
+service:
+  - key: readContent
+    http: true
+    module: empty
+    params:
+      dir:
+        template: "{{get_key \"ui_dir\"}}"
+      target:
+        check:
+          template: "{{must .target}}"
+          err_msg: 目标目录不能为空
+    handler_params:
+      - key: read_file
+        value: "{{.dir}}/{{.target}}"
+        save_field: content
+      - key: param2result
+        field: "[content]"

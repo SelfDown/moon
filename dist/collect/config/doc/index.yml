@@ -1,0 +1,622 @@
+service:
+  - key: doc_edit
+    http: true
+    module: empty
+    modify_config: doc_modify.json
+    prevent_duplication:
+      name: 后台防止重复请求，second 表示毫秒
+      key: prevent_duplication
+      enable: "{{eq (get_key \"prevent_duplication\") \"true\"}}"
+      second: 300
+      room: doc_dpl
+      fields:
+        - field: "[service]"
+        - field: "[session_user_id]"
+    params:
+      doc:
+        check:
+          template: "{{must .doc}}"
+          err_msg: 文档不能为空
+      collect_doc_id:
+        template: "{{.doc.collect_doc_id}}"
+    handler_params:
+      - key: check_field
+        fields:
+          - field: doc_collect_id
+            template: "{{must .doc.collect_doc_id}}"
+            err_msg: "文档ID不能为空"
+          - field: type
+            template: "{{must .doc.type}}"
+            err_msg: "文档类型不能为空"
+          - field: parent_dir
+            template: "{{must .doc.parent_dir}}"
+            err_msg: "文档上级目录不能为空"
+      - key: service2field
+        service:
+          service: config.doc_detail
+          collect_doc_id: "[doc.collect_doc_id]"
+        save_field: local_doc_detail
+      - key: get_modify_data
+        save_field: change_list
+      - key: filter_arr
+        name: 过滤修改列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify_base\"  }}"
+        save_field: base_modify_list
+      - key: service2field
+        name: 保存文档
+        enable: "{{must .base_modify_list}}"
+        service:
+          service: config.collect_doc_update
+        item: "[doc]"
+        append_item_param: true
+      - key: filter_arr
+        name: 过滤要点列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\") (eq .item.field \"[important_list]\")}}"
+        save_field: important_add_list
+      - key: service2field
+        enable: "{{must .important_add_list}}"
+        name: 保存要点添加列表
+        service:
+          service: config.collect_doc_important_save
+          important_list: "[important_add_list]"
+          collect_doc_id: "[collect_doc_id]"
+      - key: filter_arr
+        name: 过滤要点删除列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"remove\") (eq .item.field \"[important_list]\")}}"
+        save_field: important_remove_list
+      - key: service2field
+        name: 删除要点
+        enable: "{{must .important_remove_list}}"
+        service:
+          service: config.collect_doc_important_remove
+          important_list: "[important_remove_list]"
+
+
+      - key: filter_arr
+        name: 过滤要点修改列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"modify\") (eq .item.field \"[important_list]\")}}"
+        save_field: important_modify_list
+      - key: service2field
+        name: 修改要点
+        enable: "{{must .important_modify_list}}"
+        service:
+          service: config.collect_doc_important_modify
+          important_list: "[important_modify_list]"
+      - key: filter_arr
+        name: 过滤参数添加列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\") (eq .item.field \"[params]\")}}"
+        save_field: params_add_list
+      - key: service2field
+        enable: "{{must .params_add_list}}"
+        name: 保存参数添加列表
+        service:
+          service: config.collect_doc_params_save
+          params: "[params_add_list]"
+          collect_doc_id: "[collect_doc_id]"
+
+      - key: filter_arr
+        name: 过滤删参数列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"remove\") (eq .item.field \"[params]\")}}"
+        save_field: params_remove_list
+      - key: service2field
+        name: 删除参数
+        enable: "{{must .params_remove_list}}"
+        service:
+          service: config.collect_doc_params_remove
+          params: "[params_remove_list]"
+
+      - key: filter_arr
+        name: 过滤删参数列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"modify\") (eq .item.field \"[params]\")}}"
+        save_field: params_modify_list
+      - key: group_by
+        enable: "{{must .params_modify_list}}"
+        foreach: "[params_modify_list]"
+        children: "children"
+        fields:
+          - field: "[doc_params_id]"
+        save_field: params_modify_list
+      - key: service2field
+        enable: "{{must .params_modify_list}}"
+        service:
+          service: config.collect_doc_params_update
+          params: "[params_modify_list]"
+
+
+
+      - key: filter_arr
+        name: 过滤示例添加列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\") (eq .item.field \"[demo]\")}}"
+        save_field: demo_add_list
+      - key: service2field
+        enable: "{{must .demo_add_list}}"
+        name: 保存示例添加列表
+        service:
+          service: config.collect_doc_demo_save
+          demo_list: "[demo_add_list]"
+          collect_doc_id: "[collect_doc_id]"
+
+      - key: filter_arr
+        name: 过滤示例删除列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"remove\") (eq .item.field \"[demo]\")}}"
+        save_field: demo_remove_list
+      - key: service2field
+        name: 删除示例
+        enable: "{{must .demo_remove_list}}"
+        service:
+          service: config.collect_doc_demo_remove
+          demo_list: "[demo_remove_list]"
+
+      - key: filter_arr
+        name: 过滤示例修改列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"modify\") (eq .item.field \"[demo]\")}}"
+        save_field: demo_modify_list
+      - key: group_by
+        enable: "{{must .demo_modify_list}}"
+        foreach: "[demo_modify_list]"
+        children: "children"
+        fields:
+          - field: "[doc_demo_id]"
+        save_field: demo_modify_list
+      - key: service2field
+        enable: "{{must .demo_modify_list}}"
+        service:
+          service: config.collect_doc_demo_update
+          demo_list: "[demo_modify_list]"
+
+      - key: filter_arr
+        name: 过滤结果示例添加列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"add\") (eq .item.field \"[result]\")}}"
+        save_field: result_add_list
+      - key: service2field
+        enable: "{{must .result_add_list}}"
+        name: 保存结果示例添加列表
+        service:
+          service: config.collect_doc_result_save
+          result: "[result_add_list]"
+          collect_doc_id: "[collect_doc_id]"
+
+      - key: filter_arr
+        name: 过滤结果示例删除列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"remove\") (eq .item.field \"[result]\")}}"
+        save_field: result_remove_list
+      - key: service2field
+        name: 删除示例
+        enable: "{{must .result_remove_list}}"
+        service:
+          service: config.collect_doc_result_remove
+          result: "[result_remove_list]"
+
+      - key: filter_arr
+        name: 过滤示例修改列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and (eq .item.operation \"modify\") (eq .item.field \"[result]\")}}"
+        save_field: result_modify_list
+      - key: group_by
+        enable: "{{must .result_modify_list}}"
+        foreach: "[result_modify_list]"
+        children: "children"
+        fields:
+          - field: "[doc_result_id]"
+        save_field: result_modify_list
+      - key: service2field
+        enable: "{{must .result_modify_list}}"
+        service:
+          service: config.collect_doc_result_update
+          result: "[result_modify_list]"
+      - key: params2result
+        fields:
+          - from: "[result_remove_list]"
+            to: result_remove_list
+          - from: "[result_modify_list]"
+            to: result_modify_list
+          - from: "[result_add_list]"
+            to:  result_add_list
+          - from: "[demo_remove_list]"
+            to: demo_remove_list
+          - from: "[demo_modify_list]"
+            to: demo_modify_list
+          - from: "[demo_add_list]"
+            to: demo_add_list
+          - from: "[params_modify_list]"
+            to: params_modify_list
+          - from: "[params_remove_list]"
+            to: params_remove_list
+          - from: "[important_remove_list]"
+            to: important_remove_list
+          - from: "[important_add_list]"
+            to: important_add_list
+          - from: "[base_modify_list]"
+            to: base_modify_list
+          - from: "[local_doc_detail]"
+            to: local_doc_detail
+          - from: "[change_list]"
+            to: change_list
+  - key: doc_delete
+    http: true
+    module: model_update
+    params:
+      collect_doc_id_list:
+        check:
+          template: "{{must .collect_doc_id_list}}"
+          err_msg: 文档不能为空
+      is_delete:
+        default: "1"
+    table: collect_doc
+    filter:
+      collect_doc_id__in: "[collect_doc_id_list]"
+
+  - key: demo_query
+    module: sql
+    params:
+#      collect_doc_id:
+#        check:
+#          template: "{{must .collect_doc_id}}"
+#          err_msg: 文档不能为空
+
+      data_source:
+        default: ""
+    data_source: "[data_source]"
+    data_file: demo_query.sql
+  - key: result_query
+    module: sql
+    http: true
+    params:
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+
+    data_file: result_query.sql
+  - key: import_list_query
+    module: sql
+    params:
+      data_source:
+        default: ""
+    data_source: "[data_source]"
+    data_file: import_list_query.sql
+  - key: params_query
+    module: sql
+    http: true
+    log: true
+    params:
+      collect_doc_id:
+        default: ""
+      data_source:
+        default: ""
+    data_source: "[data_source]"
+    data_file: params_query.sql
+  - key: get_detail_service
+    module: empty
+    params:
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    data_file: doc_detail.json
+    handler_params:
+      - key: file2datajson
+        save_field: service_list
+      - key: param2result
+        field: service_list
+  - key: doc_detail
+    http: true
+    module: bulk_service
+    params:
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    data_file: service_transfer.json
+    handler_params:
+      - key: service2field
+        service:
+          service: config.get_detail_service
+          collect_doc_id: "[collect_doc_id]"
+        save_field: service_list
+    batch:
+      foreach: "[service_list]"
+      service:
+        service: "[service]"
+      append_item_param: true
+      save_field: 'result'
+    result_handler:
+      - key: result2params
+        fields:
+          - to: "[result_list]"
+      - key: arr2dict
+        foreach: "[result_list]"
+        field: "[target_field]"
+        value: "[result.data]"
+        save_field: result_data
+      - key: param2result
+        field: result_data
+  - key: doc_query
+#    log: true
+    http: true
+    module: sql
+    params:
+      to_obj:
+        default: false
+      data_source:
+        default: ""
+    data_file: doc_query.sql
+    data_source: "[data_source]"
+    result_handler:
+      - key: arr2obj
+        enable: "[to_obj]"
+
+  - key: collect_doc_params_update
+    module: bulk_upsert
+    table: "collect_doc_params"
+    params:
+      params:
+        check:
+          template: "{{must .params}}"
+          err_msg: 参数不能为空
+    model_field: "[params]"
+  - key: collect_doc_params_remove
+    module: model_delete
+    table: "collect_doc_params"
+    params:
+      params:
+        check:
+          template: "{{must .params}}"
+          err_msg: 参数不能为空
+    handler_params:
+      - key: prop_arr
+        foreach: "[params]"
+        value: "[doc_params_id]"
+        save_field: params_id_list
+    filter:
+      doc_params_id__in: "[params_id_list]"
+
+
+  - key: collect_doc_params_save
+    module: bulk_create
+    table: collect_doc_params
+    params:
+      params:
+        check:
+          template: "{{must .params}}"
+          err_msg: 参数不能为空
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    model_field: params
+    handler_params:
+      - key: update_array
+        foreach: "[params]"
+        item: item
+        fields:
+          - field: doc_params_id
+            template: "{{uuid}}"
+          - field: collect_doc_id
+            template: "[collect_doc_id]"
+  - key: collect_doc_result_save
+    module: bulk_create
+    table: collect_doc_result
+    params:
+      result:
+        check:
+          template: "{{must .result}}"
+          err_msg: 示例不能为空
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    model_field: result
+    handler_params:
+      - key: update_array
+        foreach: "[result]"
+        item: item
+        fields:
+          - field: doc_result_id
+            template: "{{uuid}}"
+          - field: collect_doc_id
+            template: "[collect_doc_id]"
+  - key: collect_doc_important_modify
+    table: collect_doc_important
+    module: bulk_upsert
+    params:
+      important_list:
+        check:
+          template: "{{must .important_list}}"
+          err_msg: 要点不能为空
+    model_field: important_list
+  - key: collect_doc_important_remove
+    module: model_delete
+    table: collect_doc_important
+    params:
+      important_list:
+        check:
+          template: "{{must .important_list}}"
+          err_msg: 要点不能为空
+    handler_params:
+      - key: prop_arr
+        foreach: "[important_list]"
+        value: "[doc_important_id]"
+        save_field: doc_important_id_list
+    filter:
+      doc_important_id__in: "[doc_important_id_list]"
+  - key: collect_doc_important_save
+    module: bulk_create
+    table: collect_doc_important
+    params:
+      important_list:
+        check:
+          template: "{{must .important_list}}"
+          err_msg: 要点不能为空
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    model_field: important_list
+    handler_params:
+      - key: update_array
+        foreach: "[important_list]"
+        item: item
+        fields:
+          - field: doc_important_id
+            template: "{{uuid}}"
+          - field: collect_doc_id
+            template: "[collect_doc_id]"
+  - key: collect_doc_demo_update
+    module: bulk_upsert
+    table: collect_doc_demo
+    params:
+      demo_list:
+        check:
+          template: "{{must .demo_list}}"
+          err_msg: 示例不能为空
+    model_field: demo_list
+  - key: collect_doc_result_update
+    module: bulk_upsert
+    table: collect_doc_result
+#    log: true
+    params:
+      result:
+        check:
+          template: "{{must .result}}"
+          err_msg: 示例不能为空
+    model_field: result
+  - key: collect_doc_demo_remove
+    module: model_delete
+    table: collect_doc_demo
+    params:
+      demo_list:
+        check:
+          template: "{{must .demo_list}}"
+          err_msg: 示例代码不能为空
+    handler_params:
+      - key: prop_arr
+        foreach: "[demo_list]"
+        value: "[doc_demo_id]"
+        save_field: doc_demo_id_list
+    filter:
+      doc_demo_id__in: "[doc_demo_id_list]"
+  - key: collect_doc_result_remove
+    module: model_delete
+    table: collect_doc_result
+    params:
+      result:
+        check:
+          template: "{{must .result}}"
+          err_msg: 示例代码不能为空
+    handler_params:
+      - key: prop_arr
+        foreach: "[result]"
+        value: "[doc_result_id]"
+        save_field: doc_result_id_list
+    filter:
+      doc_result_id__in: "[doc_result_id_list]"
+  - key: collect_doc_demo_save
+    module: bulk_create
+    table: collect_doc_demo
+    params:
+      demo_list:
+        check:
+          template: "{{must .demo_list}}"
+          err_msg: demo 不能为空
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    model_field: demo_list
+    handler_params:
+      - key: update_array
+        foreach: "[demo_list]"
+        item: item
+        fields:
+          - field: doc_demo_id
+            template: "{{uuid}}"
+          - field: collect_doc_id
+            template: "[collect_doc_id]"
+  - key: collect_doc_save
+    module: model_save
+    table: collect_doc
+    params:
+      create_time:
+        template: "{{current_date_time}}"
+      create_user:
+        template: "{{.session_user_id}}"
+      is_delete:
+        default: "0"
+  - key: collect_doc_update
+    module: model_update
+    table: collect_doc
+    params:
+      collect_doc_id:
+        check:
+          template: "{{must .collect_doc_id}}"
+          err_msg: 文档不能为空
+    filter:
+      collect_doc_id: "[collect_doc_id]"
+
+  - key: doc_save
+    http: true
+    module: empty
+    params:
+      collect_doc_id:
+        template: "{{uuid}}"
+      doc:
+        check:
+          template: "{{must .doc}}"
+          err_msg: 文档不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: config.collect_doc_save
+          collect_doc_id: "[collect_doc_id]"
+        item: "[doc]"
+        append_item_param: true
+      - key: service2field
+        enable: "{{must .demo}}"
+        service:
+          service: config.collect_doc_demo_save
+          demo_list: "[demo]"
+          collect_doc_id: "[collect_doc_id]"
+      - key: service2field
+        enable: "{{must .important_list}}"
+        service:
+          service: config.collect_doc_important_save
+          important_list: "[important_list]"
+          collect_doc_id: "[collect_doc_id]"
+      - key: service2field
+        enable: "{{must .params}}"
+        service:
+          service: config.collect_doc_params_save
+          params: "[params]"
+          collect_doc_id: "[collect_doc_id]"
+      - key: service2field
+        enable: "{{must .result}}"
+        service:
+          service: config.collect_doc_result_save
+          result: "[result]"
+          collect_doc_id: "[collect_doc_id]"

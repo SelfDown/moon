@@ -1,0 +1,83 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "op_field_transfer": {
+    "name": "op_name"
+  },
+  "fields": [
+    {
+      "rule": "array_obj_value",
+      "with_add_remove": true,
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[name]",
+      "name": "文档名称",
+      "right": "[local_group_list]",
+      "left": "[doc_group_list]",
+      "left_value_field": "[name]",
+      "right_value_field": "[name]",
+      "operation": "modify",
+      "append_left_fields": [
+        "*"
+      ],
+      "append_right_fields": [
+        "doc_group_id"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[name]",
+      "name": "文档类型",
+      "right": "[local_group_list]",
+      "left": "[doc_group_list]",
+      "left_value_field": "[type]",
+      "right_value_field": "[type]",
+      "operation": "modify",
+      "append_left_fields": [
+        "*"
+      ],
+      "append_right_fields": [
+        "doc_group_id"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[order_index]",
+      "name": "排序",
+      "right": "[local_group_list]",
+      "left": "[doc_group_list]",
+      "left_value_field": "[order_index]",
+      "right_value_field": "[order_index]",
+      "operation": "modify",
+      "append_left_fields": [
+        "*"
+      ],
+      "append_right_fields": [
+        "doc_group_id"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[desc]",
+      "name": "备注",
+      "right": "[local_group_list]",
+      "left": "[doc_group_list]",
+      "left_value_field": "[desc]",
+      "right_value_field": "[desc]",
+      "operation": "modify",
+      "append_left_fields": [
+        "*"
+      ],
+      "append_right_fields": [
+        "doc_group_id"
+      ]
+    }
+  ]
+}

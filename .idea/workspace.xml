@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/collect/wechat/analysis/index.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plugins/handler_params_analysis_attendance.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssh/assets/index.8c6523c3.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssh/assets/index.c1f8a8a0.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssh/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/project/project/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/project/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/project/server_env/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server_env/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/service_router.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/service_router.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/wechat/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugins/a_register.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/a_register.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.go" beforeDir="false" />
-    </list>
+    <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

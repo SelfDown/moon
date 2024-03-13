@@ -1,0 +1,245 @@
+{
+  "type": "page",
+  "title": "项目管理",
+  "cssVars": {
+    "--TableCell-height": "1.4rem"
+  },
+  "toolbar": [
+
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增",
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "新增",
+        "size": "lg",
+        "body": {
+          "type": "form",
+          "name": "sample-add-form",
+          "api": {
+            "method": "post",
+            "url": "/template_data/data",
+            "data": {
+              "service": "project.add_project",
+              "project_code": "${project_code}",
+              "project_name": "${project_name}",
+              "comments": "${comments}",
+              "order_id": "${order_id}"
+            },
+            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+          },
+          "collapsable": true,
+          "body": [
+            {
+              "type": "fieldSet",
+              "title": "基本信息",
+              "collapsable": true,
+              "body": [
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "project_name",
+                      "label": "项目名称",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "project_code",
+                      "label": "项目编码",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "body": [
+                    {
+                      "type": "input-number",
+                      "name": "order_id",
+                      "label": "排序号",
+                      "remark": "越小越靠前",
+                      "required": true
+                    },
+                    {
+                      "type": "textarea",
+                      "name": "comments",
+                      "label": "备注"
+                    }
+                  ]
+                },
+
+                {
+                  "type": "divider"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": {
+    "type": "crud",
+    "columnsTogglable": false,
+    "autoFillHeight": true,
+    "labelTpl": "${project_name}(${project_code})",
+    "keepItemSelectionOnPageChange": true,
+    "maxKeepItemSelectionLength": 20,
+    "autoGenerateFilter": true,
+    "primaryField": "user_id",
+    "filter": {
+      "title": "",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "search",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        }
+      ]
+    },
+    "api": {
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "project.project_list",
+        "search": "${search}",
+        "page": "${page}",
+        "size": "${perPage}"
+      },
+      "adaptor": "return {\n ...payload,\n data:{\nrows:payload.data,\ntotal: payload.count\n } ,\n    status: payload.code === '0'? 0 : 1\n}"
+    },
+    "columns": [
+      {
+        "label": "项目名",
+        "name": "project_name"
+
+      },
+      {
+        "label": "项目编码",
+        "name": "project_code"
+      },
+      {
+        "label": "排序号",
+        "name": "order_id"
+      },
+
+      {
+        "label": "创建日期",
+        "width": 180,
+        "name": "create_time"
+      },
+
+      {
+        "type": "operation",
+        "fixed": "right",
+        "width": 100,
+        "label": "操作",
+        "buttons": [
+          {
+            "label": "详情",
+            "type": "button",
+            "level": "link",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "size": "lg",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "project.project_update",
+                    "project_code": "${project_code}",
+                    "project_name": "${project_name}",
+                    "comments": "${comments}",
+                    "order_id": "${order_id}",
+                    "sys_project_id": "${sys_project_id}"
+                  },
+                  "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                },
+                "collapsable": true,
+                "body": [
+                  {
+                    "type": "fieldSet",
+                    "title": "基本信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "project_name",
+                            "label": "项目名称",
+                            "required": true
+                          },
+                          {
+                            "type": "input-text",
+                            "name": "project_code",
+                            "label": "项目编码",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-number",
+                            "name": "order_id",
+                            "label": "排序号",
+                            "remark": "越小越靠前",
+                            "required": true
+                          },
+                          {
+                            "type": "textarea",
+                            "name": "comments",
+                            "label": "备注"
+                          }
+                        ]
+                      },
+
+                      {
+                        "type": "divider"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "label": "删除",
+            "type": "button",
+            "level": "link",
+            "className": "text-danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除【${project_name}(${project_code})】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "project.project_delete",
+                "project_id_list": [
+                  "${sys_project_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

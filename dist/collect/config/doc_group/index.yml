@@ -1,0 +1,152 @@
+service:
+  - key: doc_group_update
+    table: doc_group
+#    log: true
+    module: bulk_upsert
+    params:
+      doc_group_list:
+        check:
+          template: "{{must .doc_group_list}}"
+          err_msg: 分组不能为空
+    model_field: doc_group_list
+
+
+  - key: doc_group_delete
+    table: doc_group
+    module: model_update
+    params:
+      is_delete:
+        default: 1
+      doc_group_list:
+        check:
+          template: "{{must .doc_group_list}}"
+          err_msg: 分组不能为空
+    handler_params:
+      - key: prop_arr
+        foreach: "[doc_group_list]"
+        value: "[doc_group_id]"
+        save_field: doc_group_id_list
+    filter:
+      doc_group_id__in: "[doc_group_id_list]"
+
+  - key: doc_group_save
+    table: doc_group
+    module: bulk_create
+    model_field: "[doc_group_list]"
+    params:
+      doc_group_list:
+        check:
+          template: "{{must .doc_group_list}}"
+          err_msg: 分组不能为空
+    handler_params:
+      - key: update_array
+        foreach: "[doc_group_list]"
+        item: item
+        fields:
+          - field: doc_group_id
+            template: "{{uuid}}"
+          - field: create_time
+            template: "{{current_date_time}}"
+          - field: is_delete
+            template: "0"
+          - field: create_user
+            template: "{{.session_user_id}}"
+  - key: doc_group_query
+#    log: true
+    http: true
+    module: sql
+    data_file: doc_group_query.sql
+    params:
+      width_doc:
+        default: false
+    result_handler:
+      - key: result2params
+        enable: "[width_doc]"
+        fields:
+          - to: "[group_list]"
+      - key: service2field
+        enable: "[width_doc]"
+        service:
+          service: config.doc_query
+        save_field: doc_list
+      - key: combine_array
+        name: 合并数组，合并文档数据
+        enable: "[width_doc]"
+        foreach: "[group_list]"
+        field: "[doc_group_id]"
+        right: "[doc_list]"
+        right_field: "[parent_dir]"
+        children: "children"
+      - key: param2result
+        enable: "[width_doc]"
+        field: "[group_list]"
+
+  - key: doc_group_bulk_save
+    module: empty
+    http: true
+#    log: true
+    modify_config: doc_group_modify.json
+    params:
+      doc_group_list:
+        check:
+          template: "{{must .doc_group_list}}"
+          err_msg: "分组不能为空"
+    handler_params:
+      - key: service2field
+        name: 查询现有的分组
+        service:
+          service: config.doc_group_query
+        save_field: local_group_list
+      - key: get_modify_data
+        save_field: change_list
+      - key: filter_arr
+        enable: "{{must .change_list}}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: add_list
+      - key: service2field
+        name: 保存添加列表
+        enable: "{{must .add_list}}"
+        service:
+          service: config.doc_group_save
+          doc_group_list: "[add_list]"
+      - key: filter_arr
+        enable: "{{must .change_list}}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"remove\" }}"
+        save_field: remove_list
+      - key: service2field
+        name: 保存删除列表
+        enable: "{{must .remove_list}}"
+        service:
+          service: config.doc_group_delete
+          doc_group_list: "[remove_list]"
+      - key: filter_arr
+        enable: "{{must .change_list}}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: modify_list
+      - key: group_by
+        enable: "{{must .modify_list}}"
+        foreach: "[modify_list]"
+        children: "children"
+        fields:
+          - field: "[doc_group_id]"
+        save_field: modify_list
+      - key: service2field
+        name: 保存修改列表
+        enable: "{{must .modify_list}}"
+        service:
+          service: config.doc_group_update
+          doc_group_list: "[modify_list]"
+      - key: params2result
+        fields:
+          - from: "[change_list]"
+            to: "change_list"
+
+          - from: "[modify_list]"
+            to: "modify_list"
+

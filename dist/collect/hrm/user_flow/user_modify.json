@@ -1,0 +1,85 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "fields": [
+    {
+      "rule": "compare_field_value",
+      "field": "[nick]",
+      "name": "用户昵称",
+      "right": "[user_info]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[user_id]"
+      ]
+    },
+    {
+      "rule": "compare_field_value",
+      "field": "[create_ldap]",
+      "name": "创建ldap",
+      "right": "[user_info]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[user_id]"
+      ]
+    },
+    {
+      "belong": "设置belong 将fields 二层层级去掉，或者在field支持点，xx.xx",
+      "rule": "compare_field_value",
+      "field": "[user_status]",
+      "name": "用户状态",
+      "right": "[user_info]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[user_id]"
+      ],
+      "value_list_field": "current_value_list",
+      "target_transfer_key": "[sys_code]",
+      "target_transfer_value": "[sys_code_text]",
+      "service": {
+        "service": "system.get_sys_code",
+        "sys_code_type": "user_job_status",
+        "sys_code_list": "[current_value_list]"
+      }
+
+    },
+    {
+      "rule": "simple_array_value",
+      "field": "[roles]",
+      "name": "用户角色",
+      "right": "[user_info]",
+      "operation": "modify",
+      "save_original": true,
+      "append_right_fields": [
+        "[user_id]"
+      ],
+      "value_list_field": "current_value_list",
+      "target_transfer_key": "[role_code]",
+      "target_transfer_value": "[role_name]",
+      "service": {
+        "service": "hrm.role_query",
+        "role_code_list": "[current_value_list]"
+      }
+
+    },
+    {
+      "enable": "{{ eq .create_ldap \"1\"}}",
+      "rule": "array_obj_value",
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[ldap_group]",
+      "desc": "field匹配规则,value field取值",
+      "name": "ldap分组",
+      "right": "[right_ldap_group]",
+      "left": "[left_ldap_group]",
+      "left_value_field": "[name]",
+      "right_value_field": "[name]",
+      "operation": "modify",
+      "with_add_remove": true,
+      "save_original": true,
+      "append_right_fields": [
+        "[user_id]"
+      ]
+    }
+  ]
+}

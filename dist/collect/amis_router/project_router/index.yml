@@ -1,0 +1,10 @@
+service:
+  - key: project_router
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: project_router.json
+    module: empty

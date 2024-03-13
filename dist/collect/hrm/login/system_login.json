@@ -1,0 +1,106 @@
+{
+  "finish": {
+    "key": "service2field",
+    "append_param": true,
+    "service": {
+      "service": "hrm.system_login_finish"
+    }
+  },
+  "services": [
+    {
+      "node_key": "start",
+      "node_type": "start",
+      "name": "开始",
+      "node_next": "get_user"
+    },
+    {
+      "node_key": "get_user",
+      "name": "获取用户信息",
+      "node_type": "node",
+      "key": "service2field",
+      "service": {
+        "service": "hrm.user_list",
+        "username": "[username]",
+        "to_obj": true
+      },
+      "save_field": "user_info",
+      "node_next": "{{ if .user_info }}system_login_check{{ else }}ldap_login{{ end }}"
+    },
+    {
+      "node_key": "system_login_check",
+      "key": "check_field",
+      "name": "检查名称",
+      "node_type": "node",
+      "fields": [
+        {
+          "field": "password",
+          "template": "{{eq .password_md5 .user_info.password}}",
+          "err_msg": "用户名【{{.username}}】 密码错误！！！"
+        }
+      ],
+      "node_next": "system_login",
+      "node_fail": "end"
+    },
+    {
+      "node_key": "ldap_login",
+      "node_type": "node",
+      "name": "ldap 登陆",
+      "key": "service2field",
+      "append_param": true,
+      "service": {
+        "service": "hrm.ldap_login"
+      },
+      "node_fail": "end",
+      "node_next": "get_user_info"
+    },
+    {
+      "node_key": "get_user_info",
+      "node_type": "node",
+      "name": "获取ldap的用户信息",
+      "key": "service2field",
+      "service": {
+        "service": "hrm.ldap_search",
+        "search_username": "[username]",
+        "to_obj": true
+      },
+      "save_field": "userInfo",
+      "node_fail": "end",
+      "node_next": "create_user"
+    },
+    {
+      "node_key": "create_user",
+      "node_type": "node",
+      "name": "创建用户",
+      "key": "service2field",
+      "service": {
+        "service": "hrm.create_user",
+        "password": "[password]",
+        "username": "[username]",
+        "email": "[userInfo.mail]",
+        "nick": "[userInfo.sn]",
+        "phone": "[userInfo.mobile]"
+      },
+      "node_fail": "end",
+      "node_next": "system_login"
+    },
+    {
+      "node_key": "system_login",
+      "node_type": "node",
+      "name": "系统登陆",
+      "key": "service2field",
+      "service": {
+        "service": "system.login",
+        "password": "[password]",
+        "username": "[username]"
+      },
+      "save_field": "session_user",
+      "node_fail": "end",
+      "node_next": "end"
+    },
+    {
+      "node_key": "end",
+      "node_type": "end",
+      "name": "结束"
+    }
+  ]
+}

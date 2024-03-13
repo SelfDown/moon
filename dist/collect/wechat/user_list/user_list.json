@@ -1,0 +1,10 @@
+{
+  "url": "https://qyapi.weixin.qq.com/cgi-bin/user/list",
+  "method": "get",
+  "result_json": true,
+  "data": {
+    "access_token": "{{.access_token}}",
+    "department_id": "1",
+    "fetch_child": "1"
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "services": [
+     
+      {
+        "key": "stop",
+        "name": "停止进程",
+        "type": "node",
+        "service": {
+          "service": "flow.install_agent"
+        },
+        "next": "end",
+        "save_field": "ll",
+        "ignore_error": true,
+        "fail": "end"
+      },
+      require('./base.common')
+    ]
+}

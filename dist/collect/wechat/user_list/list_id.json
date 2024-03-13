@@ -1,0 +1,8 @@
+{
+  "url": "https://qyapi.weixin.qq.com/cgi-bin/user/list_id?access_token={{.access_token}}",
+  "method": "post",
+  "data": {
+    "cursor": "",
+    "limit": 10000
+  }
+}

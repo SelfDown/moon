@@ -1,0 +1,46 @@
+{
+  "connect": {
+    "server_ip": "[ip]",
+    "user": "[username]",
+    "password": "[password]",
+    "port": "[port]"
+  },
+  "services": [
+    {
+      "node_key": "start",
+      "node_type": "start",
+      "name": "开始",
+      "node_next": "info"
+    },
+    {
+      "node_key": "info",
+      "node_type": "node",
+      "name": "执行shell",
+      "key": "shell",
+      "fields": [
+        {"name": "主机名","save_field": "server_name","field": "hostname"},
+        {"name": "系统版本","save_field": "server_os","field": "cat /etc/redhat-release"},
+        {"name": "内核版本","save_field": "server_os_version","field": "uname -a|awk '{print $1,$3}'"},
+        {"name": "模型","save_field": "server_virtualization_type","field": "dmidecode | grep 'Product Name:'|sed -n '1p'|awk -F': ' '{print $2}'"},
+        {"name": "cpu频率","save_field": "cpu_frequency","field": "cat /proc/cpuinfo | grep 'model name' | uniq |awk -F': ' '{print $2}'"},
+        { "name":"cpu核数","save_field": "cpu_cores","field": "cat /proc/cpuinfo | grep 'cpu cores' | uniq |awk -F': ' '{print $2}'"},
+        { "name":"cpu总数","save_field": "cpu_count", "field": "cat /proc/cpuinfo | grep 'physical id' | sort | uniq| wc -l "},
+        { "name":"cpu逻辑数","save_field": "cpu_logic_count","field": "cat /proc/cpuinfo | grep 'processor' | sort -u| wc -l "},
+        { "name":"cpu物理数","save_field": "cpu_physical_count","field": "cat /proc/cpuinfo | grep 'physical id' | sort -u| wc -l "},
+        { "name": "cpu缓存数","save_field":"cpu_cache","field": "cat /proc/cpuinfo| grep 'cache size'|uniq|awk '{print $4}'"},
+        { "name": "磁盘数","save_field":"disk_count","field": "lsblk -o TYPE | grep -i disk | wc -l"},
+        { "name": "磁盘大小","save_field":"disk_total_size","field": "lsblk -db|grep disk |awk '{print $4}' |awk '{sum+=$1};END{printf(\"%.1f\\n\", sum/1000/1000/1000)}'"},
+        { "name": "内存大小","save_field":"memory_size","field": "cat /proc/meminfo | grep MemTotal | awk '{printf(\"%.1f\\n\",$2/1000/1000)}'"}
+      ],
+      "node_next": "end",
+      "node_fail": "end",
+      "save_field": "server_info"
+    },
+
+    {
+      "node_key": "end",
+      "node_type": "end",
+      "name": "结束"
+    }
+  ]
+}

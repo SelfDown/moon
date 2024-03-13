@@ -1,0 +1,193 @@
+service:
+  - key: server_os_users_remove
+    params:
+      user_remove_list:
+        check:
+          template: "{{must .user_remove_list}}"
+          err_msg: 用户修改列表不能为空
+    table: server_os_users
+    handler_params:
+      - key: prop_arr
+        enable: "{{must .user_remove_list}}"
+        foreach: "[user_remove_list]"
+        value: "[server_os_user_id]"
+        save_field: server_os_user_id_list
+    module: model_delete
+    filter:
+      server_os_user_id__in: "[server_os_user_id_list]"
+
+
+  - key: server_os_users_modify
+    params:
+      user_modify_list:
+        check:
+          template: "{{must .user_modify_list}}"
+          err_msg: 用户修改列表不能为空
+    table: server_os_users
+    module: bulk_upsert
+    model_field: "[user_modify_list]"
+
+  - key: server_os_users_save
+    http: true
+    params:
+      user_add_list:
+        check:
+          template: "{{must .user_add_list}}"
+          err_msg: 用户不能为空
+    handler_params:
+      - key: update_array
+        enable: "{{must .user_add_list}}"
+        foreach: "[user_add_list]"
+        item: item
+        fields:
+          - field: server_os_users_id
+            template: "{{ uuid }}"
+          - field: server_id
+            template: "{{ .server_id }}"
+          - field: server_os_user_id
+            template: "{{\"\"}}"
+
+
+    table: server_os_users
+    module: bulk_create
+    model_field: "[user_add_list]"
+    result_handler:
+      - key: param2result
+        field: "[user_add_list]"
+
+  - key: handler_diff_users
+    module: empty
+    log: true
+    params:
+      user_change_list:
+        check:
+          template: "{{must .user_change_list}}"
+          err_msg: 用户不能为空
+      users_type:
+        check:
+          template: "{{must .users_type}}"
+          err_msg: 用户操作类型不能为空
+    handler_params:
+      - key: filter_arr
+        enable: "{{  and (eq .users_type \"add\") ( must .user_change_list )}}"
+        foreach: "[user_change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: user_add_list
+      - key: filter_arr
+        enable: "{{  and (eq .users_type \"modify\") ( must .user_change_list )}}"
+        foreach: "[user_change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: user_modify_list
+      - key: filter_arr
+        enable: "{{  and (eq .users_type \"remove\") ( must .user_change_list )}}"
+        foreach: "[user_change_list]"
+        item: item
+        name: 存在则删除
+        if_template: "{{or (eq .item.operation \"modify\") (eq .item.operation \"remove\") }}"
+        save_field: user_remove_list
+
+      - key: service2field
+        name: 添加用户
+        enable: "{{must .user_add_list}}"
+        service:
+          service: project.server_os_users_save
+          user_add_list: "[user_add_list]"
+          server_id: "[server_id]"
+      - key: service2field
+        name: 修改用户
+        enable: "{{must .user_modify_list}}"
+        service:
+          service: project.server_os_users_modify
+          user_modify_list: "[user_modify_list]"
+      - key: service2field
+        name: 删除用户
+        enable: "{{must .user_remove_list}}"
+        service:
+          service: project.server_os_users_remove
+          user_remove_list: "[user_remove_list]"
+      - key: params2result
+        fields:
+          - from: "[user_change_list]"
+            to: "user_change_list"
+          - from: "[user_add_list]"
+            to: "user_add_list"
+          - from: "[user_remove_list]"
+            to: "user_remove_list"
+          - from: "[user_modify_list]"
+            to: "user_modify_list"
+
+  - key: get_diff_users_by_server
+    module: empty
+    modify_config: users_modify.json
+    params:
+      server_users:
+        name: 左边的
+        default: []
+      local_server_users:
+        name: 右边的
+        default: [ ]
+    handler_params:
+      - key: get_modify_data
+        save_field: change_list
+      - key: param2result
+        field: change_list
+
+  - key: get_diff_users
+    module: empty
+    params:
+      users_table:
+        default: [ ]
+      users_change:
+        check:
+          template: "{{must .users_change}}"
+          err_msg: 是否改变用户
+      server_id_list:
+        check:
+          template: "{{must .server_id_list}}"
+          err_msg: 服务器不能为空
+      server_users:
+        default: [ ]
+    modify_config: users_modify.json
+    handler_params:
+      - key: handler_password
+        enable: "{{and (must .users_table)  .users_change}}"
+        foreach: "[users_table]"
+        field: "[user_pwd]"
+        operation: "encrypt"
+      - key: multi_arr
+        enable: "{{and (must .users_table)  .users_change}}"
+        foreach: "[users_table]"
+        right: "[server_id_list]"
+        right_field: "right"
+        fields:
+          - field: server_id
+            template: "[right]"
+        save_field: server_users
+      - key: prop_arr
+        enable: "{{and (must .users_table)  .users_change}}"
+        foreach: "[users_table]"
+        value: "[user_name]"
+        save_field: server_user_names
+      - key: service2field
+        enable: "{{must .users_change}}"
+        service:
+          service: project.server_os_users_query
+          server_user_names: "[server_user_names]"
+          server_id_list: "[server_id_list]"
+        save_field: local_server_users
+      - key: get_modify_data
+        save_field: change_list
+      - key: param2result
+        field: change_list
+  - key: server_os_users_query
+    http: true
+    module: sql
+    params:
+      to_obj:
+        default: false
+    data_file: server_os_users_query.sql
+    result_handler:
+      - key: arr2obj
+        enable: "[to_obj]"

@@ -1,0 +1,10 @@
+{
+  "url": "https://qyapi.weixin.qq.com/cgi-bin/gettoken",
+  "method": "GET",
+  "header": {},
+  "result_json": true,
+  "data": {
+    "corpid": "{{get_key `corpid`}}",
+    "corpsecret": "{{get_key `corpsecret`}}"
+  }
+}

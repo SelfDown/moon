@@ -1,0 +1,1258 @@
+{
+  "title": "资源管理",
+  "type": "page",
+  "asideResizor": true,
+  "asideMinWidth": 250,
+  "asideMaxWidth": 400,
+  "aside": {
+    "type": "form",
+    "wrapWithPanel": false,
+    "target": "window",
+    "submitOnInit": true,
+    "reload":"detailCRUD?server_env_id=${server_env_id}&sys_project_id=${sys_project_id}",
+    "body": [
+      {
+        "type": "select",
+        "name": "sys_project_id",
+        "required": true,
+        "valueField": "sys_project_id",
+        "labelField": "project_name",
+        "value": "6",
+        "source": {
+          "method": "post",
+          "url": "/template_data/data",
+          "data": {
+            "service": "project.project_list"
+          },
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        }
+      },
+      {
+        "type": "input-tree",
+        "name": "server_env_id",
+        "inputClassName": "no-border no-padder mt-1",
+        "heightAuto": true,
+        "submitOnChange": true,
+        "selectFirst": true,
+        "labelField": "server_env_name",
+        "valueField": "server_env_id",
+        "inputOnly": true,
+        "searchable": true,
+        "source": {
+          "method": "post",
+          "url": "/template_data/data?sys_project_id=${sys_project_id}",
+          "data": {
+            "service": "project.env_tree",
+            "sys_project_id": "${sys_project_id}"
+          },
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        }
+      }
+    ]
+  },
+  "toolbar": [
+
+  ],
+  "body": {
+    "type": "crud",
+    "name": "detailCRUD",
+
+    "api": {
+      "sendOn": "${server_env_id}",
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "project.server_list",
+        "search": "${search}",
+        "server_env_id": "${server_env_id}"
+      }
+    },
+    "filter": {
+      "title": "",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "search",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "button",
+          "actionType": "dialog",
+          "label": "新增",
+          "primary": true,
+
+          "dialog": {
+            "size": "lg",
+            "title": "新增",
+            "body": {
+              "type": "form",
+              "name": "sample-edit-form",
+              "api": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "project.server_add",
+                  "server_env_id": "${server_env_id}",
+                  "server_port": "${server_port}",
+                  "connect_protocol_type": "${connect_protocol_type}",
+                  "is_enable": "${is_enable}",
+                  "users_table": "${users_table}",
+                  "server_busi_name": "${server_busi_name}",
+                  "server_ip": "${server_ip}",
+                  "server_service_type": "${server_service_type}",
+                  "cpu_cache": "${cpu_cache}",
+                  "cpu_count": "${cpu_count}",
+                  "cpu_frequency": "${cpu_frequency}",
+                  "cpu_logic_count": "${cpu_logic_count}",
+                  "cpu_physical_count": "${cpu_physical_count}",
+                  "cpu_cores": "${cpu_cores}",
+                  "disk_count": "${disk_count}",
+                  "disk_total_size": "${disk_total_size}",
+                  "memory_size": "${memory_size}",
+                  "server_name": "${server_name}",
+                  "server_os": "${server_os}",
+                  "server_os_version": "${server_os_version}",
+                  "server_virtualization_type": "${server_virtualization_type}"
+                },
+                "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload}"
+              },
+              "labelWidth": 66,
+              "body": [
+                {
+                  "type": "fieldSet",
+                  "title": "基本信息",
+                  "collapsable": true,
+                  "body": [
+                    {
+                      "type": "group",
+                      "body": [
+                        {
+                          "required": true,
+                          "label": "资源名称",
+                          "type": "input-text",
+                          "name": "server_busi_name"
+                        },
+                        {
+                          "required": true,
+                          "label": "服务器IP",
+                          "name": "server_ip",
+                          "type": "input-text"
+                        },
+                        {
+                          "required": true,
+                          "label": "端口",
+                          "name": "server_port",
+                          "value": 22,
+                          "type": "input-text"
+                        },
+                        {
+
+                          "label": "协议",
+                          "type": "select",
+                          "value": "ssh",
+                          "name": "connect_protocol_type",
+                          "valueField": "sys_code",
+                          "labelField": "sys_code_text",
+                          "clearable": true,
+                          "source": {
+
+                            "method": "post",
+                            "url": "/template_data/data",
+                            "data": {
+                              "service": "system.get_sys_code",
+                              "sys_code_type": "connect_protocol_type"
+                            },
+                            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "body": [
+                        {
+                          "required": true,
+                          "label": "服务分类",
+                          "type": "select",
+                          "name": "server_service_type",
+                          "valueField": "sys_code",
+                          "labelField": "sys_code_text",
+                          "clearable": true,
+                          "source": {
+
+                            "method": "post",
+                            "url": "/template_data/data",
+                            "data": {
+                              "service": "system.get_sys_code",
+                              "sys_code_type": "server_service_type"
+                            },
+                            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                          }
+                        },
+
+                        {
+                          "label": "管理账号",
+                          "name": "admin_username",
+                          "value": "root",
+                          "type": "input-text",
+                          "clearable": true
+                        },
+                        {
+                          "name": "admin_password",
+                          "label": "管理密码",
+                          "type": "input-password",
+                          "clearable": true
+                        },
+                        {
+                          "label": "获取配置",
+                          "type": "button",
+                          "actionType": "ajax",
+                          "api": {
+                            "method": "post",
+                            "url": "/template_data/data",
+                            "data": {
+                              "service": "project.server_info",
+                              "ip": "${server_ip}",
+                              "username": "${admin_username}",
+                              "password": "${admin_password}",
+                              "port": "${server_port}"
+                            },
+                            "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "body": [
+
+
+                        {
+                          "label": "物理地址",
+                          "name": "location",
+                          "type": "input-text",
+                          "columnRatio": 3
+                        },
+                        {
+                          "name": "is_enable",
+                          "label": "启用/禁用",
+                          "type": "switch",
+                          "value": "1",
+                          "columnRatio": 3
+                        },
+                        {
+                          "label": "虚拟IP",
+                          "name": "vip",
+                          "type": "input-text",
+                          "columnRatio": 3
+                        }
+
+                      ]
+                    }
+                  ]
+                },
+
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "fieldSet",
+                  "title": "配置信息",
+                  "collapsable": true,
+                  "body": [
+                    {
+                      "type": "group",
+                      "body": [
+                        {
+                          "require": true,
+                          "columnRatio": 3,
+                          "type": "select",
+                          "name": "server_os",
+                          "label": "操作系统",
+                          "valueField": "sys_code",
+                          "labelField": "sys_code_text",
+                          "clearable": true,
+                          "source": {
+                            "method": "post",
+                            "url": "/template_data/data",
+                            "data": {
+                              "service": "system.get_sys_code",
+                              "sys_code_type": "server_os_type"
+                            },
+                            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                          }
+                        },
+
+                        {
+                          "columnRatio": 3,
+                          "label": "系统版本",
+                          "name": "server_os_version",
+                          "type": "input-text"
+                        },
+                        {
+                          "require": true,
+                          "columnRatio": 3,
+                          "label": "主机名称",
+                          "name": "server_name",
+                          "type": "input-text"
+                        },
+                        {
+                          "require": true,
+                          "columnRatio": 3,
+                          "type": "select",
+                          "name": "server_virtualization_type",
+                          "label": "资源类型",
+                          "valueField": "sys_code",
+                          "labelField": "sys_code_text",
+                          "clearable": true,
+                          "source": {
+                            "method": "post",
+                            "url": "/template_data/data",
+                            "data": {
+                              "service": "system.get_sys_code",
+                              "sys_code_type": "server_virtualization_type"
+                            },
+                            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                          }
+                        }
+                      ]
+                    } ,
+                    {
+                      "type": "group",
+                      "body": [
+                        {
+                          "columnRatio": 3,
+                          "type": "input-text",
+                          "name": "cpu_logic_count",
+                          "label": "逻辑核"
+
+                        },
+
+                        {
+                          "columnRatio": 3,
+                          "label": "硬盘(GB)",
+                          "name": "disk_total_size",
+                          "type": "input-text"
+                        },
+                        {
+                          "columnRatio": 3,
+                          "label": "内存(GB)",
+                          "name": "memory_size",
+                          "type": "input-text"
+                        }
+
+                      ]
+                    }
+                  ]
+
+                },
+
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "fieldSet",
+                  "title": "用户信息",
+                  "collapsable": true,
+                  "body": [
+                    {
+                      "label": "",
+                      "showIndex": true,
+                      "type": "input-table",
+                      "name": "users_table",
+                      "addable": true,
+                      "addBtnLabel": "添加",
+                      "addBtnIcon": false,
+                      "copyable": true,
+                      "copyBtnLabel": "复制",
+                      "copyBtnIcon": false,
+                      "editable": true,
+                      "editBtnLabel": "编辑",
+                      "editBtnIcon": false,
+                      "removable": true,
+                      "deleteBtnLabel": "删除",
+                      "deleteBtnIcon": false,
+                      "needConfirm": false,
+                      "value": [
+
+                      ],
+                      "columns": [
+                        {
+                          "name": "ossoft_user_group_id",
+                          "label": "类型",
+                          "type": "select",
+                          "valueField": "ossoft_user_group_id",
+                          "labelField": "user_group_name",
+                          "clearable": true,
+                          "source": {
+                            "method": "post",
+                            "url": "/template_data/data",
+                            "data": {
+                              "service": "project.server_user_group"
+
+                            },
+                            "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                          }
+                        },
+                        {
+                          "name": "user_name",
+                          "label": "用户",
+                          "clearable": true
+                        },
+                        {
+                          "name": "user_pwd",
+                          "label": "密码",
+                          "type": "input-password",
+                          "clearable": true
+                        }
+                      ]
+                    }
+
+                  ]
+
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": {
+          "method": "post",
+          "url": "/template_data/data",
+          "data": {
+            "service": "project.server_delete",
+            "server_id_list": [
+              "${ids}"
+            ]
+          }
+        },
+        "confirmText": "确定要批量删除?"
+      },
+      {
+        "label": "批量修改",
+        "actionType": "dialog",
+        "dialog": {
+          "size": "lg",
+          "title": "批量编辑",
+          "name": "sample-bulk-edit",
+          "body": {
+            "type": "form",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "project.server_bulk_update",
+                "server_name_enable": "${server_name_enable}",
+                "server_name_text": "${server_name_text}",
+                "server_service_type_enable": "${server_service_type_enable}",
+                "server_service_type_content": "${server_service_type_content}",
+                "server_busi_name_enable": "${server_busi_name_enable}",
+                "server_busi_name_content": "${server_busi_name_content}",
+                "server_env_id_enable": "${server_env_id_enable}",
+                "server_env_id_content": "${server_env_id_content}",
+                "is_actived_enable": "${is_actived_enable}",
+                "is_actived_content": "${is_actived_content}",
+                "disk_total_size_enable": "${disk_total_size_enable}",
+                "disk_total_size_content": "${disk_total_size_content}",
+                "memory_size_enable": "${memory_size_enable}",
+                "memory_size_content": "${memory_size_content}",
+                "vip_enable": "${vip_enable}",
+                "vip_content": "${vip_content}",
+                "users_change": "${users_change}",
+                "users_type": "${users_type}",
+                "users_table": "${users_table}",
+                "ids": "${ids}"
+              }
+            },
+            "labelWidth": 60,
+            "body": [
+
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "server_service_type_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "服务类型",
+                    "disabledOn": "${server_service_type_enable!=true}",
+                    "name": "server_service_type_content",
+                    "placeholder": "请输入服务类型",
+                    "columnRatio":9,
+                    "type": "select",
+                    "valueField": "sys_code",
+                    "labelField": "sys_code_text",
+                    "clearable": true,
+                    "source": {
+                      "method": "post",
+                      "url": "/template_data/data",
+                      "data": {
+                        "service": "system.get_sys_code",
+                        "sys_code_type": "server_service_type"
+                      },
+                      "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "server_busi_name_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "资源名称",
+                    "disabledOn": "${server_busi_name_enable!=true}",
+                    "type": "input-text",
+                    "name": "server_busi_name_content",
+                    "placeholder": "请输入资源名称",
+                    "columnRatio":9
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "server_env_id_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "环境",
+                    "disabledOn": "${server_env_id_enable!=true}",
+                    "type": "tree-select",
+                    "name": "server_env_id_content",
+                    "placeholder": "请选择环境名称",
+                    "columnRatio":9,
+                    "clearable": true,
+                    "valueField": "server_env_id",
+                    "labelField": "server_env_name",
+                    "selectMode": "true",
+                    "enableNodePath": true,
+                    "menuTpl": "${server_env_name}(${server_env_code})",
+                    "source": {
+                      "method": "post",
+                      "url": "/template_data/data",
+                      "data": {
+                        "service": "project.env_tree",
+                        "sys_project_id": "${sys_project_id}"
+                      },
+                      "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "is_actived_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "激活",
+                    "disabledOn": "${is_actived_enable!=true}",
+                    "name": "is_actived_content",
+                    "type": "radios",
+                    "value": "1",
+                    "options": [
+                      {
+                        "label": "激活",
+                        "value": "1"
+                      },
+                      {
+                        "label": "禁用",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              },
+
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "disk_total_size_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "磁盘(GB)",
+                    "disabledOn": "${disk_total_size_enable!=true}",
+                    "type": "input-text",
+                    "name": "disk_total_size_content",
+                    "placeholder": "请输入",
+                    "columnRatio":9
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "memory_size_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "内存(GB)",
+                    "disabledOn": "${memory_size_enable!=true}",
+                    "type": "input-text",
+                    "name": "memory_size_content",
+                    "placeholder": "请输入",
+                    "columnRatio":9
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "vip_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "虚拟IP",
+                    "disabledOn": "${vip_enable!=true}",
+                    "type": "input-text",
+                    "name": "vip_content",
+                    "placeholder": "请输入",
+                    "columnRatio":9
+                  }
+                ]
+              },
+
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "server_name_enable",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "主机名",
+                    "disabledOn": "${server_name_enable!=true}",
+                    "type": "input-text",
+                    "name": "server_name_content",
+                    "placeholder": "请输入主机名称",
+                    "columnRatio":9
+                  }
+                ]
+              },
+              {
+                "type": "group",
+                "body": [
+                  {
+                    "name": "users_change",
+                    "type": "checkbox",
+                    "option": "改变",
+                    "columnRatio": 3
+                  },
+                  {
+                    "label": "用户操作",
+                    "disabledOn": "${users_change!=true}",
+                    "type": "select",
+                    "name": "users_type",
+                    "placeholder": "请输入",
+                    "columnRatio":9,
+                    "options": [
+                      {
+                        "label": "添加用户，存在则跳过",
+                        "value": "add"
+                      },
+                      {
+                        "label": "根据用户名替换",
+                        "value": "modify"
+                      },
+                      {
+                        "label": "删除所有用户",
+                        "value": "remove"
+                      }
+                    ]
+                  }
+                ]
+              },
+
+              {
+                "label": "",
+                "disabledOn": "${users_change !=true}",
+                "remark": "请选择用户操作类型",
+                "type": "input-table",
+                "name": "users_table",
+                "addable": true,
+                "addBtnLabel": "添加",
+                "addBtnIcon": false,
+                "copyable": true,
+                "copyBtnLabel": "复制",
+                "copyBtnIcon": false,
+                "editable": true,
+                "editBtnLabel": "编辑",
+                "editBtnIcon": false,
+                "removable": true,
+                "deleteBtnLabel": "删除",
+                "deleteBtnIcon": false,
+                "needConfirm": false,
+                "value": [
+
+                ],
+                "columns": [
+                  {
+                    "name": "ossoft_user_group_id",
+                    "label": "类型",
+                    "type": "select",
+                    "valueField": "ossoft_user_group_id",
+                    "labelField": "user_group_name",
+                    "clearable": true,
+                    "source": {
+                      "method": "post",
+                      "url": "/template_data/data",
+                      "data": {
+                        "service": "project.server_user_group"
+
+                      },
+                      "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                    }
+                  },
+                  {
+                    "name": "username",
+                    "label": "用户"
+                  },
+                  {
+                    "name": "password",
+                    "label": "密码",
+                    "type": "input-password",
+                    "clearable": true
+                  }
+                ]
+              }
+
+
+
+
+
+
+
+            ]
+          }
+        }
+      }
+    ],
+    "quickSaveApi": "/amis/api/sample/bulkUpdate",
+    "quickSaveItemApi": "/amis/api/sample/$id",
+    "primaryField": "server_id",
+    "columns": [
+      {
+        "label": "服务分类",
+        "name": "server_service_type_text"
+      },
+      {
+        "label": "资源名称",
+        "name": "server_busi_name"
+      },
+      {
+        "label": "环境",
+        "name": "server_env_name"
+      },
+      {
+        "label": "ip",
+        "name": "server_ip"
+      },
+      {
+        "label": "主机名称",
+        "name": "server_name"
+      },
+      {
+        "label": "启用",
+        "name": "is_actived",
+        "type": "status"
+      },
+      {
+        "label": "磁盘(G)",
+        "name": "disk_total_size"
+      },
+      {
+        "label": "CPU(核)",
+        "name": "cpu_logic_count"
+      },
+      {
+        "label": "内存(G)",
+        "name": "memory_size"
+      },
+      {
+        "label": "软件数",
+        "name": "soft_count"
+      },
+      {
+        "label": "虚拟IP",
+        "name": "vip"
+      },
+      {
+        "type": "operation",
+        "fixed": "right",
+        "width": 160,
+        "label": "操作",
+        "buttons": [
+          {
+            "label": "SSH连接",
+            "type": "button",
+            "level": "link",
+            "actionType": "ajax",
+            "api": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "project.server_list",
+                  "server_id": "${server_id}",
+                  "show_detail": true
+                },
+                "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload,msg:'查询成功'}"
+            },
+            "feedback": {
+              "size": "lg",
+              "title": "查看详情",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "project.server_modify",
+                    "server_id": "${server_id}",
+                    "server_env_id": "${server_env_id}",
+                    "server_port": "${server_port}",
+                    "connect_protocol_type": "${connect_protocol_type}",
+                    "is_enable": "${is_enable}",
+                    "users_table": "${users_table}",
+                    "server_busi_name": "${server_busi_name}",
+                    "server_ip": "${server_ip}",
+                    "server_service_type": "${server_service_type}",
+                    "cpu_cache": "${cpu_cache}",
+                    "cpu_count": "${cpu_count}",
+                    "cpu_frequency": "${cpu_frequency}",
+                    "cpu_logic_count": "${cpu_logic_count}",
+                    "cpu_physical_count": "${cpu_physical_count}",
+                    "cpu_cores": "${cpu_cores}",
+                    "disk_count": "${disk_count}",
+                    "disk_total_size": "${disk_total_size}",
+                    "memory_size": "${memory_size}",
+                    "server_name": "${server_name}",
+                    "server_os": "${server_os}",
+                    "server_os_version": "${server_os_version}",
+                    "server_virtualization_type": "${server_virtualization_type}"
+                  },
+                  "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload}"
+                },
+                "labelWidth": 66,
+                "body": [
+                  "ssh 连接中..."
+                ]
+              }
+            }
+
+          },
+          {
+            "label": "详情",
+            "type": "button",
+            "level": "link",
+            "actionType": "ajax",
+            "api": {
+                "method": "post",
+                "url": "/template_data/data",
+                "data": {
+                  "service": "project.server_list",
+                  "server_id": "${server_id}",
+                  "show_detail": true
+                },
+                "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload,msg:'查询成功'}"
+            },
+            "feedback": {
+              "size": "lg",
+              "title": "查看详情",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "project.server_modify",
+                    "server_id": "${server_id}",
+                    "server_env_id": "${server_env_id}",
+                    "server_port": "${server_port}",
+                    "connect_protocol_type": "${connect_protocol_type}",
+                    "is_enable": "${is_enable}",
+                    "users_table": "${users_table}",
+                    "server_busi_name": "${server_busi_name}",
+                    "server_ip": "${server_ip}",
+                    "server_service_type": "${server_service_type}",
+                    "cpu_cache": "${cpu_cache}",
+                    "cpu_count": "${cpu_count}",
+                    "cpu_frequency": "${cpu_frequency}",
+                    "cpu_logic_count": "${cpu_logic_count}",
+                    "cpu_physical_count": "${cpu_physical_count}",
+                    "cpu_cores": "${cpu_cores}",
+                    "disk_count": "${disk_count}",
+                    "disk_total_size": "${disk_total_size}",
+                    "memory_size": "${memory_size}",
+                    "server_name": "${server_name}",
+                    "server_os": "${server_os}",
+                    "server_os_version": "${server_os_version}",
+                    "server_virtualization_type": "${server_virtualization_type}"
+                  },
+                  "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload}"
+                },
+                "labelWidth": 66,
+                "body": [
+                  {
+                    "type": "fieldSet",
+                    "title": "基本信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "required": true,
+                            "label": "资源名称",
+                            "type": "input-text",
+                            "name": "server_busi_name"
+                          },
+                          {
+                            "required": true,
+                            "label": "服务器IP",
+                            "name": "server_ip",
+                            "type": "input-text"
+                          },
+                          {
+                            "required": true,
+                            "label": "端口",
+                            "name": "server_port",
+                            "value": 22,
+                            "type": "input-text"
+                          },
+                          {
+
+                            "label": "协议",
+                            "type": "select",
+                            "value": "ssh",
+                            "name": "connect_protocol_type",
+                            "valueField": "sys_code",
+                            "labelField": "sys_code_text",
+                            "clearable": true,
+                            "source": {
+
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "system.get_sys_code",
+                                "sys_code_type": "connect_protocol_type"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "required": true,
+                            "label": "服务分类",
+                            "type": "select",
+                            "name": "server_service_type",
+                            "valueField": "sys_code",
+                            "labelField": "sys_code_text",
+                            "clearable": true,
+                            "source": {
+
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "system.get_sys_code",
+                                "sys_code_type": "server_service_type"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+
+                          {
+                            "label": "管理账号",
+                            "name": "admin_username",
+                            "value": "root",
+                            "type": "input-text",
+                            "clearable": true
+                          },
+                          {
+                            "name": "admin_password",
+                            "label": "管理密码",
+                            "type": "input-password",
+                            "clearable": true
+                          },
+                          {
+                            "label": "获取配置",
+                            "type": "button",
+                            "actionType": "ajax",
+                            "api": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "project.server_info",
+                                "ip": "${server_ip}",
+                                "username": "${admin_username}",
+                                "password": "${admin_password}",
+                                "port": "${server_port}"
+                              },
+                              "adaptor": "return {\nstatus: payload.code === '0'? 0 : 1\n , ...payload}"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+
+
+                          {
+                            "label": "物理地址",
+                            "name": "location",
+                            "type": "input-text",
+                            "columnRatio": 3
+                          },
+                          {
+                            "name": "is_enable",
+                            "label": "启用/禁用",
+                            "type": "switch",
+                            "value": "1",
+                            "columnRatio": 3
+                          },
+                          {
+                            "label": "虚拟IP",
+                            "name": "vip",
+                            "type": "input-text",
+                            "columnRatio": 3
+                          }
+
+                        ]
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "fieldSet",
+                    "title": "配置信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "require": true,
+                            "columnRatio": 3,
+                            "type": "select",
+                            "name": "server_os",
+                            "label": "操作系统",
+                            "valueField": "sys_code",
+                            "labelField": "sys_code_text",
+                            "clearable": true,
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "system.get_sys_code",
+                                "sys_code_type": "server_os_type"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+
+                          {
+                            "columnRatio": 3,
+                            "label": "系统版本",
+                            "name": "server_os_version",
+                            "type": "input-text"
+                          },
+                          {
+                            "require": true,
+                            "columnRatio": 3,
+                            "label": "主机名称",
+                            "name": "server_name",
+                            "type": "input-text"
+                          },
+                          {
+                            "require": true,
+                            "columnRatio": 3,
+                            "type": "select",
+                            "name": "server_virtualization_type",
+                            "label": "资源类型",
+                            "valueField": "sys_code",
+                            "labelField": "sys_code_text",
+                            "clearable": true,
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "system.get_sys_code",
+                                "sys_code_type": "server_virtualization_type"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          }
+                        ]
+                      } ,
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "columnRatio": 3,
+                            "type": "input-text",
+                            "name": "cpu_logic_count",
+                            "label": "逻辑核"
+
+                          },
+
+                          {
+                            "columnRatio": 3,
+                            "label": "硬盘(GB)",
+                            "name": "disk_total_size",
+                            "type": "input-text"
+                          },
+                          {
+                            "columnRatio": 3,
+                            "label": "内存(GB)",
+                            "name": "memory_size",
+                            "type": "input-text"
+                          }
+
+                        ]
+                      }
+                    ]
+
+                  },
+
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "fieldSet",
+                    "title": "用户信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "label": "",
+                        "showIndex": true,
+                        "type": "input-table",
+                        "name": "users_table",
+                        "addable": true,
+                        "addBtnLabel": "添加",
+                        "addBtnIcon": false,
+                        "copyable": true,
+                        "copyBtnLabel": "复制",
+                        "copyBtnIcon": false,
+                        "editable": true,
+                        "editBtnLabel": "编辑",
+                        "editBtnIcon": false,
+                        "removable": true,
+                        "deleteBtnLabel": "删除",
+                        "deleteBtnIcon": false,
+                        "needConfirm": false,
+                        "value": [
+
+                        ],
+                        "columns": [
+                          {
+                            "name": "ossoft_user_group_id",
+                            "label": "类型",
+                            "type": "select",
+                            "valueField": "ossoft_user_group_id",
+                            "labelField": "user_group_name",
+                            "clearable": true,
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "project.server_user_group"
+
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+                          {
+                            "name": "user_name",
+                            "label": "用户",
+                            "clearable": true
+                          },
+                          {
+                            "name": "user_pwd",
+                            "label": "密码",
+                            "type": "input-password",
+                            "clearable": true
+                          }
+                        ]
+                      }
+
+                    ]
+
+                  }
+                ]
+              }
+            }
+
+          },
+          {
+            "label": "删除",
+            "type": "button",
+            "level": "link",
+            "className": "text-danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除【${server_name}(${server_ip})】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "project.server_delete",
+                "server_id_list": [
+                  "${server_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

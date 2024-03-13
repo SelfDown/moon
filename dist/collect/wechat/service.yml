@@ -1,0 +1,12 @@
+# 项目点路由
+service:
+  - name: "验证"
+    path: "token/index.yml"
+
+  - name: "用户列表"
+    path: "user_list/index.yml"
+
+  - name: "考勤"
+    path: "checkin/index.yml"
+  - name: "分析考勤"
+    path: "analysis/index.yml"

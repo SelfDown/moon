@@ -1,0 +1,41 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "fields": [
+    {
+      "rule": "array_obj_value",
+      "desc": "多条当左边传的值，不对等，取右边自动补全，以左边所有key为标准，方便执行bulk_upsert",
+      "if_template": "{{must .left.value}}",
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[value]",
+      "name": "参数值",
+      "right": "[local_detail_list]",
+      "left": "[detail_list]",
+      "left_value_field": "[value]",
+      "right_value_field": "[value]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[*]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "if_template": "{{must .left.name}}",
+      "with_add_remove": true,
+      "left_field": "[name]",
+      "right_field": "[name]",
+      "field": "[name]",
+      "name": "参数名称",
+      "right": "[local_detail_list]",
+      "left": "[detail_list]",
+      "left_value_field": "[name]",
+      "right_value_field": "[name]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[*]"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "title": "带边栏联动",
+  "type": "page",
+  "asideResizor": true,
+  "aside": {
+    "type": "form",
+    "wrapWithPanel": false,
+    "target": "window",
+    "submitOnInit": true,
+    "reload":"detailCRUD?server_env_id=${server_env_id}",
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "server_env_id",
+        "inputClassName": "no-border no-padder mt-1",
+        "heightAuto": true,
+        "submitOnChange": true,
+        "selectFirst": true,
+        "labelField": "server_env_name",
+        "valueField": "server_env_id",
+        "inputOnly": true,
+        "searchable": true,
+
+        "source": {
+          "url": "/template_data/data",
+          "method": "post",
+          "data": {
+            "service": "project.project_list",
+            "with_env_tree": true
+          },
+          "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+        }
+      }
+    ]
+  },
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增",
+      "primary": true,
+      "dialog": {
+        "title": "新增",
+        "body": {
+          "type": "form",
+          "name": "sample-edit-form",
+          "api": "post:/amis/api/sample",
+          "body": [
+            {
+              "type": "input-text",
+              "name": "engine",
+              "label": "Engine",
+              "required": true
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "input-text",
+              "name": "browser",
+              "label": "Browser",
+              "required": true
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "input-text",
+              "name": "platform",
+              "label": "Platform(s)",
+              "required": true
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "input-text",
+              "name": "version",
+              "label": "Engine version"
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "input-text",
+              "name": "grade",
+              "label": "CSS grade"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": {
+    "type": "crud",
+    "name": "detailCRUD",
+    "draggable": true,
+    "api": {
+      "sendOn": "${server_env_id}",
+      "method": "post",
+      "url": "/template_data/data",
+      "data": {
+        "service": "project.server_list",
+        "search": "${search}",
+        "server_env_id": "${server_env_id}"
+      }
+    },
+    "filter": {
+      "title": "条件搜索",
+      "submitText": "",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "keywords",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit"
+          }
+        },
+        {
+          "type": "plain",
+          "text": "这里的表单项可以配置多个"
+        }
+      ]
+    },
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": "delete:/amis/api/sample/$ids",
+        "confirmText": "确定要批量删除?"
+      },
+      {
+        "label": "批量修改",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "批量编辑",
+          "name": "sample-bulk-edit",
+          "body": {
+            "type": "form",
+            "api": "/amis/api/sample/bulkUpdate2",
+            "body": [
+              {
+                "type": "hidden",
+                "name": "ids"
+              },
+              {
+                "type": "input-text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "quickSaveApi": "/amis/api/sample/bulkUpdate",
+    "quickSaveItemApi": "/amis/api/sample/$id",
+    "syncLocation": false,
+    "columns": [
+      {
+        "label": "ip",
+        "name": "server_ip"
+      },
+      {
+        "label": "名称",
+        "name": "server_name"
+      },
+      {
+        "label": "环境类型",
+        "name": "env_type_name"
+      },
+      {
+        "label": "排序号",
+        "name": "order_id"
+      },
+      {
+        "type": "operation",
+        "fixed": "right",
+        "width": 100,
+        "label": "操作",
+        "buttons": [
+          {
+            "label": "详情",
+            "type": "button",
+            "level": "link",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "size": "lg",
+              "body": {
+                "type": "form",
+                "name": "sample-edit-form",
+                "api": {
+                  "method": "post",
+                  "url": "/template_data/data",
+                  "data": {
+                    "service": "project.server_env_update",
+                    "server_env_id": "${server_env_id}",
+                    "sys_project_id": "${sys_project_id}",
+                    "parent_id": "${parent_id}",
+                    "server_env_code": "${server_env_code}",
+                    "server_env_name": "${server_env_name}",
+                    "env_code": "${env_code}",
+                    "leader": "${leader}",
+                    "comments": "${comments}",
+                    "order_id": "${order_id}"
+                  },
+                  "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                },
+                "collapsable": true,
+                "body": [
+                  {
+                    "type": "fieldSet",
+                    "title": "项目节点",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "name": "sys_project_id",
+                            "label": "项目",
+                            "required": true,
+                            "valueField": "sys_project_id",
+                            "labelField": "project_name",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "project.project_list"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+                          {
+                            "type": "tree-select",
+                            "name": "parent_id",
+                            "label": "上级节点",
+                            "clearable": true,
+                            "valueField": "server_env_id",
+                            "labelField": "server_env_name",
+                            "selectMode": "true",
+                            "initFetchOn": "data.sys_project_id",
+                            "menuTpl": "${server_env_name}(${server_env_code})",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data?sys_project_id=${sys_project_id}",
+                              "data": {
+                                "service": "project.env_tree",
+                                "sys_project_id": "${sys_project_id}"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "divider"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "fieldSet",
+                    "title": "基本信息",
+                    "collapsable": true,
+                    "body": [
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "server_env_code",
+                            "label": "环境编码",
+                            "required": true
+                          },
+                          {
+                            "type": "input-text",
+                            "name": "server_env_name",
+                            "label": "环境名称",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "select",
+                            "name": "env_code",
+                            "label": "类型",
+                            "value": "4",
+                            "required": true,
+                            "valueField": "env_code",
+                            "labelField": "env_name",
+                            "source": {
+                              "method": "post",
+                              "url": "/template_data/data",
+                              "data": {
+                                "service": "project.sys_env_query"
+                              },
+                              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+                            }
+                          },
+                          {
+                            "type": "input-number",
+                            "name": "order_id",
+                            "label": "排序号",
+                            "remark": "越小越靠前",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "group",
+                        "body": [
+                          {
+                            "type": "input-text",
+                            "name": "leader",
+                            "label": "负责人"
+                          },
+                          {
+                            "type": "textarea",
+                            "name": "comments",
+                            "label": "备注"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "label": "删除",
+            "type": "button",
+            "level": "link",
+            "className": "text-danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除【${server_env_name}(${server_env_code})】?",
+            "api": {
+              "method": "post",
+              "url": "/template_data/data",
+              "data": {
+                "service": "project.server_env_delete",
+                "server_env_id_list": [
+                  "${server_env_id}"
+                ]
+              },
+              "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

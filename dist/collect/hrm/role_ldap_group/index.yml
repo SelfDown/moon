@@ -1,0 +1,50 @@
+service:
+
+  - key: role_ldap_group_delete_by_role_id
+    module: model_delete
+    params:
+      role_id:
+        check:
+          template: "{{must .role_id}}"
+          err_msg: 角色不能为空
+    table: "role_ldap_group"
+    filter:
+      role_id: "[role_id]"
+  - key: role_ldap_group_delete
+    module: model_delete
+    params:
+      role_id_list:
+        check:
+          template: "{{must .role_id_list}}"
+          err_msg: 角色不能为空
+    table: "role_ldap_group"
+    filter:
+      role_id__in: "[role_id_list]"
+  - key: role_ldap_group_save
+    module: bulk_create
+    params:
+      ldap_group_ids:
+        check:
+          template: "{{must .ldap_group_ids}}"
+          err_msg: ldap 不能为空
+      role_id:
+        check:
+          template: "{{must .role_id}}"
+          err_msg: 角色不能为空
+    handler_params:
+      - key: field2array
+        field: "[ldap_group_ids]"
+        save_field: ldap_group_id_list
+      - key: arr2arrayObj
+        foreach: "[ldap_group_id_list]"
+        item: item
+        fields:
+          - field: "ldap_group_id"
+            template: "{{.item}}"
+          - field: role_id
+            template: "[role_id]"
+          - field: role_ldap_group_id
+            template: "{{uuid}}"
+        save_field: user_role_list
+    table: role_ldap_group
+    model_field: user_role_list

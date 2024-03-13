@@ -1,0 +1,360 @@
+service:
+  - key: config_param_restore
+    http: true
+#    log: true
+    module: empty
+    params:
+      ids:
+        check:
+          template: "{{must .ids}}"
+          err_msg: 记录不能为空
+    handler_params:
+      - key: field2array
+        field: "[ids]"
+        enable: "{{must .ids}}"
+        save_field: change_id_list
+      - key: service2field
+        name: 查询修改日志记录
+        service:
+          service: config.config_detail_change_list
+          change_id_list: "[change_id_list]"
+          count: false
+        save_field: "change_list"
+        template: "{{must .change_list}}"
+        err_msg: 记录不存在
+      - key: group_by
+        foreach: "[change_list]"
+        children: "children"
+        fields:
+          - field: "[group_id]"
+          - field: "[name_copy]"
+        save_field: change_list
+      - key: update_array
+        name: 将新增操作变成删除，删除+修改操作变成新增
+        foreach: "[change_list]"
+        item: item
+        fields:
+          - field: operation
+            template: "{{ if eq .item.operation \"add\"}}remove{{else}}add{{end}}"
+          - field: tmp
+            template: "[item.value]"
+          - field: before
+            template: "[item.after]"
+          - field: value
+            name: 如果是修改值变化
+            template: "{{ if eq .item.field \"[value]\"}}{{.item.before}}{{else}}{{.item.value}}{{end}}"
+          - field: after
+            template: "[item.tmp]"
+      - key: service2field
+        name: 查询现在配置的参数，根据group+name
+        service:
+          service: config.config_detail_cache_all
+          set_cache: false
+          group_by: false
+          config_detail_list: "[change_list]"
+        save_field: local_detail_list
+
+      - key: update_array_from_array
+        name: "根据group+name 更新操作，有修改，没有就新增"
+        foreach: "[change_list]"
+        item: item
+        field: "[group_id&name_copy]"
+        right: "[local_detail_list]"
+        right_field: "[group_id&name]"
+        fields:
+          - field: operation
+            name: 如果操作是删除，还是原来的删除，如果是新增操作，存在这改为修改
+            template: "{{ if eq .item.operation \"add\"}}modify{{else}}{{.item.operation}}{{end}}"
+          - field: config_detail_id
+            template: "[right.config_detail_id]"
+      - key: service2field
+        name: 保存修改列
+        service:
+          service: config.config_detail_change_history_bulk_save
+          change_list: "[change_list]"
+      - key: update_array
+        name: name字段重复，将name_copy 还原到name
+        foreach: "[change_list]"
+        item: item
+        fields:
+          - field: name
+            template: "[item.name_copy]"
+          - field: value
+            template: "[item.tmp]"
+      - key: filter_arr
+        name: 过滤添加列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: modify_list
+      - key: service2field
+        name: 保存修改列表
+        enable: "{{must .modify_list}}"
+        service:
+          service: config.config_detail_bulk_save_simple
+          detail_list: "[modify_list]"
+      - key: filter_arr
+        name: 过滤添加列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: add_list
+      - key: service2field
+        name: 保存添加列表
+        enable: "{{must .add_list}}"
+        service:
+          service: config.config_detail_bulk_create
+          detail_list: "[add_list]"
+      - key: filter_arr
+        name: 过滤删除列表
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"remove\" }}"
+        save_field: remove_list
+      - key: service2field
+        name: 保存删除列表
+        enable: "{{must .remove_list}}"
+        service:
+          service: config.config_detail_delete
+          detail_list: "[remove_list]"
+
+
+      - key: params2result
+        fields:
+          - from: "[change_list]"
+            to: change_list
+          - from: "[local_detail_list]"
+            to: local_detail_list
+
+  - key: config_detail_change_list
+    module: sql
+    http: true
+    params:
+      search:
+        template: "{{ if .search }}%{{.search}}%{{ end }}"
+      page:
+        type: int
+        default: 1
+      size:
+        default: 20
+        type: int
+      start:
+        template: " ({{.page}}-1) * {{.size}}"
+        exec: true
+        type: int
+      pagination:
+        default: true
+
+      count:
+        default: true
+    data_file: change_list.sql
+    count_file: change_list_count.sql
+    pagination: pagination
+    count: "[count]"
+
+  - key: config_detail_change_history_bulk_save
+#    log: true
+    module: bulk_create
+    params:
+      change_list:
+        check:
+          template: "{{must .change_list}}"
+          err_msg: 改变列表不能为空
+    handler_params:
+      - key: update_array
+        foreach: "[change_list]"
+        item: item
+        fields:
+          - field: change_id
+            template: "{{uuid}}"
+          - field: create_time
+            template: "{{current_date_time}}"
+          - field: create_user
+            template: "{{.session_user_id}}"
+    model_field: "[change_list]"
+    table: config_detail_change_history
+  - key: config_detail_bulk_save_simple
+    module: bulk_upsert
+    table: "config_detail"
+    model_field: "[detail_list]"
+    http: true
+    params:
+      detail_list:
+        check:
+          template: "{{must .detail_list}}"
+          err_msg: 数据列表不能为空
+  - key: config_detail_bulk_create
+    name: 配置批量新增
+    module: bulk_create
+#    log: true
+    table: "config_detail"
+    model_field: "[detail_list]"
+    http: true
+    params:
+      detail_list:
+        check:
+          template: "{{must .detail_list}}"
+          err_msg: 数据列表不能为空
+    handler_params:
+      - key: update_array
+        foreach: "[detail_list]"
+        item: item
+        fields:
+          - field: config_detail_id
+            template: "{{uuid}}"
+  - key: config_detail_delete
+    name: 配置批量删除
+    module: model_delete
+    table: "config_detail"
+    http: true
+    params:
+      detail_list:
+        check:
+          template: "{{or (must .detail_list) (must .config_detail_id_list)}}"
+          err_msg: 数据列表不能为空
+      config_detail_id_list:
+          default: []
+    handler_params:
+      - key: prop_arr
+        foreach: "[detail_list]"
+        value: "[config_detail_id]"
+        save_field: config_detail_id_list
+    filter:
+      config_detail_id__in: "[config_detail_id_list]"
+  - key: config_detail_bulk_save
+#    log: true
+    module: empty
+    table: "config_detail"
+    model_field: "[detail_list]"
+    http: true
+    modify_config: config_detail_modify.json
+    params:
+      detail_list:
+        check:
+          template: "{{must .detail_list}}"
+          err_msg: 数据列表不能为空
+    handler_params:
+      - key: prop_arr
+        foreach: "[detail_list]"
+        value: "[config_detail_id]"
+        save_field: config_detail_id_list
+      - key: service2field
+        service:
+          service: config.config_detail_cache_all
+          set_cache: false
+          group_by: false
+          config_detail_id_list: "[config_detail_id_list]"
+        save_field: local_detail_list
+      - key: update_array_from_array
+        name: "字段不对等补充，和修改关键字段name补充"
+        none_fill_right: true
+        foreach: "[detail_list]"
+        item: item
+        field: "[config_detail_id]"
+        right: "[local_detail_list]"
+        right_field: "[config_detail_id]"
+#        if_template: "{{is_empty .item.name}}"
+        fields:
+          - field: name
+            template: "{{if must .item.name}}{{.item.name}}{{else}}{{.right.name}}{{end}}"
+          - field: value
+            template: "{{if must .item.value}}{{.item.value}}{{else}}{{.right.value}}{{end}}"
+          - field: group_id
+            template: "[right.group_id]"
+      - key: get_modify_data
+        save_field: change_list
+      - key: service2field
+        enable: "{{must .change_list}}"
+        service:
+          service: config.config_detail_change_history_bulk_save
+          change_list: "[change_list]"
+      - key: service2field
+        service:
+          service: config.config_detail_bulk_save_simple
+          detail_list: '[detail_list]'
+      - key: params2result
+        fields:
+          - from: "[change_list]"
+            to: "change_list"
+  - key: config_detail_cache_all
+    module: sql
+    http: true
+    run_startup: true
+    params:
+      search:
+        template: "{{if .search}}%{{.search}}%{{end}}"
+      set_cache:
+        default: true
+      group_by:
+        default: true
+    data_file: config_detail_query_all.sql
+    count_file: count.sql
+    name: 注意这个count主要为了启动运行一下count，多线程执行sql后面就快些
+    result_handler:
+      - key: result2params
+        enable: "[group_by]"
+        fields:
+          - to: "[config_params]"
+      - key: group_by
+        enable: "{{must .config_params}}"
+        foreach: "[config_params]"
+        children: "children"
+        fields:
+          - field: "[group_id]"
+        save_field: config
+      - key: arr2dict
+        name: 如果有children 表示有个二级数组
+        enable: "{{must .config}}"
+        foreach: "[config]"
+        children: "children"
+        result_name: "children_config"
+        field: "[name]"
+        value: "[value]"
+        save_field: config
+      - key: handler_cache
+        enable: "{{and (eq (get_key \"can_cache\") \"true\") (must .set_cache)}}"
+        name: 批量设置缓存
+        method: BULK_SET_CACHE
+        foreach: "[config]"
+        item: item
+        field: "[item.children_config]"
+        room: config
+        second: 0
+        fields:
+          - field: "config.config_detail_query"
+          - field: "[item.group_id]"
+      - key: param2result
+        enable: "{{must .config}}"
+        field: "[config]"
+
+  - key: config_detail_query
+    http: true
+    module: sql
+    cache:
+      key: "handler_cache"
+      enable: "{{eq (get_key \"can_cache\") \"true\"}}"
+      room: config
+      second: 0
+      fields:
+        - field: "[service]"
+        - field: "[group_name]"
+    params:
+      group_name:
+        check:
+          template: "{{must .group_name}}"
+          err_msg: 分组名称不能空
+      config:
+        default: {}
+    data_file: config_detail_query.sql
+    result_handler:
+      - key: result2params
+        fields:
+          - to: "[config_params]"
+      - key: arr2dict
+        enable: "{{must .config_params}}"
+        foreach: "[config_params]"
+        field: "[name]"
+        value: "[value]"
+        save_field: config
+      - key: param2result
+        field: "[config]"

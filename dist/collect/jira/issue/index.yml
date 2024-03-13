@@ -1,0 +1,129 @@
+service:
+
+  - key: update_issue_status_list_all
+    module: sql
+    data_file: update_issue_status_list_all.sql
+  - key: update_issue_status
+
+    module: sql
+    data_file: update_issue_status.sql
+  - key: jira_issue_slice_save
+    module: bulk_create
+    table: "jira_issue_slice"
+    params:
+      issue_list:
+        check:
+          template: "{{must .issue_list}}"
+          err_msg: issue 不能为空
+    model_field: issue_list
+  - key: jira_issue_slice_modify
+    module: bulk_upsert
+    params:
+      issue_list:
+        check:
+          template: "{{must .issue_list}}"
+          err_msg: issue 不能为空
+    model_field: issue_list
+    table: jira_issue_slice
+  - key: jira_issue_slice
+    name: 获取jira信息
+    module: "sql"
+    data_source: 'jira'
+    http: true
+    data_file: jira_issue_slice.sql
+
+  - key: local_jira_issue_slice
+    name: 获取本地jira信息
+    module: "sql"
+    http: true
+    data_file: local_jira_issue_slice.sql
+  - key: jira_issue_update
+    http: true
+    module: empty
+
+    schedule:
+      enable: "{{eq (get_key \"schedule_enable\") \"true\"}}"
+      schedule_spec: "@every 300s"
+    params:
+      jira_issue_list:
+        default: [ ]
+      local_jira_issue_list:
+        default: [ ]
+    modify_config: issue_modify.json
+    handler_params:
+      - key: service2field
+        service:
+          service: jira.jira_issue_slice
+        save_field: jira_issue_list
+      - key: prop_arr
+        foreach: "[jira_issue_list]"
+        value: "[issue_key]"
+        save_field: issue_key_list
+      - key: service2field
+        service:
+          service: jira.local_jira_issue_slice
+          issue_key_list: "[issue_key_list]"
+        save_field: local_jira_issue_list
+      - key: get_modify_data
+        save_field: change_list
+      - key: filter_arr
+        enable: "{{must .change_list}}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: add_list
+      - key: service2field
+        name: 添加列表
+        enable: "{{must .add_list}}"
+        service:
+          service: jira.jira_issue_slice_save
+          issue_list: "[add_list]"
+
+      - key: filter_arr
+        enable: "{{must .change_list}}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: modify_list
+      - key: group_by
+        enable: "{{must .modify_list}}"
+        foreach: "[modify_list]"
+        children: "children"
+        fields:
+          - field: "[issue_key]"
+        save_field: modify_list
+      - key: service2field
+        enable: "{{must .modify_list}}"
+        service:
+          service: jira.jira_issue_slice_modify
+          issue_list: "[modify_list]"
+      - key: filter_arr
+        enable: "{{must .change_list}}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{or (eq .item.operation \"modify\") (eq .item.operation \"add\") }}"
+        save_field: issue_key_change_list
+      - key: prop_arr
+        enable: "{{must .issue_key_change_list}}"
+        foreach: "[issue_key_change_list]"
+        value: "[issue_key]"
+        save_field: issue_key_change_list
+      - key: service2field
+        enable: "{{must .issue_key_change_list}}"
+        service:
+          service: jira.update_issue_status
+          issue_key_change_list: "[issue_key_change_list]"
+
+      - key: service2field
+        enable: "{{must .issue_key_change_list}}"
+        service:
+          service: jira.update_issue_status_list_all
+
+      - key: params2result
+        fields:
+          - from: "[add_list]"
+            to: add_list
+          - from: "[modify_list]"
+            to: modify_list
+          - from: "[change_list]"
+            to: change_list

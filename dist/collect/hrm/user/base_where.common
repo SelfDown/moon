@@ -1,0 +1,31 @@
+{{ if .exclude }}
+and a.userid != {{.exclude}}
+{{ end }}
+
+{{  if .user_id }}
+and a.userid = {{.user_id}}
+{{ end }}
+{{  if .user_id }}
+and a.user_id = {{.user_id}}
+{{ end }}
+{{  if  .nick }}
+and a.nick = {{.nick}}
+{{ end }}
+{{ if .search }}
+and (
+    a.nick like {{.search}}
+    or a.user_name like {{.search}}
+)
+{{ end  }}
+
+{{  if  .username }}
+and a.username = {{.username}}
+{{ end }}
+
+{{ if .user_status }}
+and a.user_status ={{.user_status}}
+{{ end }}
+order by a.create_time desc
+{{ if  .pagination  }}
+limit {{.start}} , {{.size}}
+{{ end }}

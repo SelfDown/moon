@@ -1,0 +1,31 @@
+service:
+  - key: system_login_finish
+    http: true
+    module: empty
+    log: true
+    params:
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户不能为空
+  - key: system_login
+    http: true
+    must_login: false
+    log: true
+    module: service_flow
+    params:
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能为空
+      password_md5:
+        check:
+          template: "{{must .password}}"
+          err_msg: 密码不能为空
+        template: "{{md5 .password}}"
+      has_user:
+        default: true
+    data_json: system_login.json
+    result_handler:
+      - key: param2result
+        field: "[session_user]"

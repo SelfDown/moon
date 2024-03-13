@@ -1,0 +1,257 @@
+service:
+  - key: get_user_info
+    http: true
+    module: bulk_service
+    name: 服务组合
+    params:
+      service_list:
+        default: []
+    batch:
+      foreach: "[service_list]"
+      item: item
+      service:
+        service: "[tag]"
+      save_field: 'result'
+      append_item_param: true
+    data_file: service_transfer.json
+
+  - key: get_user_modify_data
+    http: true
+    log: true
+    module: empty
+    modify_config: user_modify.json
+    params:
+      user_id:
+        check:
+          template: "{{must .user_id}}"
+          err_msg: 用户ID不能为空
+      right_ldap_group:
+        default: []
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          user_id: "[user_id]"
+          count: false
+          to_obj: true
+        save_field: user_info
+      - key: service2field
+        enable: "{{must .roles}}"
+        service:
+          service: hrm.ldap_group_query
+          roles: "[roles]"
+        save_field: left_ldap_group
+      - key: update_array
+        enable: "{{must .left_ldap_group}}"
+        foreach: "[left_ldap_group]"
+        item: item
+        fields:
+          - field: user_id
+            template: "[user_id]"
+      - key: service2field
+        enable: "{{must .user_info.roles}}"
+        service:
+          service: hrm.ldap_group_query
+          roles: "[user_info.roles]"
+        save_field: right_ldap_group
+
+      - key: update_array
+        enable: "{{must .right_ldap_group}}"
+        foreach: "[right_ldap_group]"
+        item: item
+        fields:
+          - field: user_id
+            template: "[user_id]"
+      - key: get_modify_data
+        save_field: change_list
+    result_handler:
+      - key: params2result
+        fields:
+          - from: "[change_list]"
+            to: "change_list"
+          - from: "[user_info]"
+            to: "user_info"
+          - from: "[left_ldap_group]"
+            to: "left_ldap_group"
+          - from: "[right_ldap_group]"
+            to: "right_ldap_group"
+  - key: edit_user_flow
+    http: true
+    log: true
+    module: empty
+    params:
+      user_id:
+        check:
+          template: "{{must .user_id}}"
+          err_msg: 用户ID不能为空
+      default_password:
+        template: "{{get_key \"default_password\"}}"
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.get_user_modify_data
+        append_param: true
+        save_field: modify_data
+
+      - key: update_field
+        name: 更新字段
+        fields:
+          - field: user_info
+            template: "[modify_data.user_info]"
+          - field: change_list
+            template: "[modify_data.change_list]"
+
+
+      - key: service2field
+        name: 判断是否更改ldap_username
+        service:
+          service: hrm.ldap_search
+          search_username: "[username]"
+          to_obj: true
+        save_field: local_username
+        template: "{{or (is_empty .local_username.cn) (eq .local_username.cn .user_info.username) }}"
+        err_msg: "ldap 用户名【{{.username}}】已经存在，请更换用户名"
+
+      - key: service2field
+        name: 修改主体信息
+        service:
+          service: hrm.update_user_by_user_id
+        append_param: true
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and ( eq .item.operation \"add\" ) ( eq .item.field \"[roles]\") }}"
+        save_field: add_role_list
+      - key: prop_arr
+        enable: "{{must .add_role_list}}"
+        foreach: "[add_role_list]"
+        value: "[value]"
+        save_field: add_role_id_list
+
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and ( eq .item.operation \"add\" ) ( eq .item.field \"[ldap_group]\") }}"
+        save_field: add_ldap_group_list
+      - key: prop_arr
+        enable: "{{must .add_ldap_group_list}}"
+        foreach: "[add_ldap_group_list]"
+        value: "[value]"
+        save_field: add_ldap_group_name_list
+
+
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and ( eq .item.operation \"remove\" ) ( eq .item.field \"[ldap_group]\") }}"
+        save_field: remove_ldap_group_list
+      - key: prop_arr
+        enable: "{{must .remove_ldap_group_list}}"
+        foreach: "[remove_ldap_group_list]"
+        value: "[value]"
+        save_field: remove_ldap_group_name_list
+
+      - key: filter_arr
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{and ( eq .item.operation \"remove\" ) ( eq .item.field \"[roles]\") }}"
+        save_field: remove_role_list
+      - key: prop_arr
+        enable: "{{must .remove_role_list}}"
+        foreach: "[remove_role_list]"
+        value: "[value]"
+        save_field: remove_role_list
+      - key: service2field
+        enable: "{{must .add_role_id_list}}"
+        service:
+          service: hrm.user_role_add
+          user_id: "[user_id]"
+          role_list: "[add_role_id_list]"
+      - key: service2field
+        enable: "{{must .remove_role_list}}"
+        service:
+          service: hrm.user_role_remove
+          user_id: "[user_id]"
+          role_list: "[remove_role_list]"
+
+      - key: service2field
+        name: 如果远程ldap 不存在，但是传的是创建ldap,那就创建ldap
+        enable: "{{ and ( eq .create_ldap \"1\" ) ( is_empty .local_username.cn)}}"
+        service:
+          service:  hrm.create_ldap_with_group
+          add_username: "[username]"
+          add_password: "[default_password]"
+        append_param: true
+      - key: service2field
+        name: 如果远程ldap 存在，但是传的是删除ldap，那就删除ldap
+        enable: "{{ and ( eq .create_ldap \"0\" ) ( must .local_username.cn)}}"
+        service:
+          service: hrm.remote_user_ldap_delete
+          remove_username: "[username]"
+
+      - key: service2field
+        enable: "{{must .remove_ldap_group_name_list}}"
+        service:
+          service: hrm.ldap_user_group_delete_simple
+          remove_username: "[username]"
+          user_groups: "[remove_ldap_group_name_list]"
+        save_field: remove_result
+      - key: service2field
+        enable: "{{must .add_ldap_group_name_list}}"
+        service:
+          service: hrm.remote_user_ldap_group_add_bulk_simple
+          add_username: "[username]"
+          ldap_group_list: "[add_ldap_group_name_list]"
+        save_field: add_result
+      - key: service2field
+        enable: "{{must .change_list}}"
+        service:
+          service: hrm.user_change_history_save
+          change_list: "[change_list]"
+    result_handler:
+      - key: params2result
+        fields:
+          - from: "[user_role_list]"
+            to: user_role_list
+          - from: "[user_info]"
+            to: user_info
+          - from: "[change_list]"
+            to: change_list
+          - from: "[add_role_id_list]"
+            to: add_role_id_list
+          - from: "[remove_role_list]"
+            to: remove_role_list
+          - from: "[ldap_group_list]"
+            to: ldap_group_list
+          - from: "[remove_result]"
+            to: remove_result
+          - from: "[add_result]"
+            to: add_result
+          - from: "[remove_ldap_group_name_list]"
+            to: remove_ldap_group_name_list
+          - from: "[add_ldap_group_name_list]"
+            to: add_ldap_group_name_list
+
+
+  - key: create_user_flow
+    http: true
+    log: true
+    module: service_flow
+
+    params:
+      user_id:
+        template: "{{uuid}}"
+
+    handler_params:
+      - key: service2field
+        enable: "{{eq .create_ldap \"1\"}}"
+        service:
+          service: hrm.ldap_search
+          search_username: "[username]"
+        save_field: local_username
+        template: "{{le (len .local_username) 0 }}"
+        err_msg: "ldap 用户名【{{.username}}】已经存在，请更换用户名"
+    data_json: create_user_flow.json
+    result_handler:
+      - key: param2result
+        field: "[user_id]"

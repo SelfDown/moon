@@ -1,0 +1,275 @@
+service:
+  - key: webshell_token_query
+    module: sql
+    http: true
+    params:
+      search:
+        template: "{{ if .search }}%{{.search}}%{{ end }}"
+      nick:
+        default: ""
+      page:
+        type: int
+        default: 1
+      size:
+        default: 20
+        type: int
+      start:
+        template: " ({{.page}}-1) * {{.size}}"
+        exec: true
+        type: int
+      pagination:
+        default: true
+    data_file: token_list.sql
+    count_file: token_count.sql
+    pagination: pagination
+  - key: webshell_log_save
+    params:
+      term_list:
+        check:
+          template: "{{must .term_list}}"
+          err_msg: 日志不能为空
+    module: bulk_create
+    table: "webshell_log"
+    model_field: "[term_list]"
+  - key: term_msg
+    module: empty
+    params:
+      data_list:
+        default: []
+    handler_params:
+      - key: filter_arr
+        enable: "{{ must .data_list }}"
+        foreach: "[data_list]"
+        item: item
+        if_template: "{{eq .item.data_type \"term\" }}"
+        save_field: term_list
+      - key: update_array
+        enable: "{{ must .term_list }}"
+        foreach: "[term_list]"
+        item: item
+        fields:
+          - field: webshell_log_id
+            template: "{{uuid}}"
+          - field: token
+            template: "{{.item.params.token}}"
+          - field: data
+            template: "[item.data]"
+            type: "[]byte"
+      - key: service2field
+        enable: "{{ must .term_list }}"
+        service:
+          service: webshell.webshell_log_save
+          term_list: "[term_list]"
+
+
+  - key: upload_file_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+        type: int64
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_file_upload
+          server_info: "[server_info]"
+          path: "[path]"
+  - key: remove_file_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_file_remove
+          server_info: "[server_info]"
+          path: "[path]"
+  - key: download_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_file_download
+          server_info: "[server_info]"
+          path: "[path]"
+  - key: get_dir_info_by_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      path:
+        default: "."
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: project.server_dir
+          server_info: "[server_info]"
+          path: "[path]"
+        save_field: dir_info
+      - key: order_by
+        enable: "{{must .dir_info}}"
+        foreach: "[dir_info.dir]"
+        fields:
+          - field: "[is_dir]"
+            rule: "desc"
+          - field: "[name]"
+            rule: "asc"
+      - key: param2result
+        field: "[dir_info]"
+  - key: gen_token_from_token
+    http: true
+    module: empty
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+    handler_params:
+      - key: service2field
+        service:
+          service: webshell.get_info_by_token
+          once_token: false
+          token: "[token]"
+        save_field: server_info
+        template: "{{ must .server_info}}"
+        err_msg: 服务器信息有误
+      - key: service2field
+        service:
+          service: webshell.gen_token
+          server_os_users_id: "[server_info.server_os_users_id]"
+        save_field: token
+      - key: param2result
+        field: "[token]"
+  - key: gen_token
+    http: true
+    module: model_save
+    params:
+      server_os_users_id:
+        check:
+          template: "{{must .server_os_users_id}}"
+          err_msg: 服务器用户不能为空
+      token:
+        template: "{{snow_id}}"
+      webshell_token_id:
+        template: "{{uuid}}"
+      create_user:
+        template: "{{.session_user_id}}"
+      create_time:
+        template: "{{current_date_time}}"
+      close_time:
+        template: "{{\"\"}}"
+      is_valid:
+        default: "1"
+    table: webshell_token
+    handler_params:
+      - key: param2result
+        field: "[token]"
+  - key: update_finish_token
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能空
+      close_time:
+        template: "{{current_date_time}}"
+    table: webshell_token
+    module: model_update
+    filter:
+      token: "[token]"
+  - key: update_invalid_token
+    params:
+      is_valid:
+        default: "0"
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能空
+    module: model_update
+    table: "webshell_token"
+    filter:
+      token: "[token]"
+  - key: get_info_by_token
+    http: true
+    params:
+      token:
+        check:
+          template: "{{must .token}}"
+          err_msg: token 不能为空
+      once_token:
+        name: 是否更新token一次性使用
+        default: true
+    module: sql
+    data_file: get_info_by_token.sql
+    result_handler:
+      - key: service2field
+        enable: "[once_token]"
+        service:
+          service: webshell.update_invalid_token
+          token: "[token]"
+      - key: result2params
+        fields:
+          - to: data
+      - key: handler_password
+        enable: "{{must .data}}"
+        foreach: "[data]"
+        operation: "decrypt"
+        field: "[user_pwd]"
+        save_field: after
+      - key: param2result
+        enable: "{{must .data}}"
+        field: "[after]"
+      - key: arr2obj

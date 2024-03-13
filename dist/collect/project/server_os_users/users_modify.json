@@ -1,0 +1,15 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "op_field_transfer": {
+    "name": "op_name"
+  },
+  "fields": [
+    {"rule": "array_obj_value", "left_field": "[server_id&user_name]", "right_field": "[server_id&user_name]", "field": "[users]", "name": "用户", "left": "[server_users]", "right": "[local_server_users]", "with_add_remove": true, "left_value_field": "[user_name]", "right_value_field": "[user_name]", "operation": "modify", "append_right_fields": ["[*]"],"append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[server_id&user_name]", "right_field": "[server_id&user_name]", "field": "[users]", "name": "密码", "left": "[server_users]", "right": "[local_server_users]", "left_value_field": "[user_pwd]", "right_value_field": "[user_pwd]", "operation": "modify", "append_right_fields": ["[*]"],"append_left_fields": ["[*]"]},
+    {"rule": "array_obj_value", "left_field": "[server_id&user_name]", "right_field": "[server_id&user_name]", "field": "[users]", "name": "用户类型", "left": "[server_users]", "right": "[local_server_users]", "left_value_field": "[ossoft_user_group_id]", "right_value_field": "[ossoft_user_group_id]", "operation": "modify", "append_right_fields": ["[*]"],"append_left_fields": ["[*]"]}
+
+
+  ]
+}

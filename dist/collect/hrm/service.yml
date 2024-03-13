@@ -1,0 +1,24 @@
+# 项目点路由
+service:
+  - name: "用户管理"
+    path: "user/index.yml"
+  - name: "角色管理"
+    path: "role/index.yml"
+
+
+  - name: "ldap"
+    path: "ldap/index.yml"
+
+  - name: "login"
+    path: "login/index.yml"
+  - name: user_flow
+    path: "user_flow/index.yml"
+  - name: user_role
+    path: "user_role/index.yml"
+  - name: ldap_group
+    path: "ldap_group/index.yml"
+  - name: role_ldap_group
+    path: "role_ldap_group/index.yml"
+
+  - name: user_change_history
+    path: "user_change_history/index.yml"

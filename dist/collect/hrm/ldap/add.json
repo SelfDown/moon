@@ -1,0 +1,21 @@
+{
+  require(login.common),
+  "method": "add",
+  "AddParams": {
+    "DN": "cn={{.add_username}},{{.ldap_config.ldap_users}},{{.ldap_config.ldap_base_dn}}",
+    "Attributes": [
+      {"TYPE": "cn","Vals": ["{{.add_username}}"]},
+      {"TYPE": "sn","Vals": ["{{.nick}}"]},
+      {"TYPE": "givenName","Vals": ["{{.nick}}"]},
+      {{if .email}}
+      {"TYPE": "mail","Vals": ["{{.email}}"]},
+      {{ end }}
+      {{if .phone}}
+      {"TYPE": "mobile","Vals": ["{{.phone}}"]},
+      {{end}}
+      {"TYPE": "objectClass","Vals": ["top", "inetOrgPerson"]},
+      {"TYPE": "userpassword","Vals": ["{{hash_sha .add_password}}"]}
+    ]
+  }
+
+}

@@ -1,0 +1,20 @@
+service:
+  - key: menu_query
+    http: true
+    module: sql
+    params:
+      search:
+        template: "{{ if .search}}%{{.search}}%{{ end }}"
+    data_file: menu_query.sql
+    result_handler:
+      - key: result2params
+        fields:
+          - to: "[menu_list]"
+      - key: to_tree
+        foreach: "[menu_list]"
+        id: menu_id
+        pid: parent_id
+        children: children
+        save_field: menu_tree
+      - key: param2result
+        field: "[menu_tree]"

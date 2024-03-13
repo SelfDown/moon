@@ -1,0 +1,119 @@
+service:
+  - key: role_query
+    http: true
+    module: sql
+    log: true
+    params:
+      search:
+        template: "{{ if .search }}%{{.search}}%{{ end }}"
+      nick:
+        default: ""
+      page:
+        type: int
+        default: 1
+      size:
+        default: 20
+        type: int
+      start:
+        template: " ({{.page}}-1) * {{.size}}"
+        exec: true
+        type: int
+      pagination:
+        default: true
+      count:
+        default: true
+    data_file: role_query.sql
+    count: "[count]"
+    count_file: role_query_count.sql
+    pagination: pagination
+  - key: role_delete
+    http: true
+    module: model_delete
+    params:
+      role_id_list:
+        check:
+          template: "{{or (must .role_id_list) (must .role_ids)}}"
+          err_msg: 角色不能空
+    table: "role"
+    handler_params:
+      - key: field2array
+        field: "[role_ids]"
+        enable: "{{must .role_ids}}"
+        save_field: role_id_list
+    result_handler:
+      - key: service2field
+        service:
+          service: hrm.role_ldap_group_delete
+          role_id_list: "[role_id_list]"
+    filter:
+      role_id__in: "[role_id_list]"
+
+  - key: create_role
+    module: model_save
+    http: true
+    params:
+      role_id:
+        check:
+          template: "{{must .role_id}}"
+          err_msg: 角色不能为空
+      role_code:
+        check:
+          template:  "{{must .role_code}}"
+          err_msg: 编码不能为空
+      role_name:
+        check:
+          template:  "{{must .role_name}}"
+          err_msg: 角色名称不能为空
+      order_index:
+        check:
+          template: "{{must .order_index}}"
+          err_msg: 排序号不能为空
+      ldap_group_ids:
+        default: ""
+    result_handler:
+      - key: service2field
+        enable: "{{must .ldap_group_ids}}"
+        service:
+          service: hrm.role_ldap_group_save
+          ldap_group_ids: "[ldap_group_ids]"
+          role_id: "[role_id]"
+    table: role
+
+  - key: edit_role
+    module: model_update
+    http: true
+    params:
+      role_id:
+        check:
+          template: "{{must .role_id}}"
+          err_msg: 角色不能为空
+      role_code:
+        check:
+          template:  "{{must .role_code}}"
+          err_msg: 编码不能为空
+      role_name:
+        check:
+          template:  "{{must .role_name}}"
+          err_msg: 角色名称不能为空
+      order_index:
+        check:
+          template: "{{must .order_index}}"
+          err_msg: 排序号不能为空
+      ldap_group_ids:
+        default: ""
+    filter:
+      role_id: "[role_id]"
+    result_handler:
+      - key: service2field
+        service:
+          service: hrm.role_ldap_group_delete_by_role_id
+          role_id: "[role_id]"
+      - key: service2field
+        enable: "{{must .ldap_group_ids}}"
+        service:
+          service: hrm.role_ldap_group_save
+          ldap_group_ids: "[ldap_group_ids]"
+          role_id: "[role_id]"
+    table: role
+
+

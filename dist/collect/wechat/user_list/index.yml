@@ -1,0 +1,53 @@
+service:
+  - key: user_info
+    module: http
+    http: true
+    log: true
+    handler_params:
+      - key: service2field
+        service:
+          service: wechat.gettoken
+        save_field: access_token
+    http_json: user_info.json
+  - key: list_id
+    module: http
+    http: true
+    log: true
+    handler_params:
+      - key: service2field
+        service:
+          service: wechat.gettoken
+        save_field: access_token
+    http_json: list_id.json
+  - key: get_userid
+    module: http
+    http: true
+    log: true
+    params:
+      mobile:
+        default: "18874948657"
+    handler_params:
+      - key: service2field
+        service:
+          service: wechat.gettoken
+        save_field: access_token
+    http_json: get_userid.json
+    success: "{{ if eq .errmsg `ok` }}true{{ else }}false{{ end }}"
+  - key: user_list
+    module: http
+    http: true
+    log: true
+    handler_params:
+      - key: service2field
+        service:
+          service: wechat.gettoken
+        save_field: access_token
+    http_json: user_list.json
+    success: "{{ if eq .errmsg `ok` }}true{{ else }}false{{ end }}"
+    result_handler:
+      - key: result2params
+        fields:
+          - from: "[userlist]"
+            to: "[userlist]"
+      - key: param2result
+        field: "[userlist]"

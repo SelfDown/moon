@@ -1,0 +1,62 @@
+service:
+  - key: user_role_remove
+    module: model_delete
+    params:
+      user_id:
+        check:
+          template: "{{must .user_id}}"
+          err_msg: 用户不能为空
+      role_list:
+        check:
+          template: "{{must .role_list}}"
+          err_msg: 角色不能为空
+    table: "user_role"
+    filter:
+      user_id: "[user_id]"
+      role_id__in: "[role_list]"
+
+  - key: user_role_add
+    module: empty
+    params:
+      user_id:
+        check:
+          template: "{{must .user_id}}"
+          err_msg: 用户不能为空
+      roles:
+        default: ""
+      role_list:
+        check:
+          template: "{{or (must .roles) (must .role_list) }}"
+          err_msg: 角色不能为空
+    handler_params:
+      - key: field2array
+        enable: "{{must .roles}}"
+        field: "[roles]"
+        save_field: role_list
+      - key: arr2arrayObj
+        enable: "{{must .role_list}}"
+        foreach: "[role_list]"
+        item: item
+        fields:
+          - field: "role_id"
+            template: "{{.item}}"
+          - field: user_id
+            template: "[user_id]"
+          - field: user_role_id
+            template: "{{uuid}}"
+        save_field: user_role_list
+      - key: service2field
+        service:
+          service: hrm.user_role_bulk_create
+          user_role_list: "[user_role_list]"
+
+  - key: user_role_bulk_create
+    module: bulk_create
+    http: true
+    params:
+      user_role_list:
+        check:
+          template: "{{must .user_role_list}}"
+          err_msg: 用户角色不能为空
+    model_field: "[user_role_list]"
+    table: "user_role"

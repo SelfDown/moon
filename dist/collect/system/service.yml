@@ -1,0 +1,8 @@
+# 项目点路由
+service:
+  - name: "登录"
+    path: "login/index.yml"
+  - name: "码表"
+    path: "sys_code/index.yml"
+  - name: "菜单"
+    path: "menu/index.yml"

@@ -1,0 +1,112 @@
+service:
+  - key:  project_list
+    module: sql
+    http: true
+    params:
+      search:
+        template: "{{ if .search }}%{{.search}}%{{ end }}"
+      with_env_tree:
+        default: false
+      to_obj:
+        default: false
+    data_file: project_list.sql
+    result_handler:
+      - key: result2params
+        enable: "[with_env_tree]"
+        fields:
+          - to: "[project_list]"
+
+      - key: update_array
+        enable: "[with_env_tree]"
+        foreach: "[project_list]"
+        item: item
+        fields:
+          - field: server_env_name
+            template: "[item.project_name]"
+
+      - key: service2field
+        enable: "[with_env_tree]"
+        service:
+          service: project.env_tree
+        save_field: env_tree
+      - key: combine_array
+        enable: "[with_env_tree]"
+        foreach: "[project_list]"
+        field: "[sys_project_id]"
+        right: "[env_tree]"
+        right_field: "[sys_project_id]"
+        children: "children"
+      - key: arr2obj
+        enable: "[to_obj]"
+  - key: add_project
+    module: model_save
+    http: true
+    table: sys_projects
+    params:
+      sys_project_id:
+        template: "{{uuid}}"
+      project_name:
+        check:
+          template: "{{must .project_name}}"
+          err_msg: 项目不能为空
+      project_code:
+        check:
+          template: "{{must .project_code}}"
+          err_msg: 项目不能为空
+      order_id:
+        template: "{{must .order_id}}"
+        err_msg: 排序号不能为空
+      flag_del:
+        default: 0
+      create_time:
+        template: "{{current_date_time}}"
+      modify_time:
+        template: "{{current_date_time}}"
+      zabbix_max_maintenance_time:
+        default: 30
+    handler_params:
+      - key: service2field
+        service:
+          service: project.project_list
+          project_code: "[project_code]"
+        save_field: current_project
+        template: "{{is_empty .current_project}}"
+        err_msg: "[{{.project_code}}]已经存在"
+  - key: project_delete
+    module: model_update
+    http: true
+    params:
+      project_id_list:
+        check:
+          template: "{{must .project_id_list}}"
+          err_msg: 项目不能为空
+      flag_del:
+        default: "1"
+    table: sys_projects
+
+    filter:
+      sys_project_id__in: "[project_id_list]"
+
+  - key: project_update
+    module: model_update
+    http: true
+    params:
+      sys_project_id:
+        check:
+          template: "{{must .sys_project_id}}"
+          err_msg: 项目不能为空
+      modify_time:
+        template: "{{current_date_time}}"
+    table: sys_projects
+    handler_params:
+      - key: service2field
+        service:
+          service: project.project_list
+          project_code: "[project_code]"
+          exclude: "[sys_project_id]"
+        save_field: current_project
+        template: "{{is_empty .current_project}}"
+        err_msg: "[{{.project_code}}]已经存在"
+    filter:
+      sys_project_id: "[sys_project_id]"
+

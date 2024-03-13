@@ -1,0 +1,13 @@
+[
+  {
+    "service": "project.env_tree",
+    "project_code": "{{.current_project}}",
+    "to_tree": false,
+    "target_field": "env_tree"
+  },
+  {
+    "service": "project.server_list",
+    "project_code": "{{.current_project}}",
+    "target_field": "server_list"
+  }
+]

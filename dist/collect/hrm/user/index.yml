@@ -1,0 +1,474 @@
+service:
+  - key: user_list_import
+    module: empty
+    http: true
+    excel_config: "./user_list2excel.json"
+    handler_params:
+      - key: excel2data
+        save_field: user_list
+      - key: ignore_data
+        foreach: "[user_list]"
+        params: "params"
+        fields:
+          - name: "user_id 为空的数据"
+            template: "{{ if .user_id }}false{{else}}true{{end}}"
+      - key: service2field
+        enable: "{{gt (len .user_list) 0 }}"
+        service:
+          service: hrm.bulk_update_user
+          user_list: "[user_list]"
+      - key: params2result
+        fields:
+          - from: "[user_list]"
+            to: user_list
+  - key: user_list_download
+    module: empty
+    http: true
+    excel_config: "./user_list2excel.json"
+    params:
+      excel_path:
+        template: './template/{{current_date_format "20220202"}}/user_{{  replace (sub_str current_date_time -8 0) ":" ""}}_{{sub_str uuid -8 0}}.xlsx'
+      response_name:
+        default: "用户列表.xlsx"
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+        append_param: true
+        save_field: user_list
+      - key: data2excel
+        path: "[excel_path]"
+      - key: file2result
+        path: "[excel_path]"
+        result_name: "[response_name]"
+  - key: snow_id
+    http: true
+    module: empty
+    params:
+      snow_id:
+        template: "{{snow_id}}"
+        type: int64
+    result_handler:
+      - key: param2result
+        field: "[snow_id]"
+
+
+  - key: empty_test
+    module: empty
+    http: true
+
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          username: "[username]"
+        save_field: user_info
+        template: "{{gt (len .user_info) 0}}"
+        err_msg: "用户名【{{.username}}】已经存在"
+    result_handler:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          username: "[username]"
+        save_field: user_info
+        template: "{{eq (len .user_info) 0}}"
+        err_msg: "用户名【{{.username}}】已经存在"
+  - key: bulk_update_user
+    module: bulk_upsert
+    log: true
+    http: true
+    params:
+      user_list:
+        check:
+          template: "{{must .user_list}}"
+          err_msg: 用户列表不能为空
+      fields:
+        default: ["*"]
+    handler_params:
+      - key: update_array
+        foreach: "[user_list]"
+        item: item
+        fields:
+          - field: password
+            template: "{{ if .item.password }}{{md5 .item.password}}{{ end }}"
+    table: "user_account"
+    options: "[fields]"
+    model_field: "[user_list]"
+#    update_fields:
+#      - address
+    ignore_fields:
+      - password
+  - key: bulk_create_user
+    module: bulk_create
+    log: true
+    http: true
+    params:
+      user_list:
+        check:
+          template: "{{must .user_list}}"
+          err_msg: 用户列表不能为空
+    handler_params:
+      - key: update_array
+        foreach: "[user_list]"
+        item: item
+        fields:
+          - field: user_id
+            template: "{{uuid}}"
+          - field: password
+            template: "{{ if .item.password }}{{md5 .item.password}}{{ end }}"
+    table: "user_account"
+    model_field: "[user_list]"
+  - key: get_user_list_by_user_id_list
+    http: true
+    module: sql
+    log: true
+    params:
+      user_id_list:
+        check:
+          template: "{{must .user_id_list}}"
+          err_msg: 用户ID 不能为空
+    data_file: get_user_list_by_user_id_list.sql
+
+  - key: delete_user_by_user_id_list
+    module: model_update
+    http: true
+    log: true
+    params:
+      user_id_list:
+        check:
+          template: "{{or (must .user_id_list) (must .ids)}}"
+          err_msg: 用户名不能空
+      is_delete:
+        default: "1"
+    table: "user_account"
+    update_fields:
+      - is_delete
+    handler_params:
+      - key: field2array
+        field: "[ids]"
+        enable: "{{must .ids}}"
+        save_field: user_id_list
+      - key: service2field
+        enable: "{{must .user_id_list}}"
+        service:
+          service: hrm.get_user_list_by_user_id_list
+          user_id_list: "[user_id_list]"
+        save_field: user_info_list
+      - key: service2field
+        enable: "{{must .user_info_list}}"
+        service:
+          service: hrm.remote_user_ldap_delete_bulk
+          user_info_list: "[user_info_list]"
+        save_field: deleteResult
+    filter:
+      user_id__in: "[user_id_list]"
+    result_handler:
+      - key: param2result
+        enable: "{{must .user_info_list}}"
+        field: deleteResult
+  - key: update_user_all
+    module: model_update
+    http: true
+    log: true
+    table: "user_account"
+    filter:
+      user_id__isnull: false
+    update_fields:
+      - address
+      - comments
+      - wechat_user_id
+  - key: update_user_by_user_id_list
+    module: model_update
+    http: true
+    log: true
+    params:
+      fields:
+        default: ["*"]
+      user_id_list:
+        check:
+          template: "{{must .user_id_list}}"
+          err_msg: 用户名不能空
+    table: "user_account"
+    options: "[fields]"
+    filter:
+      user_id__in: "[user_id_list]"
+    ignore_fields:
+      - password
+  - key: update_user_by_username_nick
+    module: model_update
+    http: true
+    log: true
+    params:
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能空
+      nick:
+        check:
+          template: "{{must .nick}}"
+          err_msg: 昵称不能空
+    table: "user_account"
+    filter:
+      username: "[username]"
+      nick: "[username]"
+    update_fields:
+      - address
+  - key: update_user_by_user_id
+    module: model_update
+    http: true
+    log: true
+    params:
+      user_id:
+        check:
+          template: "{{must .user_id}}"
+          err_msg: 用户ID不能为空
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能空
+      nick:
+        check:
+          template: "{{must .nick}}"
+          err_msg: 昵称不能空
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          exclude: "[user_id]"
+          username: "[username]"
+        save_field: user_info
+        template:  "{{ if .user_info  }}false{{ else  }}true{{end}}"
+        err_msg: "用户名 {{.username}} 已经存在【{{len .user_info}}】次"
+    table: "user_account"
+    filter:
+      user_id: "[user_id]"
+
+
+
+  - key: update_user_by_username
+    module: model_update
+    http: true
+    log: true
+    params:
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能空
+      password:
+        template: "{{ if .password }}{{md5 .password}}{{ end }}"
+    table: "user_account"
+    filter:
+      user_name: "[username]"
+#    update_fields:
+#      - address
+  - key: get_pinyin
+    module: empty
+    http: true
+    params:
+      content:
+        template: "{{pinyin .content}}"
+      result_name:
+        default: "username"
+    result_handler:
+      - key: params2result
+        fields:
+          - from: "[content]"
+            to: "[result_name]"
+          - from : "{{.content}}@weigaogroup.com"
+            to: email
+
+  - key: create_user
+    module: model_save
+    http: true
+    log: true
+    params:
+      password:
+        template: "{{ if .password }}{{md5 .password}}{{ end }}"
+        default: "123456"
+      is_delete:
+        default: "0"
+      user_id:
+        check:
+          template: "{{must .user_id}}"
+          err_msg: 用户ID 不能为空
+#        template: "{{uuid}}"
+      user_name:
+        template: "{{.username}}"
+      username:
+        check:
+          template: "{{must .username}}"
+          err_msg: 用户名不能为空
+      user_status:
+        default: "trial"
+      role_id:
+        default: "xxxx"
+      avatar:
+        template: session_user_id
+      create_time:
+        template: "{{current_date_time}}"
+      create_user:
+        template: "{{.session_user_id}}"
+      modify_time:
+        template: "{{current_date_time}}"
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          username: "[username]"
+        save_field: user_info
+        template: "{{le (len .user_info) 0}}"
+        err_msg: "用户名【{{.username}}】已经存在"
+    table: "user_account"
+    ignore_fields:
+      - avatar
+#    update_fields:
+#      - role_id
+
+  - key: user_list
+    module: sql
+    http: true
+    params:
+      search:
+        template: "{{ if .search }}%{{.search}}%{{ end }}"
+      nick:
+        default: ""
+      page:
+        type: int
+        default: 1
+      size:
+        default: 20
+        type: int
+      start:
+        template: " ({{.page}}-1) * {{.size}}"
+        exec: true
+        type: int
+      pagination:
+        default: true
+      to_obj:
+        default: false
+      count:
+        default: true
+    data_file: user_list.sql
+    count_file: user_list_count.sql
+    pagination: pagination
+    count: "[count]"
+    result_handler:
+      - key: arr2obj
+        enable: "[to_obj]"
+
+
+
+#
+#  - key: user_list_test
+#    module: sql
+#    http: true
+#    log: false
+#    params:
+#      username:
+#        template: "{{uuid}}"
+#        check:
+#          template: "{{must .username}}"
+#          err_msg: "{{uuid}}用户名不能为空"
+#        default: "test"
+#      status:
+#        default: "0"
+#        type: int
+#      user_list:
+#        default: [{"nick":"张治"}]
+#      excel_path:
+#        template: "xx"
+#        default: "./template/jiraImportTemplate.xls"
+#    handler_params:
+#      - key: check_array
+#        name: 检查issue 列表
+#        enable: "{{eq .status 0}}"
+#        foreach: issue_list
+#        item: item
+#        fields:
+#          - template: "{{uuid}}"
+#            err_msg: "issue 列表，第【{{uuid}}】 行数据，issue_key 不能为空"
+#      - key: service2field
+#        enable: "{{eq .status 0}}"
+#        append_param: true
+#        service:
+#          service: hrm.test
+#          username: username
+#          to_obj: true
+#        save_field: userInfo
+#        template: "{{must .userInfo}}"
+#        err_msg: "用户信息不存在"
+#      - key: update_array_from_array
+#        name: 根据数组更新数据
+#        foreach: local_user_list
+#        item: item
+#        fields:
+#          - field: tel
+#            template: "second_item.mobile"
+#          - field: wechat_user_id
+#            template: "second_item.user_id"
+#        from_list: remote_user_list
+#        from_item: second_item
+#        if_template: "{{ item.nick == second_item.name or item.username+'@' in second_item.biz_mail }}"
+#      - key: update_array
+#        name: 简单更新数组
+#        foreach: user_list
+#        item: item
+#        fields:
+#          - field: user_id
+#            template: "{{uuid}}"
+#      - key: update_field
+#        name: 更新字段
+#        fields:
+#          - field: statu
+#            template: statu
+#          - field: sex
+#            template: "男"
+#          - field: age
+#            template: 19
+#      - key: prop_arr
+#        foreach: user_list
+#        value: user_id
+#        save_field: user_id_list
+#      - key: excel2data
+#        file: file
+#        data_json:  "./excel2data_config.json"
+#    data_file: user_list.sql
+#    count_file: user_list_count.sql
+#    result_handler:
+#      - key: service2field
+#        name: 结果中支持调用其他请求，保存到请求参数中。现在变成运行结果前，handler_param 运行结果后，也是handler_param
+#        enable: "{{eq .statu 0}}"
+#        append_param: false
+#        service:
+#          service: hrm.test
+#          username: username
+#          to_obj: true
+#        save_field: userInfo
+#        template: "{{must .userInfo}}"
+#        err_msg: "用户信息不存在"
+#      - key: prop_arr
+#        name: "handler_params 和result_handler的处理函数统一,之前搞2套，一套专门处理参数，一套专门处理结果，实际函数一部分可以重用"
+#        result_name: result_user_list
+#        foreach: result_user_list
+#        value: user_id
+#        save_field: user_id_list
+#      - key: add_param
+#        name: 结果中添加参数
+#        fields:
+#          - from: user_id_list
+#            to: user_id_list
+#      - key: param2result
+#        result_name: result_user_list
+#        from: result_user_list
+#      - key: data2excel
+#        data_json: "./data2excel_config.json"
+#        path: excel_path
+#      - key: file_response
+#        path: excel_path
+#        filename: "jiraImportTemplate.xls"
+#
+#  # - key: install_agent
+#  #   module: service_flow
+#  #   http: true
+#  #   data_json: install_agent.json
+#

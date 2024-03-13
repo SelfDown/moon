@@ -1,0 +1,6 @@
+# 项目点路由
+service:
+  - name: "验证"
+    path: "token/index.yml"
+  - name: 日志
+    path: "webshell_log/index.yml"

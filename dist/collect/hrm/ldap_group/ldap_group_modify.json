@@ -1,0 +1,40 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "fields": [
+    {
+      "rule": "array_obj_value",
+      "field": "[name]",
+      "left_field": "[ou]",
+      "right_field": "[name]",
+      "name": "ldap分组",
+      "right": "[local_list]",
+      "left": "[remote_list]",
+      "operation": "modify",
+      "with_add_remove": true,
+      "append_right_fields": [
+        "[ldap_group_id]",
+        "[name]",
+        "[has_group]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[ou]",
+      "right_field": "[name]",
+      "field": "[has_group]",
+      "name": "ldap分组",
+      "right": "[local_list]",
+      "left": "[remote_list]",
+      "left_value_field": "[has_group]",
+      "right_value_field": "[has_group]",
+      "operation": "modify",
+      "append_right_fields": [
+        "[ldap_group_id]",
+        "[name]",
+        "[has_group]"
+      ]
+    }
+  ]
+}
