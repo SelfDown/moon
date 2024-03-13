@@ -72,7 +72,9 @@ go run main.go
 ```
 或则点击moon.exe
 ```
-浏览器打开 http://127.0.0.1:8080/console/static
+浏览器打开 http://127.0.0.1:8009/console/static
 ```
 访问会得到控制台地址![img.png](img/img.png)
+ http://127.0.0.1:8009/ssh
+![image](https://github.com/SelfDown/moon/assets/22128775/e63d9746-4ee9-46e9-8357-39ed73b39136)
 
