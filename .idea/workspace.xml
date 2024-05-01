@@ -4,7 +4,58 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="" />
+    <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/bup/getPageUsers.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/page_data/fwk/1000020212bup_index_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/page_data/fwk/2002bup_index_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/page_data/fwk/2003bup_index_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/page_data/fwk/login_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/page_data/fwk/portal_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/request_data/generateTicket.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/request_data/portal_login.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/request_data/queryFunction.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/request_data/ssoVerify.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/request_data/user_system.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/service_list.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/page_data/service_transfer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/his/service.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/wechat/analysis/attendance.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/wechat/analysis/attendance_rule.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/wechat/attendance_data/attendance_data_query.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/wechat/attendance_data/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collect/wechat/attendance_data/local_attendance_data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql/cms/attendance.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/collect.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/hrm/user/base_where.common" beforeDir="false" afterPath="$PROJECT_DIR$/collect/hrm/user/base_where.common" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/hrm/user_change_history/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/hrm/user_change_history/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/service_router.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/service_router.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/analysis/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/analysis/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/attendance_modify.json" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/attendance_modify.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/get_attendance_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/get_attendance_user.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/checkin/local_check_in_data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect/wechat/user_list/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/wechat/user_list/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/collect.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/collect.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/ssh/assets/index.8c6523c3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/ssh/assets/index.c1f8a8a0.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/ssh/assets/index.c1f8a8a0.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/ssh/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/ssh/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/add_table.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/add_table.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_gen/gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_gen/gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/handler_params_analysis_attendance.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/handler_params_analysis_attendance.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssh/assets/index.8c6523c3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssh/assets/index.c1f8a8a0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssh/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssh/react/react-dom.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssh/react/react.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,41 +84,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/go/moon/ssh&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "F:/go/moon/test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\go\moon\ssh" />
-      <recent name="F:\go\moon\plugins" />
-      <recent name="F:\go\moon\collect\wechat\token" />
-      <recent name="F:\go\moon\collect\wechat\user_list" />
-      <recent name="F:\go\moon\collect\wechat" />
+      <recent name="F:\go\moon\test" />
+      <recent name="F:\go\moon\database" />
+      <recent name="F:\go\moon\collect\his\page_data\page_data\fwk" />
+      <recent name="F:\go\moon\cms" />
+      <recent name="F:\go\moon\collect\his" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\go\moon\collect\his\page_data\request_data" />
+      <recent name="F:\go\moon\collect\his\page_data\page_data\fwk" />
+      <recent name="F:\go\moon\frontend" />
       <recent name="F:\go\moon\img" />
       <recent name="F:\go\moon\collect\project" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go run moon">
-    <configuration name="go build moon/test" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Build.go build moon/test">
+    <configuration name="go build moon/test" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="moon" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -87,6 +141,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build moon/test" />
         <item itemvalue="Go Build.go run moon" />
       </list>
     </recent_temporary>
@@ -121,6 +176,31 @@
           <url>file://$PROJECT_DIR$/../hello/src/collect/service_imp/handler_params_update_field.go</url>
           <line>2</line>
           <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/../hello/src/collect/service_imp/handler_params_get_modify_data.go</url>
+          <line>446</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/../hello/src/collect/service_imp/module_bulk_upsert.go</url>
+          <line>58</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/../hello/src/collect/service_imp/module_bulk_upsert.go</url>
+          <line>59</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/finisher_api.go</url>
+          <line>23</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/finisher_api.go</url>
+          <line>21</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,6 +1,7 @@
 service:
   - key: user_change_list
     module: sql
+    log: true
     http: true
     params:
       search:

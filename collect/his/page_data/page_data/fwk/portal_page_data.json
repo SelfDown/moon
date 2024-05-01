@@ -1,0 +1,72 @@
+{
+  "sys_param": [
+    {
+      "rowId": "AAAZLkAAIAAAF3/AAQ",
+      "paramCode": "framework_page_title",
+      "paramGroupCode": "framework",
+      "paramName": "页面标题",
+      "value": "公司环境",
+      "valueDomain": "[\\s\\S]",
+      "descn": "页面标题，不同的环境请配置不同的值，例如威海市立医院环境，可以配成威海市立医院",
+      "unitCode": null,
+      "loginName": null,
+      "paramIndex": 4,
+      "paramType": "01",
+      "areaCode": null,
+      "apiSearchKeyWord": "BCS_PARAM:framework-framework_page_title",
+      "paramLabelNames": null
+    },
+    {
+      "rowId": "AAAcqQAAHAAAHNkAAF",
+      "paramCode": "bcs_sys_login_method",
+      "paramGroupCode": "bcs_self_use",
+      "paramName": "登陆方式",
+      "value": "{\"login_method\":[\"userpwd\", \"ca\", \"usbkey\"]}",
+      "valueDomain": "[\\s\\S]",
+      "descn": "配置支持的登陆方式\n1. userpwd 用户名密码登陆\n2. ca CA扫码登陆\n3. usbkey 登陆",
+      "unitCode": null,
+      "loginName": null,
+      "paramIndex": 4,
+      "paramType": "01",
+      "areaCode": null,
+      "apiSearchKeyWord": "BCS_PARAM:bcs_self_use-bcs_sys_login_method",
+      "paramLabelNames": null
+    },
+    {
+      "rowId": null,
+      "paramCode": "sentry_system_dsn_url",
+      "paramGroupCode": "bcs_self_use",
+      "paramName": null,
+      "value": null,
+      "valueDomain": null,
+      "descn": null,
+      "unitCode": null,
+      "loginName": null,
+      "paramIndex": null,
+      "paramType": null,
+      "areaCode": null,
+      "apiSearchKeyWord": "BCS_PARAM:bcs_self_use-sentry_system_dsn_url",
+      "paramLabelNames": null
+    }
+  ],
+  "passwordPolicy": {
+    "userId": 1030647,
+    "lastWrongCount": 0,
+    "lockScreenStatus": "0",
+    "status": "2",
+    "tips": "安全提示：为保证账号信息安全，必须修改初始密码",
+    "isForce": "0",
+    "pattern": "^.{1,20}$",
+    "prompt": "提示：密码为1~20位"
+  },
+  "sysconf": {
+    "loginCartoonFlag": "0",
+    "cartoonText": null,
+    "systemTABLogo": "group1/M00/00/0E/CmwBnmN_TnCAQ7v9AAAc0s9BHPk100.png",
+    "loginBackgroudImage": "group1/M00/00/0E/CmwBnWN_TnaAFyamAA_qjq6kChQ481.png",
+    "loginPanelLogo": "group1/M00/00/0E/CmwBnmN_Tn2AT6mcAABKPqq90VQ589.png",
+    "topLogo": "group1/M00/00/0E/CmwBnmN_ToGAZxaMAAAOiRvdu-E326.png"
+  },
+  "getUnreadCount": 0,
+  "SysEnv": "公司开发联调环境"
+}

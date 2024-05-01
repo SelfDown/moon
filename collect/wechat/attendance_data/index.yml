@@ -1,0 +1,99 @@
+service:
+  - key: get_work_number
+    module: empty
+    http: true
+    handler_params:
+      - key: service2field
+        service:
+          service: hrm.user_list
+          pagination: false
+          has_tel: true
+        save_field: user_list
+      - key: service2field
+        enable: "[user_list]"
+        service:
+          service: wechat.get_user_id_bulk
+          user_list: "[user_list]"
+        save_field: result
+#      - key: filter_arr
+#        name: 过滤成功的
+#        foreach: "[result]"
+#        item: item
+#        if_template: "{{ eq .item.result.Success true}}"
+#        save_field: result
+#      - key: update_array
+#        name: 将新增操作变成删除，删除+修改操作变成新增
+#        foreach: "[result]"
+#        item: item
+#        fields:
+#          - field: work_number
+#            template: "{{.item.result.Data.userid}}"
+      - key: param2result
+        field: "[result]"
+
+
+  - key: get_user_id_bulk
+    name: 批量或用户ID
+    http: true
+    params:
+      user_list:
+        check:
+          template: "{{must .user_list}}"
+          err_msg: 用户不能为空
+    module: bulk_service
+    batch:
+      foreach: "[user_list]"
+      item: item
+      service:
+        service: "wechat.get_userid"
+        mobile: "[tel]"
+      save_field: 'result'
+  - key: attendance_data_query
+    http: true
+    module: sql
+    params:
+      month:
+        check:
+          template: "{{must .month}}"
+          err_msg: 月份不能为空
+      show_current:
+        default: false
+      user_id:
+        template: "{{if .show_current }}{{.session_user_id}} {{ else if .user_id }}{{.user_id}}{{else}}{{ end }}"
+
+    data_file: attendance_data_query.sql
+
+  - key: attendance_data_update
+    module: bulk_upsert
+    table: attendance_data
+    params:
+      attendance_list:
+        check:
+          template: "{{must .attendance_list}}"
+          err_msg: 考勤不能为空
+    model_field: attendance_list
+  - key: local_attendance_data
+    http: true
+    module: sql
+    params:
+      start_time:
+        template: "{{unix_time -60 \"day\"}}"
+    data_file: local_attendance_data.sql
+  - key: attendance_data_save
+    module: bulk_create
+    table: attendance_data
+    params:
+      attendance_list:
+        check:
+          template: "{{must .attendance_list}}"
+          err_msg: 考勤不能为空
+    model_field: attendance_list
+    handler_params:
+      - key: update_array
+        foreach: "[attendance_list]"
+        item: item
+        fields:
+          - field: attendance_data_id
+            template: "{{uuid}}"
+          - field: create_time
+            template: "{{current_date_time}}"

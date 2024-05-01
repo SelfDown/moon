@@ -1,12 +1,53 @@
 service:
+  - key: attendance_rule_query
+    module: sql
+    http: true
+    data_file: attendance_rule.sql
   - key: analysis_attendance
     http: true
+    schedule:
+      enable: "{{eq (get_key \"schedule_enable\") \"true\"}}"
+      schedule_spec: "@every 4200s"
     module: empty
+    params:
+      username:
+        default: ""
+
+    modify_config: attendance.json
     handler_params:
       - key: service2field
+        name: 获取企业微信打开记录
         service:
           service: wechat.get_local_check_in_data
+          username: "[username]"
         save_field: local_checkin_data
+
+      - key: group_by
+        name: 按照用户分组
+        enable: "{{must .local_checkin_data}}"
+        foreach: "[local_checkin_data]"
+        children: "children"
+        fields:
+          - field: "[userid]"
+        save_field: local_checkin_data_distinct
+      - key: prop_arr
+        name: 获取企业微信用户
+        enable: "{{must .local_checkin_data_distinct}}"
+        foreach: "[local_checkin_data_distinct]"
+        value: "[userid]"
+        save_field: wechat_id_list
+      - key: service2field
+        name: 查询企业微信用户
+        enable: "{{must .wechat_id_list}}"
+        service:
+          service: hrm.user_list
+          work_number_list: "[wechat_id_list]"
+          pagination: false
+        save_field: user_list
+      - key: service2field
+        service:
+          service: wechat.attendance_rule_query
+        save_field: rule_list
       - key: update_array
         enable: "{{must .local_checkin_data}}"
         foreach: "[local_checkin_data]"
@@ -19,6 +60,54 @@ service:
       - key: analysis_attendance
         enable: "{{must .local_checkin_data}}"
         foreach: "[local_checkin_data]"
-        save_field: attendance_data
-      - key: param2result
-        field: "[local_checkin_data]"
+        save_field: remote_attendance_data
+      - key: service2field
+        service:
+          service: wechat.local_attendance_data
+          username: "[username]"
+        save_field: local_attendance_data
+
+      - key: get_modify_data
+        save_field: change_list
+      - key: filter_arr
+        enable: "{{ must .change_list }}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"add\" }}"
+        save_field: add_list
+      - key: filter_arr
+        enable: "{{ must .change_list }}"
+        foreach: "[change_list]"
+        item: item
+        if_template: "{{eq .item.operation \"modify\" }}"
+        save_field: modify_list
+      - key: service2field
+        enable: "{{ must .add_list }}"
+        service:
+          service: wechat.attendance_data_save
+          attendance_list: "[add_list]"
+      - key: group_by
+        enable: "{{must .modify_list}}"
+        foreach: "[modify_list]"
+        children: "children"
+        fields:
+          - field: "[attendance_data_id]"
+        save_field: modify_list
+
+      - key: service2field
+        enable: "{{ must .modify_list }}"
+        service:
+          service: wechat.attendance_data_update
+          attendance_list: "[modify_list]"
+      - key: params2result
+        fields:
+          - from: "[modify_list]"
+            to: modify_list
+          - from: "[local_attendance_data]"
+            to: local_attendance_data
+          - from: "[change_list]"
+            to: change_list
+          - from: "[remote_attendance_data]"
+            to: remote_attendance_data
+          - from: "[local_checkin_data]"
+            to: local_checkin_data

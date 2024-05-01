@@ -21,6 +21,10 @@ var (
 	APIKeyResourcePrivilege             *aPIKeyResourcePrivilege
 	APIKeyResourceType                  *aPIKeyResourceType
 	AlertIgnore                         *alertIgnore
+	AttendanceData                      *attendanceData
+	AttendanceRule                      *attendanceRule
+	AttendanceRuleGroup                 *attendanceRuleGroup
+	AttendanceType                      *attendanceType
 	AuthGroup                           *authGroup
 	AuthGroupPermissions                *authGroupPermissions
 	AuthPermission                      *authPermission
@@ -390,6 +394,10 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	APIKeyResourcePrivilege = &Q.APIKeyResourcePrivilege
 	APIKeyResourceType = &Q.APIKeyResourceType
 	AlertIgnore = &Q.AlertIgnore
+	AttendanceData = &Q.AttendanceData
+	AttendanceRule = &Q.AttendanceRule
+	AttendanceRuleGroup = &Q.AttendanceRuleGroup
+	AttendanceType = &Q.AttendanceType
 	AuthGroup = &Q.AuthGroup
 	AuthGroupPermissions = &Q.AuthGroupPermissions
 	AuthPermission = &Q.AuthPermission
@@ -760,6 +768,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		APIKeyResourcePrivilege:             newAPIKeyResourcePrivilege(db, opts...),
 		APIKeyResourceType:                  newAPIKeyResourceType(db, opts...),
 		AlertIgnore:                         newAlertIgnore(db, opts...),
+		AttendanceData:                      newAttendanceData(db, opts...),
+		AttendanceRule:                      newAttendanceRule(db, opts...),
+		AttendanceRuleGroup:                 newAttendanceRuleGroup(db, opts...),
+		AttendanceType:                      newAttendanceType(db, opts...),
 		AuthGroup:                           newAuthGroup(db, opts...),
 		AuthGroupPermissions:                newAuthGroupPermissions(db, opts...),
 		AuthPermission:                      newAuthPermission(db, opts...),
@@ -1131,6 +1143,10 @@ type Query struct {
 	APIKeyResourcePrivilege             aPIKeyResourcePrivilege
 	APIKeyResourceType                  aPIKeyResourceType
 	AlertIgnore                         alertIgnore
+	AttendanceData                      attendanceData
+	AttendanceRule                      attendanceRule
+	AttendanceRuleGroup                 attendanceRuleGroup
+	AttendanceType                      attendanceType
 	AuthGroup                           authGroup
 	AuthGroupPermissions                authGroupPermissions
 	AuthPermission                      authPermission
@@ -1503,6 +1519,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		APIKeyResourcePrivilege:             q.APIKeyResourcePrivilege.clone(db),
 		APIKeyResourceType:                  q.APIKeyResourceType.clone(db),
 		AlertIgnore:                         q.AlertIgnore.clone(db),
+		AttendanceData:                      q.AttendanceData.clone(db),
+		AttendanceRule:                      q.AttendanceRule.clone(db),
+		AttendanceRuleGroup:                 q.AttendanceRuleGroup.clone(db),
+		AttendanceType:                      q.AttendanceType.clone(db),
 		AuthGroup:                           q.AuthGroup.clone(db),
 		AuthGroupPermissions:                q.AuthGroupPermissions.clone(db),
 		AuthPermission:                      q.AuthPermission.clone(db),
@@ -1882,6 +1902,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		APIKeyResourcePrivilege:             q.APIKeyResourcePrivilege.replaceDB(db),
 		APIKeyResourceType:                  q.APIKeyResourceType.replaceDB(db),
 		AlertIgnore:                         q.AlertIgnore.replaceDB(db),
+		AttendanceData:                      q.AttendanceData.replaceDB(db),
+		AttendanceRule:                      q.AttendanceRule.replaceDB(db),
+		AttendanceRuleGroup:                 q.AttendanceRuleGroup.replaceDB(db),
+		AttendanceType:                      q.AttendanceType.replaceDB(db),
 		AuthGroup:                           q.AuthGroup.replaceDB(db),
 		AuthGroupPermissions:                q.AuthGroupPermissions.replaceDB(db),
 		AuthPermission:                      q.AuthPermission.replaceDB(db),
@@ -2251,6 +2275,10 @@ type queryCtx struct {
 	APIKeyResourcePrivilege             IAPIKeyResourcePrivilegeDo
 	APIKeyResourceType                  IAPIKeyResourceTypeDo
 	AlertIgnore                         IAlertIgnoreDo
+	AttendanceData                      IAttendanceDataDo
+	AttendanceRule                      IAttendanceRuleDo
+	AttendanceRuleGroup                 IAttendanceRuleGroupDo
+	AttendanceType                      IAttendanceTypeDo
 	AuthGroup                           IAuthGroupDo
 	AuthGroupPermissions                IAuthGroupPermissionsDo
 	AuthPermission                      IAuthPermissionDo
@@ -2620,6 +2648,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		APIKeyResourcePrivilege:             q.APIKeyResourcePrivilege.WithContext(ctx),
 		APIKeyResourceType:                  q.APIKeyResourceType.WithContext(ctx),
 		AlertIgnore:                         q.AlertIgnore.WithContext(ctx),
+		AttendanceData:                      q.AttendanceData.WithContext(ctx),
+		AttendanceRule:                      q.AttendanceRule.WithContext(ctx),
+		AttendanceRuleGroup:                 q.AttendanceRuleGroup.WithContext(ctx),
+		AttendanceType:                      q.AttendanceType.WithContext(ctx),
 		AuthGroup:                           q.AuthGroup.WithContext(ctx),
 		AuthGroupPermissions:                q.AuthGroupPermissions.WithContext(ctx),
 		AuthPermission:                      q.AuthPermission.WithContext(ctx),

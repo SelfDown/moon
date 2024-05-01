@@ -37,6 +37,10 @@ services:
     name: '企业微信'
     path: 'wechat/service.yml'
 
+  - key: his
+    name: his
+    path: 'his/service.yml'
+
 
 
 # 模块处理器

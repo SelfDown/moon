@@ -5,9 +5,11 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
-	"encoding/hex"
-	"fmt"
-	"github.com/demdxx/gocast"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+	"gorm.io/gorm/schema"
+	"moon/model"
 )
 
 func encrypt(key, iv, plaintext []byte) (string, error) {
@@ -50,22 +52,48 @@ func pkcs7Unpadding(data []byte) []byte {
 	return data[:(length - unpadding)]
 }
 func main() {
-	key := []byte("wUNDf2LyG3NqzQpVArqmasdf") // 16字节密钥
-	iv := []byte("1234567890ABCDEF")          // 16字节IV偏移量
-	plaintext := []byte("Hello, World!")
-	ciphertext, err := encrypt(key, iv, plaintext)
-	if err != nil {
-		fmt.Println("Encryption error:", err)
-		return
+	//dataSourceName := "./test.sqlite"
+	dataSourceName := "./test/test.sqlite"
+	db, _ := gorm.Open(sqlite.Open(dataSourceName), &gorm.Config{
+		CreateBatchSize: 100,
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true, // 使用单数表名
+		},
+	})
+	id := "91d4abd1-14c9-4705-9de7-1518da99842711"
+	name := "二级服务分类，service 一般 xxx.xx。第一级表示项目，    第二级表示具体服务."
+	var o int32
+	o = 22
+	c1 := model.CollectDocImportant{
+		CollectDocID:   &id,
+		DocImportantID: id,
+		Name:           &name,
+		OrderIndex:     &o,
 	}
-	tmp := hex.EncodeToString([]byte(ciphertext))
-	fmt.Println("Ciphertext:", tmp)
-	b, _ := hex.DecodeString(tmp)
-	bs := gocast.ToString(b)
-	decryptedText, err := decrypt(key, iv, bs)
-	if err != nil {
-		fmt.Println("Decryption error:", err)
-		return
-	}
-	fmt.Println("Decrypted Text:", string(decryptedText))
+	l2 := make([]model.CollectDocImportant, 1)
+	l2[0] = c1
+	fieldNames2 := make([]string, 0)
+	fieldNames2 = append(fieldNames2, "collect_doc_id", "doc_important_id", "name", "order_index")
+	db.Clauses(clause.OnConflict{
+		DoUpdates: clause.AssignmentColumns(fieldNames2),
+	}).Create(l2)
+
+	//key := []byte("wUNDf2LyG3NqzQpVArqmasdf") // 16字节密钥
+	//iv := []byte("1234567890ABCDEF")          // 16字节IV偏移量
+	//plaintext := []byte("Hello, World!")
+	//ciphertext, err := encrypt(key, iv, plaintext)
+	//if err != nil {
+	//	fmt.Println("Encryption error:", err)
+	//	return
+	//}
+	//tmp := hex.EncodeToString([]byte(ciphertext))
+	//fmt.Println("Ciphertext:", tmp)
+	//b, _ := hex.DecodeString(tmp)
+	//bs := gocast.ToString(b)
+	//decryptedText, err := decrypt(key, iv, bs)
+	//if err != nil {
+	//	fmt.Println("Decryption error:", err)
+	//	return
+	//}
+	//fmt.Println("Decrypted Text:", string(decryptedText))
 }
