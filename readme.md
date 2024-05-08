@@ -1,5 +1,6 @@
 # 后台低代码配置 golang
 http后台接口都可以配置，支持数据库增删改查，发http请求，shell等
+![szx5x-vmf1n](https://github.com/SelfDown/moon/assets/22128775/311029eb-0a2d-468e-8f08-5ea520cfe3ab)
 
     conf/application.properties示例中用sqlite ，为了方便连接数据库，不用搭建一个mysql,生产请换成mysql,其他数据库
 ## 示例
