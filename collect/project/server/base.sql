@@ -25,4 +25,3 @@ and a.server_id = {{.server_id}}
 {{ if .exclude }}
 and a.server_id != {{.exclude}}
 {{ end }}
-order by inet_aton(a.server_ip)

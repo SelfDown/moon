@@ -4,9 +4,7 @@
 
 package model
 
-import (
-	"time"
-)
+
 
 const TableNameServerEnv = "server_env"
 
@@ -28,8 +26,8 @@ type ServerEnv struct {
 		1：启用
 	*/
 	EnableHaDeploy *string    `gorm:"column:enable_ha_deploy" json:"enable_ha_deploy"`
-	CreateTime     *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
-	ModifyTime     *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
+	CreateTime     *string `gorm:"column:create_time;" json:"create_time"` // 记录创建时间（数据库自动写入）
+	ModifyTime     *string `gorm:"column:modify_time;" json:"modify_time"` // 记录修改时间（数据库自动写入）
 	Comments       *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
 	LeaderTel      *string    `gorm:"column:leader_tel" json:"leader_tel"`
 	OrderID        *int32     `gorm:"column:order_id" json:"order_id"`

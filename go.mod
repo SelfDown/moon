@@ -2,13 +2,13 @@ module moon
 
 go 1.18
 
-//replace github.com/SelfDown/collect v0.0.0-20240501032852-cfac0d731321 => F:/go/hello
+//replace github.com/SelfDown/collect v0.0.0-20240503033212-f140749dd997 => F:/go/hello
 
 //
 //require collect v0.0.0-00010101000000-000000000000
 
 require (
-	github.com/SelfDown/collect v0.0.0-20240501032852-cfac0d731321
+	github.com/SelfDown/collect v0.0.0-20240503033212-f140749dd997
 	github.com/demdxx/gocast v1.2.0
 	github.com/gin-contrib/sessions v1.0.0
 	github.com/gin-gonic/gin v1.9.1
@@ -57,12 +57,12 @@ require (
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
+	github.com/mattn/go-sqlite3 v1.14.22 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/mozillazg/go-pinyin v0.20.0 // indirect
-	github.com/pelletier/go-toml/v2 v2.2.1 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.3 // indirect
