@@ -85,18 +85,21 @@ service:
   - key: add_current_project_env
     name: 添加当前环境
     module: empty
+    log: true
     http: true
     params:
       project_code:
         template:  "{{get_key \"current_project_code\"}}"
     handler_params:
       - key: service2field
+        name: 查询项目
         service:
           service: project.project_list
           project_code: "[project_code]"
           to_obj: true
         save_field: project
       - key: service2field
+        name: 保存
         service:
           service: project.server_env_save
           sys_project_id: "[project.sys_project_id]"
@@ -105,6 +108,7 @@ service:
   - key: server_env_save
     name: 环境保存
     http: true
+    log: true
     module: model_save
     table: server_env
     params:

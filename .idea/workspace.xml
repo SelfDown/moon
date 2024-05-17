@@ -5,15 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cc5461b-8ccc-4267-8ba8-e21d58bf20ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/bup/getPageUsers.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/page_data/fwk/1000020212bup_index_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/page_data/fwk/2002bup_index_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/page_data/fwk/2003bup_index_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/page_data/fwk/login_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/page_data/fwk/portal_page_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/request_data/generateTicket.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/request_data/portal_login.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/request_data/queryFunction.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/request_data/ssoVerify.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/request_data/user_system.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/service_list.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/page_data/service_transfer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/his/service.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/wechat/analysis/attendance.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/wechat/analysis/attendance_rule.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/wechat/attendance_data/attendance_data_query.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/wechat/attendance_data/index.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/collect/wechat/attendance_data/local_attendance_data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/cms/assets/index.5ed06e85.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/cms/assets/index.b3e7ba38.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/cms/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/ssh/assets/index.2ee99463.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/ssh/assets/index.c1f8a8a0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/ssh/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/ssh/react/react-dom.production.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/frontend/ssh/react/react.production.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/project/server/base.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server/base.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/project/server/server_list.sql" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server/server_list.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collect/project/server_env/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/collect/project/server_env/index.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/collect.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/collect.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/server_env.gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/server_env.gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/collect.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/hrm/user/base_where.common" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/hrm/user/base_where.common" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/hrm/user_change_history/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/hrm/user_change_history/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/project/server/base.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/project/server/base.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/project/server/server_list.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/project/server/server_list.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/project/server_env/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/project/server_env/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/service_router.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/service_router.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/analysis/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/analysis/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/checkin/attendance_modify.json" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/checkin/attendance_modify.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/checkin/get_attendance_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/checkin/get_attendance_user.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/checkin/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/checkin/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/checkin/local_check_in_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/checkin/local_check_in_data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/collect/wechat/user_list/index.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dist/collect/wechat/user_list/index.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/conf/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/dist/conf/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,36 +81,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;configurable..is.expanded&quot;: &quot;false&quot;,
-    &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/go/moon/test&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;go.sdk&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "configurable..is.expanded": "false",
+    "configurable.GoLibrariesConfigurable.is.expanded": "true",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "F:/go/moon/dist",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "go.sdk",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\go\moon\dist" />
+      <recent name="F:\go\moon" />
       <recent name="F:\go\moon\test" />
       <recent name="F:\go\moon\database" />
       <recent name="F:\go\moon\collect\his\page_data\page_data\fwk" />
-      <recent name="F:\go\moon\cms" />
-      <recent name="F:\go\moon\collect\his" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\go\moon\collect\his\page_data\request_data" />
@@ -166,16 +204,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/callbacks/create.go</url>
-          <line>96</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/callbacks/create.go</url>
-          <line>70</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/callbacks/create.go</url>
           <line>83</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
@@ -200,19 +228,9 @@
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/callbacks.go</url>
-          <line>129</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/callbacks/create.go</url>
           <line>44</line>
           <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/../workspace/pkg/mod/gorm.io/gorm@v1.25.10/callbacks/create.go</url>
-          <line>65</line>
-          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

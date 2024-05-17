@@ -1,0 +1,27 @@
+{
+  "sys_param": [
+    {
+      "code": "sentry_system_dsn_url",
+      "groupCode": "bcs_self_use",
+      "initValue": ""
+    },
+    {
+      "code": "framework_page_title",
+      "groupCode": "framework",
+      "initValue": "威高云智"
+    },
+    {
+      "code": "bcs_sys_login_method",
+      "groupCode": "bcs_self_use",
+      "initValue": "{\"login_method\":[\"userpwd\", \"ca\", \"usbkey\"]}"
+    }
+  ],
+  "allPortal": {
+    "loginCartoonFlag": "0",
+    "cartoonText": null,
+    "systemTABLogo": "group1/M00/00/0E/CmwBnmN_TnCAQ7v9AAAc0s9BHPk100.png",
+    "loginBackgroudImage": "group1/M00/00/0E/CmwBnWN_TnaAFyamAA_qjq6kChQ481.png",
+    "loginPanelLogo": "group1/M00/00/0E/CmwBnmN_Tn2AT6mcAABKPqq90VQ589.png",
+    "topLogo": "group1/M00/00/0E/CmwBnmN_ToGAZxaMAAAOiRvdu-E326.png"
+  }
+}

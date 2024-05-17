@@ -1,0 +1,154 @@
+service:
+  - key: get_service_list
+    module: empty
+    data_file: service_list.json
+    handler_params:
+      - key: file2datajson
+        save_field: service_list
+      - key: param2result
+        field: service_list
+  - key: getPageData
+    module: bulk_service
+    http: true
+    log: true
+    params:
+      routerPath:
+        check:
+          template: "{{must .routerPath}}"
+          err_msg: 路由不能为空
+      service_list:
+        default: []
+    data_file: service_transfer.json
+    batch:
+      foreach: "[service_list]"
+      service:
+        service: "[service]"
+      append_params: true
+      save_field: 'result'
+    handler_params:
+      - key: service2field
+        service:
+          service: his.get_service_list
+        save_field: service_list
+      - key: update_array
+        foreach: "[service_list]"
+        item: item
+        fields:
+          - field: service
+            template: "{{ if .funcCode }}{{.funcCode}}#{{.routerPath}}{{else}}{{.routerPath}} {{ end}}"
+    result_handler:
+      - key: result2params
+        fields:
+          - to: "[result_list]"
+      - key: prop_arr
+        foreach: "[result_list]"
+        value: "[result.data]"
+        save_field: result_list
+      - key: param2result
+        field: "[result_list]"
+      - key: arr2obj
+  - key: portal_login
+    name: 登录请求
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: request_data/portal_login.json
+    module: empty
+  - key: login_page_data
+    name: 登录页面的模拟
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: page_data/fwk/login_page_data.json
+    module: empty
+  - key: portal_page_data
+    name: portal页面的模拟
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: page_data/fwk/portal_page_data.json
+    module: empty
+  - key: user_system
+    name: 用户系统
+    module: empty
+    http: true
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: request_data/user_system.json
+  - key: generateTicket
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: request_data/generateTicket.json
+  - key: ssoVerify
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: request_data/ssoVerify.json
+  - key: queryFunction
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: request_data/queryFunction.json
+
+  - key: 2002bup_index_page_data
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: page_data/fwk/2002bup_index_page_data.json
+  - key: 2003bup_index_page_data
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: page_data/fwk/2003bup_index_page_data.json
+  - key: 1000020212bup_index_page_data
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: page_data/fwk/1000020212bup_index_page_data.json
+
+  - key: getPageUsers
+    http: true
+    module: empty
+    handler_params:
+      - key: file2datajson
+        save_field: data
+      - key: param2result
+        field: data
+    data_file: bup/getPageUsers.json

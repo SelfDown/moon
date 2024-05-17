@@ -10,3 +10,5 @@ service:
     path: "checkin/index.yml"
   - name: "分析考勤"
     path: "analysis/index.yml"
+  - name: "考勤数据"
+    path: "attendance_data/index.yml"

@@ -22,10 +22,9 @@ service:
   - key: get_userid
     module: http
     http: true
-    log: true
     params:
       mobile:
-        default: "18874948657"
+        default: ""
     handler_params:
       - key: service2field
         service:

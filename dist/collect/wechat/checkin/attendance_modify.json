@@ -9,30 +9,16 @@
 
     {
       "rule": "array_obj_value",
-      "left_field": "[userid&sch_checkin_time]",
-      "right_field": "[userid&sch_checkin_time]",
+      "left_field": "[userid&checkin_time]",
+      "right_field": "[userid&checkin_time]",
       "field": "[attendance]",
       "name": "attendance",
       "left": "[remote_checkin_data]",
       "right": "[local_checkin_data]",
       "with_add_remove": true,
-      "left_value_field": "[userid&sch_checkin_time]]",
-      "right_value_field": "[userid&sch_checkin_time]]",
+      "left_value_field": "[userid&checkin_time]]",
+      "right_value_field": "[userid&checkin_time]]",
       "operation": "modify",
-      "append_right_fields": ["[*]"]},
-    {
-      "rule": "array_obj_value",
-      "left_field": "[userid&sch_checkin_time]",
-      "right_field": "[userid&sch_checkin_time]",
-      "field": "[attendance]",
-      "name": "attendance_time",
-      "left": "[remote_checkin_data]",
-      "right": "[local_checkin_data]",
-      "left_value_field": "[checkin_time]",
-      "right_value_field": "[checkin_time]",
-      "operation": "modify",
-      "append_left_fields": ["[*]"],
-      "append_right_fields": ["[check_in_id]"]
-    }
+      "append_right_fields": ["[*]"]}
   ]
 }

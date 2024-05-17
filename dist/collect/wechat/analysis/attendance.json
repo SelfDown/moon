@@ -1,0 +1,113 @@
+{
+  "desc": "替换前和替换后，概念调整下，方便对比，从左往右，传过来的数据，是前段的数据，left。已有的后台数据是right",
+  "left_save_field": "after",
+  "right_save_field": "before",
+  "fields": [
+    {
+      "rule": "array_obj_value",
+      "left_field": "[attendance_day&user_id]",
+      "right_field": "[attendance_day&user_id]",
+      "field": "[attendance_day]",
+      "name": "attendance_day",
+      "left": "[remote_attendance_data]",
+      "right": "[local_attendance_data]",
+      "with_add_remove": true,
+      "left_value_field": "[attendance_day]",
+      "right_value_field": "[attendance_day]",
+      "operation": "modify",
+      "append_left_fields": [
+        "[*]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[attendance_day&user_id]",
+      "right_field": "[attendance_day&user_id]",
+      "field": "[attendance_day]",
+      "name": "attendance_afternoon_time",
+      "left": "[remote_attendance_data]",
+      "right": "[local_attendance_data]",
+      "left_value_field": "[attendance_afternoon_time]",
+      "right_value_field": "[attendance_afternoon_time]",
+      "operation": "modify",
+      "append_left_fields": [
+        "[*]"
+      ],
+      "append_right_fields": [
+        "[attendance_data_id]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[attendance_day&user_id]",
+      "right_field": "[attendance_day&user_id]",
+      "field": "[attendance_day]",
+      "name": "attendance_afternoon_type",
+      "left": "[remote_attendance_data]",
+      "right": "[local_attendance_data]",
+      "left_value_field": "[attendance_afternoon_type]",
+      "right_value_field": "[attendance_afternoon_type]",
+      "operation": "modify",
+      "append_left_fields": [
+        "[*]"
+      ],
+      "append_right_fields": [
+        "[attendance_data_id]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[attendance_day&user_id]",
+      "right_field": "[attendance_day&user_id]",
+      "field": "[attendance_day]",
+      "name": "attendance_morning_time",
+      "left": "[remote_attendance_data]",
+      "right": "[local_attendance_data]",
+      "left_value_field": "[attendance_morning_time]",
+      "right_value_field": "[attendance_morning_time]",
+      "operation": "modify",
+      "append_left_fields": [
+        "[*]"
+      ],
+      "append_right_fields": [
+        "[attendance_data_id]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[attendance_day&user_id]",
+      "right_field": "[attendance_day&user_id]",
+      "field": "[attendance_day]",
+      "name": "attendance_morning_type",
+      "left": "[remote_attendance_data]",
+      "right": "[local_attendance_data]",
+      "left_value_field": "[attendance_morning_type]",
+      "right_value_field": "[attendance_morning_type]",
+      "operation": "modify",
+      "append_left_fields": [
+        "[*]"
+      ],
+      "append_right_fields": [
+        "[attendance_data_id]"
+      ]
+    },
+    {
+      "rule": "array_obj_value",
+      "left_field": "[attendance_day&user_id]",
+      "right_field": "[attendance_day&user_id]",
+      "field": "[attendance_type]",
+      "name": "attendance_morning_type",
+      "left": "[remote_attendance_data]",
+      "right": "[local_attendance_data]",
+      "left_value_field": "[attendance_type]",
+      "right_value_field": "[attendance_type]",
+      "operation": "modify",
+      "append_left_fields": [
+        "[*]"
+      ],
+      "append_right_fields": [
+        "[attendance_data_id]"
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ service:
     module: sql
     params:
       start_time:
-        template: "{{unix_time -30 \"day\"}}"
+        template: "{{unix_time -60 \"day\"}}"
     data_file: local_check_in_data.sql
   - key: check_in_data_save
     module: bulk_create
@@ -36,7 +36,7 @@ service:
     schedule:
       name: "每天0点、13点、19点、21点运行"
       enable: "{{eq (get_key \"schedule_enable\") \"true\"}}"
-      schedule_spec: "0 0 0,13,19,21 * * ?"
+      schedule_spec: "@every 3600s"
     module: empty
     http: true
     modify_config: attendance_modify.json
@@ -122,5 +122,17 @@ service:
       - key: result2params
         fields:
           - to: "[checkin_data]"
+      - key: update_field
+        name: 更新字段
+        fields:
+          - field: checkindata
+            template: "[checkin_data.checkindata]"
+      - key: update_array
+        foreach: "[checkindata]"
+        item: item
+        fields:
+          - field: sch_checkin_time
+            template: "{{ if .item.sch_checkin_time}}{{.item.sch_checkin_time}}{{ else }}{{.item.checkin_time}}{{ end}}"
+            type: int64
       - key: param2result
-        field: "[checkin_data.checkindata]"
+        field: "[checkindata]"
