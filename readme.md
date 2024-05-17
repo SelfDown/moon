@@ -1,5 +1,8 @@
+
 # 后台低代码配置 golang
 http后台接口都可以配置，支持数据库增删改查，发http请求，shell等
+![image](https://github.com/SelfDown/moon/assets/22128775/dcf5d533-74d7-4b1d-89ec-1f058054526c)
+![szx5x-vmf1n](https://github.com/SelfDown/moon/assets/22128775/311029eb-0a2d-468e-8f08-5ea520cfe3ab)
 
     conf/application.properties示例中用sqlite ，为了方便连接数据库，不用搭建一个mysql,生产请换成mysql,其他数据库
 ## 示例
@@ -77,4 +80,7 @@ go run main.go
 访问会得到控制台地址![img.png](img/img.png)
  http://127.0.0.1:8009/ssh
 ![image](https://github.com/SelfDown/moon/assets/22128775/e63d9746-4ee9-46e9-8357-39ed73b39136)
+![image](https://s31.aconvert.com/convert/p3r68-cdx67/lbvey-ssguo.gif)
+
+
 
