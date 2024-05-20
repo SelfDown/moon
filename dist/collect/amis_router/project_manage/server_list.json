@@ -17,7 +17,7 @@
         "required": true,
         "valueField": "sys_project_id",
         "labelField": "project_name",
-        "value": "6",
+        "value": "{{get_key `current_project_code`}}",
         "source": {
           "method": "post",
           "url": "/template_data/data",

@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"moon/model"
 	"moon/plugins"
+	"net/http"
 )
 
 func main1() {
@@ -21,10 +22,10 @@ func main() {
 	// 生成cookies
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("session_id", store))
-
 	r.Static("/static", "./static")
 	r.Static("/ssh", "./frontend/ssh")
 	r.Static("/cms", "./frontend/cms")
+
 	// 设置数据库
 	templateService.SetDatabaseModel(&model.TableData{})
 	// 设置外部处理器
@@ -33,9 +34,13 @@ func main() {
 	templateService.RunScheduleService()
 	// 添加启动服务
 	templateService.RunStartupService()
+	r.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "/ssh")
+	})
 	r.POST("/template_data/data", func(c *gin.Context) {
 		templateService.HandlerRequest(c)
 	})
+
 	r.GET("/template_data/ws/:token", func(context *gin.Context) {
 
 		templateService.HandlerWsRequest(context)

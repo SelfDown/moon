@@ -1,6 +1,6 @@
 select
     a.userid as user_id,
-    a.userpwd as password,
+    a.password as password,
     (
         SELECT GROUP_CONCAT(ur.role_des)
         FROM user_role ur
