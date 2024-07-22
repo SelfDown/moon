@@ -291,17 +291,14 @@ service:
         check:
           template: "{{must .user_id}}"
           err_msg: 用户ID 不能为空
-#        template: "{{uuid}}"
       user_name:
         template: "{{.username}}"
       username:
         check:
           template: "{{must .username}}"
           err_msg: 用户名不能为空
-      user_status:
+      status:
         default: "trial"
-      role_id:
-        default: "xxxx"
       avatar:
         template: session_user_id
       create_time:
@@ -319,10 +316,6 @@ service:
         template: "{{le (len .user_info) 0}}"
         err_msg: "用户名【{{.username}}】已经存在"
     table: "user_account"
-    ignore_fields:
-      - avatar
-#    update_fields:
-#      - role_id
 
   - key: user_list
     module: sql

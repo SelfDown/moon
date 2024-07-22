@@ -26,6 +26,8 @@ func (si *HandlerPassword) HandlerData(template *config.Template, handlerParam *
 	aseKey := utils.GetAppKey("ase_key")
 	aseIv := utils.GetAppKey("ase_iv")
 	aseTag := utils.GetAppKey("ase_tag")
+	ase_way := utils.GetAppKey("ase_way")
+	company_key := utils.GetAppKey("company_key")
 
 	if !utils.IsValueEmpty(handlerParam.Foreach) { // 如果是数组
 
@@ -54,14 +56,20 @@ func (si *HandlerPassword) HandlerData(template *config.Template, handlerParam *
 					continue
 				}
 				value = strings.ReplaceAll(value, aseTag, "")
-				// 去掉加密标签
-				//hex 处理回来
-				b, _ := hex.DecodeString(value)
-				bs := gocast.ToString(b)
-				// 解密
-				decryptedText, err := decrypt([]byte(aseKey), []byte(aseIv), bs)
-				if err == nil {
+				// 公司解密
+				if ase_way == "company" {
+					decryptedText := AESDecryptECBStr(value, company_key)
 					list[i][fieldName] = gocast.ToString(decryptedText)
+				} else { // 个人项目解密
+					// 去掉加密标签
+					//hex 处理回来
+					b, _ := hex.DecodeString(value)
+					bs := gocast.ToString(b)
+					// 解密
+					decryptedText, err := decrypt([]byte(aseKey), []byte(aseIv), bs)
+					if err == nil {
+						list[i][fieldName] = gocast.ToString(decryptedText)
+					}
 				}
 
 			}
@@ -137,6 +145,36 @@ func decrypt(key, iv []byte, ciphertext string) ([]byte, error) {
 	mode := cipher.NewCBCDecrypter(block, iv)
 	mode.CryptBlocks(decryptedData, decodedCiphertext)
 	return pkcs7Unpadding(decryptedData), nil
+}
+
+func generateKeys(key []byte) (genKey []byte) {
+	genKey = make([]byte, 16)
+	copy(genKey, key)
+	for i := 16; i < len(key); {
+		for j := 0; j < 16 && i < len(key); j, i = j+1, i+1 {
+			genKey[j] ^= key[i]
+		}
+	}
+	return genKey
+}
+func AESDecryptECBStr(encrypteds string, keys string) string {
+	// 字符串转换成切片
+	//encrypted := []byte(encrypteds)
+	encrypted, _ := hex.DecodeString(encrypteds)
+	key := []byte(keys)
+
+	cipher, _ := aes.NewCipher(generateKeys(key))
+	decrypted := make([]byte, len(encrypted))
+	//
+	for bs, be := 0, cipher.BlockSize(); bs < len(encrypted); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() {
+		cipher.Decrypt(decrypted[bs:be], encrypted[bs:be])
+	}
+
+	trim := 0
+	if len(decrypted) > 0 {
+		trim = len(decrypted) - int(decrypted[len(decrypted)-1])
+	}
+	return string(decrypted[:trim])
 }
 
 // 使用PKCS7填充方式对数据进行填充

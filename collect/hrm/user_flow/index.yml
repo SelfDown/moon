@@ -241,7 +241,6 @@ service:
     params:
       user_id:
         template: "{{uuid}}"
-
     handler_params:
       - key: service2field
         enable: "{{eq .create_ldap \"1\"}}"

@@ -41,8 +41,8 @@ func newSysProjects(db *gorm.DB, opts ...gen.DOOption) sysProjects {
 	_sysProjects.Site = field.NewString(tableName, "site")
 	_sysProjects.GitBranchSql = field.NewString(tableName, "git_branch_sql")
 	_sysProjects.PorjectNameSql = field.NewString(tableName, "porject_name_sql")
-	_sysProjects.CreateTime = field.NewTime(tableName, "create_time")
-	_sysProjects.ModifyTime = field.NewTime(tableName, "modify_time")
+	_sysProjects.CreateTime = field.NewString(tableName, "create_time")
+	_sysProjects.ModifyTime = field.NewString(tableName, "modify_time")
 	_sysProjects.Comments = field.NewString(tableName, "comments")
 	_sysProjects.FlagDel = field.NewString(tableName, "flag_del")
 	_sysProjects.OrderID = field.NewInt32(tableName, "order_id")
@@ -61,18 +61,18 @@ type sysProjects struct {
 	ProjectCode              field.String
 	ServerIP                 field.String
 	ProjectLeader            field.String
-	ZabbixServiceID          field.Int32 // zabbix service id
-	WechatID                 field.Int32 // 微信配置id
-	ZabbixMaxMaintenanceTime field.Int32 // zabbix 最大维护时间（分钟）
+	ZabbixServiceID          field.Int32
+	WechatID                 field.Int32
+	ZabbixMaxMaintenanceTime field.Int32
 	Notes                    field.String
 	Jiraspace                field.String
-	Selected                 field.String // 是否被默认选中，True表示这个项目为默认项目点
-	Site                     field.String // HTTP访问地址
-	GitBranchSql             field.String // 脚本归档所属分支
-	PorjectNameSql           field.String // 脚本归档管理关联的【应用服务】，具体记录来自JIRA
-	CreateTime               field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime               field.Time   // 记录修改时间（数据库自动写入）
-	Comments                 field.String // 备注说明
+	Selected                 field.String
+	Site                     field.String
+	GitBranchSql             field.String
+	PorjectNameSql           field.String
+	CreateTime               field.String
+	ModifyTime               field.String
+	Comments                 field.String
 	FlagDel                  field.String
 	OrderID                  field.Int32
 
@@ -105,8 +105,8 @@ func (s *sysProjects) updateTableName(table string) *sysProjects {
 	s.Site = field.NewString(table, "site")
 	s.GitBranchSql = field.NewString(table, "git_branch_sql")
 	s.PorjectNameSql = field.NewString(table, "porject_name_sql")
-	s.CreateTime = field.NewTime(table, "create_time")
-	s.ModifyTime = field.NewTime(table, "modify_time")
+	s.CreateTime = field.NewString(table, "create_time")
+	s.ModifyTime = field.NewString(table, "modify_time")
 	s.Comments = field.NewString(table, "comments")
 	s.FlagDel = field.NewString(table, "flag_del")
 	s.OrderID = field.NewInt32(table, "order_id")
@@ -263,10 +263,6 @@ func (s sysProjectsDo) Select(conds ...field.Expr) ISysProjectsDo {
 
 func (s sysProjectsDo) Where(conds ...gen.Condition) ISysProjectsDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s sysProjectsDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) ISysProjectsDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s sysProjectsDo) Order(conds ...field.Expr) ISysProjectsDo {

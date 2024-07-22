@@ -1,99 +1,73 @@
 package main
 
 import (
-	"bytes"
 	"crypto/aes"
-	"crypto/cipher"
-	"encoding/base64"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
-	"gorm.io/gorm/schema"
-	"moon/model"
+	"encoding/hex"
+	"fmt"
+	"strings"
 )
 
-func encrypt(key, iv, plaintext []byte) (string, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return "", err
-	}
-	paddedPlaintext := pkcs7Padding(plaintext, block.BlockSize())
-	ciphertext := make([]byte, len(paddedPlaintext))
-	mode := cipher.NewCBCEncrypter(block, iv)
-	mode.CryptBlocks(ciphertext, paddedPlaintext)
-	return base64.StdEncoding.EncodeToString(ciphertext), nil
-}
-func decrypt(key, iv []byte, ciphertext string) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	decodedCiphertext, err := base64.StdEncoding.DecodeString(ciphertext)
-	if err != nil {
-		return nil, err
-	}
-	decryptedData := make([]byte, len(decodedCiphertext))
-	mode := cipher.NewCBCDecrypter(block, iv)
-	mode.CryptBlocks(decryptedData, decodedCiphertext)
-	return pkcs7Unpadding(decryptedData), nil
-}
-
-// 使用PKCS7填充方式对数据进行填充
-func pkcs7Padding(data []byte, blockSize int) []byte {
-	padding := blockSize - (len(data) % blockSize)
-	padText := bytes.Repeat([]byte{byte(padding)}, padding)
-	return append(data, padText...)
-}
-
-// 对使用PKCS7填充方式的数据进行去填充
-func pkcs7Unpadding(data []byte) []byte {
-	length := len(data)
-	unpadding := int(data[length-1])
-	return data[:(length - unpadding)]
-}
 func main() {
-	//dataSourceName := "./test.sqlite"
-	dataSourceName := "./test/test.sqlite"
-	db, _ := gorm.Open(sqlite.Open(dataSourceName), &gorm.Config{
-		CreateBatchSize: 100,
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true, // 使用单数表名
-		},
-	})
-	id := "91d4abd1-14c9-4705-9de7-1518da99842711"
-	name := "二级服务分类，service 一般 xxx.xx。第一级表示项目，    第二级表示具体服务."
-	var o int32
-	o = 22
-	c1 := model.CollectDocImportant{
-		CollectDocID:   &id,
-		DocImportantID: id,
-		Name:           &name,
-		OrderIndex:     &o,
-	}
-	l2 := make([]model.CollectDocImportant, 1)
-	l2[0] = c1
-	fieldNames2 := make([]string, 0)
-	fieldNames2 = append(fieldNames2, "collect_doc_id", "doc_important_id", "name", "order_index")
-	db.Clauses(clause.OnConflict{
-		DoUpdates: clause.AssignmentColumns(fieldNames2),
-	}).Create(l2)
+	source := "wghis"
+	fmt.Println("原字符：", source)
+	key := "wUNDf2LyG3NqzQpVArqm"
+	//encryptCode := AESEncryptECBStr(source, key)
+	encryptCode := "8D5A970B144B9763F27BD8E306B8655F"
+	fmt.Println("密文：", encryptCode)
+	decryptCode := AESDecryptECBStr(encryptCode, key)
+	fmt.Println("解密：", decryptCode)
+}
 
-	//key := []byte("wUNDf2LyG3NqzQpVArqmasdf") // 16字节密钥
-	//iv := []byte("1234567890ABCDEF")          // 16字节IV偏移量
-	//plaintext := []byte("Hello, World!")
-	//ciphertext, err := encrypt(key, iv, plaintext)
-	//if err != nil {
-	//	fmt.Println("Encryption error:", err)
-	//	return
-	//}
-	//tmp := hex.EncodeToString([]byte(ciphertext))
-	//fmt.Println("Ciphertext:", tmp)
-	//b, _ := hex.DecodeString(tmp)
-	//bs := gocast.ToString(b)
-	//decryptedText, err := decrypt(key, iv, bs)
-	//if err != nil {
-	//	fmt.Println("Decryption error:", err)
-	//	return
-	//}
-	//fmt.Println("Decrypted Text:", string(decryptedText))
+func AESEncryptECBStr(source string, keys string) string {
+	// 字符串转换成切片
+	src := []byte(source)
+	key := []byte(keys)
+	cipher, _ := aes.NewCipher(generateKeys(key))
+	length := (len(src) + aes.BlockSize) / aes.BlockSize
+	plain := make([]byte, length*aes.BlockSize)
+	copy(plain, src)
+	pad := byte(len(plain) - len(src))
+	for i := len(src); i < len(plain); i++ {
+		plain[i] = pad
+	}
+	encrypted := make([]byte, len(plain))
+	// 分组分块加密
+	for bs, be := 0, cipher.BlockSize(); bs <= len(src); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() {
+		cipher.Encrypt(encrypted[bs:be], plain[bs:be])
+	}
+
+	//return encrypted
+	encryptstr := strings.ToUpper(hex.EncodeToString(encrypted))
+	return encryptstr
+}
+
+func AESDecryptECBStr(encrypteds string, keys string) string {
+	// 字符串转换成切片
+	//encrypted := []byte(encrypteds)
+	encrypted, _ := hex.DecodeString(encrypteds)
+	key := []byte(keys)
+
+	cipher, _ := aes.NewCipher(generateKeys(key))
+	decrypted := make([]byte, len(encrypted))
+	//
+	for bs, be := 0, cipher.BlockSize(); bs < len(encrypted); bs, be = bs+cipher.BlockSize(), be+cipher.BlockSize() {
+		cipher.Decrypt(decrypted[bs:be], encrypted[bs:be])
+	}
+
+	trim := 0
+	if len(decrypted) > 0 {
+		trim = len(decrypted) - int(decrypted[len(decrypted)-1])
+	}
+	return string(decrypted[:trim])
+}
+
+func generateKeys(key []byte) (genKey []byte) {
+	genKey = make([]byte, 16)
+	copy(genKey, key)
+	for i := 16; i < len(key); {
+		for j := 0; j < 16 && i < len(key); j, i = j+1, i+1 {
+			genKey[j] ^= key[i]
+		}
+	}
+	return genKey
 }

@@ -13,9 +13,9 @@
     "body": [
       {
         "type": "select",
-        "name": "sys_project_id",
+        "name": "project_code",
         "required": true,
-        "valueField": "sys_project_id",
+        "valueField": "project_code",
         "labelField": "project_name",
         "value": "{{get_key `current_project_code`}}",
         "source": {
@@ -40,10 +40,10 @@
         "searchable": true,
         "source": {
           "method": "post",
-          "url": "/template_data/data?sys_project_id=${sys_project_id}",
+          "url": "/template_data/data?project_code=${project_code}",
           "data": {
             "service": "project.env_tree",
-            "sys_project_id": "${sys_project_id}"
+            "project_code": "${project_code}"
           },
           "adaptor": "return {\n    ...payload,\n    status: payload.code === '0'? 0 : 1\n}"
         }

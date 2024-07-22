@@ -4,31 +4,17 @@
 
 package model
 
-import (
-	"time"
-)
-
 const TableNameSysCode = "sys_code"
 
 // SysCode mapped from table <sys_code>
 type SysCode struct {
-	SysCode     string  `gorm:"column:sys_code;not null" json:"sys_code"` // 编码
-	SysCodeText *string `gorm:"column:sys_code_text" json:"sys_code_text"`
-	SysCodeType string  `gorm:"column:sys_code_type;not null" json:"sys_code_type"`
-	PCode       *string `gorm:"column:p_code" json:"p_code"` // 父sys_code，用于维护码表之间的子父基关系
-	/*
-		数据是否有效
-		1、或空 有效
-		0、无效
-	*/
-	Status          *string    `gorm:"column:status" json:"status"`
-	OrderIndex      *int32     `gorm:"column:order_index" json:"order_index"`                                    // 排序
-	CreateTime      *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
-	ModifyTime      *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
-	Comments        *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
-	Property1       *string    `gorm:"column:property_1" json:"property_1"`
-	SysCodeID       string     `gorm:"column:sys_code_id;primaryKey" json:"sys_code_id"`
-	SysCodeTypeName *string    `gorm:"column:sys_code_type_name" json:"sys_code_type_name"`
+	SysCodeID       string  `gorm:"column:sys_code_id;primaryKey" json:"sys_code_id"`
+	SysCodeType     *string `gorm:"column:sys_code_type" json:"sys_code_type"`
+	SysCodeTypeName *string `gorm:"column:sys_code_type_name" json:"sys_code_type_name"`
+	SysCode         *string `gorm:"column:sys_code" json:"sys_code"`
+	SysCodeText     *string `gorm:"column:sys_code_text" json:"sys_code_text"`
+	OrderIndex      *int32  `gorm:"column:order_index" json:"order_index"`
+	Icon            *string `gorm:"column:icon" json:"icon"`
 }
 
 // TableName SysCode's table name

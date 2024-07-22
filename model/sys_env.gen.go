@@ -4,20 +4,16 @@
 
 package model
 
-import (
-	"time"
-)
-
 const TableNameSysEnv = "sys_env"
 
 // SysEnv mapped from table <sys_env>
 type SysEnv struct {
-	EnvCode    string     `gorm:"column:env_code;primaryKey" json:"env_code"` // 参数名称
-	EnvName    string     `gorm:"column:env_name;not null" json:"env_name"`   // 参数值
-	EnvNote    *string    `gorm:"column:env_note" json:"env_note"`
-	CreateTime *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
-	ModifyTime *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
-	Comments   *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
+	EnvCode    *string `gorm:"column:env_code;primaryKey" json:"env_code"`
+	EnvName    string  `gorm:"column:env_name;not null" json:"env_name"`
+	EnvNote    *string `gorm:"column:env_note" json:"env_note"`
+	CreateTime *string `gorm:"column:create_time" json:"create_time"`
+	ModifyTime *string `gorm:"column:modify_time" json:"modify_time"`
+	Comments   *string `gorm:"column:comments" json:"comments"`
 }
 
 // TableName SysEnv's table name

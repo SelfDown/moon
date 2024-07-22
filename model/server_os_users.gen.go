@@ -18,8 +18,8 @@ type ServerOsUsers struct {
 	UserHome          *string    `gorm:"column:user_home" json:"user_home"`                                               // 用户主目录
 	OsPrivileageCode  *string    `gorm:"column:os_privileage_code" json:"os_privileage_code"`                             // 用户操作系统权限等级，见码表
 	ServerOsUserID    int32      `gorm:"column:server_os_user_id;primaryKey;autoIncrement:true" json:"server_os_user_id"` // 用户ID
-	CreateTime        *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"`        // 记录创建时间（数据库自动写入）
-	ModifyTime        *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"`        // 记录修改时间（数据库自动写入）
+	CreateTime        *time.Time `gorm:"column:create_time;not null;" json:"create_time"`        // 记录创建时间（数据库自动写入）
+	ModifyTime        *time.Time `gorm:"column:modify_time;not null;" json:"modify_time"`        // 记录修改时间（数据库自动写入）
 	Comments          *string    `gorm:"column:comments" json:"comments"`                                                 // 备注说明
 	DefaultUser       *string    `gorm:"column:default_user" json:"default_user"`
 	ServerID          *string    `gorm:"column:server_id" json:"server_id"`

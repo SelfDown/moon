@@ -468,6 +468,7 @@ service:
   - key: ldap_search
     http: true
     module: ldap
+    log: true
     params:
       search_username:
         check:

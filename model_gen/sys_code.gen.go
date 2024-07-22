@@ -27,18 +27,13 @@ func newSysCode(db *gorm.DB, opts ...gen.DOOption) sysCode {
 
 	tableName := _sysCode.sysCodeDo.TableName()
 	_sysCode.ALL = field.NewAsterisk(tableName)
+	_sysCode.SysCodeID = field.NewString(tableName, "sys_code_id")
+	_sysCode.SysCodeType = field.NewString(tableName, "sys_code_type")
+	_sysCode.SysCodeTypeName = field.NewString(tableName, "sys_code_type_name")
 	_sysCode.SysCode = field.NewString(tableName, "sys_code")
 	_sysCode.SysCodeText = field.NewString(tableName, "sys_code_text")
-	_sysCode.SysCodeType = field.NewString(tableName, "sys_code_type")
-	_sysCode.PCode = field.NewString(tableName, "p_code")
-	_sysCode.Status = field.NewString(tableName, "status")
 	_sysCode.OrderIndex = field.NewInt32(tableName, "order_index")
-	_sysCode.CreateTime = field.NewTime(tableName, "create_time")
-	_sysCode.ModifyTime = field.NewTime(tableName, "modify_time")
-	_sysCode.Comments = field.NewString(tableName, "comments")
-	_sysCode.Property1 = field.NewString(tableName, "property_1")
-	_sysCode.SysCodeID = field.NewString(tableName, "sys_code_id")
-	_sysCode.SysCodeTypeName = field.NewString(tableName, "sys_code_type_name")
+	_sysCode.Icon = field.NewString(tableName, "icon")
 
 	_sysCode.fillFieldMap()
 
@@ -48,24 +43,14 @@ func newSysCode(db *gorm.DB, opts ...gen.DOOption) sysCode {
 type sysCode struct {
 	sysCodeDo
 
-	ALL         field.Asterisk
-	SysCode     field.String // 编码
-	SysCodeText field.String
-	SysCodeType field.String
-	PCode       field.String // 父sys_code，用于维护码表之间的子父基关系
-	/*
-		数据是否有效
-		1、或空 有效
-		0、无效
-	*/
-	Status          field.String
-	OrderIndex      field.Int32  // 排序
-	CreateTime      field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime      field.Time   // 记录修改时间（数据库自动写入）
-	Comments        field.String // 备注说明
-	Property1       field.String
+	ALL             field.Asterisk
 	SysCodeID       field.String
+	SysCodeType     field.String
 	SysCodeTypeName field.String
+	SysCode         field.String
+	SysCodeText     field.String
+	OrderIndex      field.Int32
+	Icon            field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -82,18 +67,13 @@ func (s sysCode) As(alias string) *sysCode {
 
 func (s *sysCode) updateTableName(table string) *sysCode {
 	s.ALL = field.NewAsterisk(table)
+	s.SysCodeID = field.NewString(table, "sys_code_id")
+	s.SysCodeType = field.NewString(table, "sys_code_type")
+	s.SysCodeTypeName = field.NewString(table, "sys_code_type_name")
 	s.SysCode = field.NewString(table, "sys_code")
 	s.SysCodeText = field.NewString(table, "sys_code_text")
-	s.SysCodeType = field.NewString(table, "sys_code_type")
-	s.PCode = field.NewString(table, "p_code")
-	s.Status = field.NewString(table, "status")
 	s.OrderIndex = field.NewInt32(table, "order_index")
-	s.CreateTime = field.NewTime(table, "create_time")
-	s.ModifyTime = field.NewTime(table, "modify_time")
-	s.Comments = field.NewString(table, "comments")
-	s.Property1 = field.NewString(table, "property_1")
-	s.SysCodeID = field.NewString(table, "sys_code_id")
-	s.SysCodeTypeName = field.NewString(table, "sys_code_type_name")
+	s.Icon = field.NewString(table, "icon")
 
 	s.fillFieldMap()
 
@@ -110,19 +90,14 @@ func (s *sysCode) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysCode) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 7)
+	s.fieldMap["sys_code_id"] = s.SysCodeID
+	s.fieldMap["sys_code_type"] = s.SysCodeType
+	s.fieldMap["sys_code_type_name"] = s.SysCodeTypeName
 	s.fieldMap["sys_code"] = s.SysCode
 	s.fieldMap["sys_code_text"] = s.SysCodeText
-	s.fieldMap["sys_code_type"] = s.SysCodeType
-	s.fieldMap["p_code"] = s.PCode
-	s.fieldMap["status"] = s.Status
 	s.fieldMap["order_index"] = s.OrderIndex
-	s.fieldMap["create_time"] = s.CreateTime
-	s.fieldMap["modify_time"] = s.ModifyTime
-	s.fieldMap["comments"] = s.Comments
-	s.fieldMap["property_1"] = s.Property1
-	s.fieldMap["sys_code_id"] = s.SysCodeID
-	s.fieldMap["sys_code_type_name"] = s.SysCodeTypeName
+	s.fieldMap["icon"] = s.Icon
 }
 
 func (s sysCode) clone(db *gorm.DB) sysCode {
@@ -240,10 +215,6 @@ func (s sysCodeDo) Select(conds ...field.Expr) ISysCodeDo {
 
 func (s sysCodeDo) Where(conds ...gen.Condition) ISysCodeDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s sysCodeDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) ISysCodeDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s sysCodeDo) Order(conds ...field.Expr) ISysCodeDo {

@@ -12,28 +12,23 @@ const TableNameServerInstallSoft = "server_install_soft"
 
 // ServerInstallSoft mapped from table <server_install_soft>
 type ServerInstallSoft struct {
-	ServicePort   *string `gorm:"column:service_port" json:"service_port"` // 服务端口 默认空
-	InstallSoftID string  `gorm:"column:install_soft_id;not null" json:"install_soft_id"`
-	ServerID      string  `gorm:"column:server_id;not null" json:"server_id"` // 服务器ID
-	SoftName      string  `gorm:"column:soft_name;not null" json:"soft_name"`
-	/*
-		1、Jboss中间件
-		2、文件服务器
-	*/
+	ServicePort              *string    `gorm:"column:service_port" json:"service_port"`
+	InstallSoftID            *string    `gorm:"column:install_soft_id;primaryKey" json:"install_soft_id"`
+	ServerID                 string     `gorm:"column:server_id;not null" json:"server_id"`
+	SoftName                 string     `gorm:"column:soft_name;not null" json:"soft_name"`
 	SoftType                 string     `gorm:"column:soft_type;not null" json:"soft_type"`
-	SoftHome                 string     `gorm:"column:soft_home;not null" json:"soft_home"`                               // 备注
-	Portoffset               *string    `gorm:"column:portoffset" json:"portoffset"`                                      // 端口偏移量
-	CreateTime               *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
-	ModifyTime               *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
-	Comments                 *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
-	DockerContainerName      *string    `gorm:"column:docker_container_name" json:"docker_container_name"`                // docker 容器名称，用于对容器进行操作。
-	StartSoftwareCommand     *string    `gorm:"column:start_software_command" json:"start_software_command"`              // 软件启动命令
-	StopSoftwareCommand      *string    `gorm:"column:stop_software_command" json:"stop_software_command"`                // 软件关闭命令
-	RestartSoftwareCommand   *string    `gorm:"column:restart_software_command" json:"restart_software_command"`          // 软件重启命令
-	ServerSoftLogsID         *string    `gorm:"column:server_soft_logs_id" json:"server_soft_logs_id"`                    // 软件日志组, server_soft_logs.server_soft_logs_id
-	ServerOsUserID           *int32     `gorm:"column:server_os_user_id" json:"server_os_user_id"`                        // 软件使用上面系统用启动，server_os_users.server_os_user_id
-	SoftID                   int32      `gorm:"column:soft_id;primaryKey;autoIncrement:true" json:"soft_id"`              // 自增长主键
-	SoftwareLiveCheckCommand *string    `gorm:"column:software_live_check_command" json:"software_live_check_command"`    // 作废；软件状态检查，服务器文件路径和web api
+	SoftHome                 string     `gorm:"column:soft_home;not null" json:"soft_home"`
+	Portoffset               *string    `gorm:"column:portoffset" json:"portoffset"`
+	CreateTime               *string    `gorm:"column:create_time" json:"create_time"`
+	ModifyTime               *time.Time `gorm:"column:modify_time" json:"modify_time"`
+	Comments                 *string    `gorm:"column:comments" json:"comments"`
+	DockerContainerName      *string    `gorm:"column:docker_container_name" json:"docker_container_name"`
+	StartSoftwareCommand     *string    `gorm:"column:start_software_command" json:"start_software_command"`
+	StopSoftwareCommand      *string    `gorm:"column:stop_software_command" json:"stop_software_command"`
+	RestartSoftwareCommand   *string    `gorm:"column:restart_software_command" json:"restart_software_command"`
+	ServerSoftLogsID         *string    `gorm:"column:server_soft_logs_id" json:"server_soft_logs_id"`
+	ServerOsUserID           *int32     `gorm:"column:server_os_user_id" json:"server_os_user_id"`
+	SoftwareLiveCheckCommand *string    `gorm:"column:software_live_check_command" json:"software_live_check_command"`
 	ServerSoftLogPath        *string    `gorm:"column:server_soft_log_path" json:"server_soft_log_path"`
 	IsMainSoft               *string    `gorm:"column:is_main_soft" json:"is_main_soft"`
 	IsDocker                 *string    `gorm:"column:is_docker" json:"is_docker"`
@@ -62,5 +57,5 @@ func (*ServerInstallSoft) TableName() string {
 }
 
 func (*ServerInstallSoft) PrimaryKey() []string {
-	return []string{"soft_id"}
+	return []string{"install_soft_id"}
 }

@@ -221,10 +221,6 @@ func (d docGroupDo) Where(conds ...gen.Condition) IDocGroupDo {
 	return d.withDO(d.DO.Where(conds...))
 }
 
-func (d docGroupDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) IDocGroupDo {
-	return d.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
-}
-
 func (d docGroupDo) Order(conds ...field.Expr) IDocGroupDo {
 	return d.withDO(d.DO.Order(conds...))
 }

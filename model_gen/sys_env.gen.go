@@ -30,8 +30,8 @@ func newSysEnv(db *gorm.DB, opts ...gen.DOOption) sysEnv {
 	_sysEnv.EnvCode = field.NewString(tableName, "env_code")
 	_sysEnv.EnvName = field.NewString(tableName, "env_name")
 	_sysEnv.EnvNote = field.NewString(tableName, "env_note")
-	_sysEnv.CreateTime = field.NewTime(tableName, "create_time")
-	_sysEnv.ModifyTime = field.NewTime(tableName, "modify_time")
+	_sysEnv.CreateTime = field.NewString(tableName, "create_time")
+	_sysEnv.ModifyTime = field.NewString(tableName, "modify_time")
 	_sysEnv.Comments = field.NewString(tableName, "comments")
 
 	_sysEnv.fillFieldMap()
@@ -43,12 +43,12 @@ type sysEnv struct {
 	sysEnvDo
 
 	ALL        field.Asterisk
-	EnvCode    field.String // 参数名称
-	EnvName    field.String // 参数值
+	EnvCode    field.String
+	EnvName    field.String
 	EnvNote    field.String
-	CreateTime field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime field.Time   // 记录修改时间（数据库自动写入）
-	Comments   field.String // 备注说明
+	CreateTime field.String
+	ModifyTime field.String
+	Comments   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -68,8 +68,8 @@ func (s *sysEnv) updateTableName(table string) *sysEnv {
 	s.EnvCode = field.NewString(table, "env_code")
 	s.EnvName = field.NewString(table, "env_name")
 	s.EnvNote = field.NewString(table, "env_note")
-	s.CreateTime = field.NewTime(table, "create_time")
-	s.ModifyTime = field.NewTime(table, "modify_time")
+	s.CreateTime = field.NewString(table, "create_time")
+	s.ModifyTime = field.NewString(table, "modify_time")
 	s.Comments = field.NewString(table, "comments")
 
 	s.fillFieldMap()
@@ -211,10 +211,6 @@ func (s sysEnvDo) Select(conds ...field.Expr) ISysEnvDo {
 
 func (s sysEnvDo) Where(conds ...gen.Condition) ISysEnvDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s sysEnvDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) ISysEnvDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s sysEnvDo) Order(conds ...field.Expr) ISysEnvDo {

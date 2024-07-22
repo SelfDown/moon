@@ -4,35 +4,28 @@
 
 package model
 
-import (
-	"time"
-)
-
 const TableNameUserAccount = "user_account"
 
 // UserAccount mapped from table <user_account>
 type UserAccount struct {
-	Userid               string     `gorm:"column:userid;primaryKey" json:"userid"`
-	RoleID               string     `gorm:"column:role_id;not null" json:"role_id"`
-	Username             string     `gorm:"column:username;not null" json:"username"`
-	Userpwd              string     `gorm:"column:userpwd;not null" json:"userpwd"`
-	LastLoginTime        *time.Time `gorm:"column:last_login_time" json:"last_login_time"` // 最后一次登录时间
-	LastLoginIP          *string    `gorm:"column:last_login_ip" json:"last_login_ip"`     // 最后一次登录IP
-	Email                *string    `gorm:"column:email" json:"email"`                     // 用户邮箱
-	Nick                 *string    `gorm:"column:nick" json:"nick"`                       // 用户昵称
-	Statu                *int32     `gorm:"column:statu" json:"statu"`
-	Address              *string    `gorm:"column:address" json:"address"` // 物理地址
-	Note                 *string    `gorm:"column:note" json:"note"`
-	Email2               *string    `gorm:"column:email2" json:"email2"`                                              // 用户备用邮箱
-	CreateTime           *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
-	LastLoginFailureTime *time.Time `gorm:"column:last_login_failure_time" json:"last_login_failure_time"`            // 最近一次登录失败时间
-	LoginFailureCount    *int32     `gorm:"column:login_failure_count" json:"login_failure_count"`                    // 登录失败计数
-	Avatar               *string    `gorm:"column:avatar" json:"avatar"`                                              // 用户头像base64
-	ModifyTime           *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
-	Comments             *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
-	Tel                  *string    `gorm:"column:tel" json:"tel"`
-	WechatUserid         *string    `gorm:"column:wechat_userid" json:"wechat_userid"`
-	AttendanceWechat     *string    `gorm:"column:attendance_wechat" json:"attendance_wechat"`
+	UserID      string  `gorm:"column:user_id;primaryKey" json:"user_id"`
+	Nick        *string `gorm:"column:nick" json:"nick"` // 用户昵称
+	Username    string  `gorm:"column:username;not null" json:"username"`
+	Password    string  `gorm:"column:password;not null" json:"password"`
+	Status       *string `gorm:"column:status" json:"status"`
+	EntryDate   *string `gorm:"column:entry_date" json:"entry_date"`
+	Email       *string `gorm:"column:email" json:"email"` // 用户邮箱
+	Phone       *string `gorm:"column:phone" json:"phone"`
+	LeaveDate   *string `gorm:"column:leave_date" json:"leave_date"`
+	IsDelete    *string `gorm:"column:is_delete" json:"is_delete"`
+	CreateTime  *string `gorm:"column:create_time" json:"create_time"`
+	CreateUser  *string `gorm:"column:create_user" json:"create_user"`
+	ModifyTime  *string `gorm:"column:modify_time" json:"modify_time"`
+	ModifyUser  *string `gorm:"column:modify_user" json:"modify_user"`
+	WorkCode    string  `gorm:"column:work_code" json:"work_code"`
+	CreateLdap  *string `gorm:"column:create_ldap" json:"create_ldap"`
+	LeaveReason *string `gorm:"column:leave_reason" json:"leave_reason"`
+	WechatId    *string `gorm:"column:wechat_id" json:"wechat_id"`
 }
 
 // TableName UserAccount's table name

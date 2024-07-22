@@ -27,12 +27,12 @@ func newUserRoleIDList(db *gorm.DB, opts ...gen.DOOption) userRoleIDList {
 
 	tableName := _userRoleIDList.userRoleIDListDo.TableName()
 	_userRoleIDList.ALL = field.NewAsterisk(tableName)
+	_userRoleIDList.RoleListID = field.NewInt32(tableName, "role_list_id")
 	_userRoleIDList.UserID = field.NewString(tableName, "user_id")
 	_userRoleIDList.RoleID = field.NewString(tableName, "role_id")
-	_userRoleIDList.CreateTime = field.NewTime(tableName, "create_time")
-	_userRoleIDList.ModifyTime = field.NewTime(tableName, "modify_time")
+	_userRoleIDList.CreateTime = field.NewString(tableName, "create_time")
+	_userRoleIDList.ModifyTime = field.NewString(tableName, "modify_time")
 	_userRoleIDList.OrderWeight = field.NewInt32(tableName, "order_weight")
-	_userRoleIDList.RoleListID = field.NewInt32(tableName, "role_list_id")
 	_userRoleIDList.UserGroupID = field.NewString(tableName, "user_group_id")
 	_userRoleIDList.UserRoleType = field.NewString(tableName, "user_role_type")
 
@@ -45,12 +45,12 @@ type userRoleIDList struct {
 	userRoleIDListDo
 
 	ALL          field.Asterisk
-	UserID       field.String
-	RoleID       field.String // 用户角色id，关联user_role
-	CreateTime   field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime   field.Time   // 记录修改时间（数据库自动写入）
-	OrderWeight  field.Int32
 	RoleListID   field.Int32
+	UserID       field.String
+	RoleID       field.String
+	CreateTime   field.String
+	ModifyTime   field.String
+	OrderWeight  field.Int32
 	UserGroupID  field.String
 	UserRoleType field.String
 
@@ -69,12 +69,12 @@ func (u userRoleIDList) As(alias string) *userRoleIDList {
 
 func (u *userRoleIDList) updateTableName(table string) *userRoleIDList {
 	u.ALL = field.NewAsterisk(table)
+	u.RoleListID = field.NewInt32(table, "role_list_id")
 	u.UserID = field.NewString(table, "user_id")
 	u.RoleID = field.NewString(table, "role_id")
-	u.CreateTime = field.NewTime(table, "create_time")
-	u.ModifyTime = field.NewTime(table, "modify_time")
+	u.CreateTime = field.NewString(table, "create_time")
+	u.ModifyTime = field.NewString(table, "modify_time")
 	u.OrderWeight = field.NewInt32(table, "order_weight")
-	u.RoleListID = field.NewInt32(table, "role_list_id")
 	u.UserGroupID = field.NewString(table, "user_group_id")
 	u.UserRoleType = field.NewString(table, "user_role_type")
 
@@ -94,12 +94,12 @@ func (u *userRoleIDList) GetFieldByName(fieldName string) (field.OrderExpr, bool
 
 func (u *userRoleIDList) fillFieldMap() {
 	u.fieldMap = make(map[string]field.Expr, 8)
+	u.fieldMap["role_list_id"] = u.RoleListID
 	u.fieldMap["user_id"] = u.UserID
 	u.fieldMap["role_id"] = u.RoleID
 	u.fieldMap["create_time"] = u.CreateTime
 	u.fieldMap["modify_time"] = u.ModifyTime
 	u.fieldMap["order_weight"] = u.OrderWeight
-	u.fieldMap["role_list_id"] = u.RoleListID
 	u.fieldMap["user_group_id"] = u.UserGroupID
 	u.fieldMap["user_role_type"] = u.UserRoleType
 }
@@ -219,10 +219,6 @@ func (u userRoleIDListDo) Select(conds ...field.Expr) IUserRoleIDListDo {
 
 func (u userRoleIDListDo) Where(conds ...gen.Condition) IUserRoleIDListDo {
 	return u.withDO(u.DO.Where(conds...))
-}
-
-func (u userRoleIDListDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) IUserRoleIDListDo {
-	return u.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (u userRoleIDListDo) Order(conds ...field.Expr) IUserRoleIDListDo {

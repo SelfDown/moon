@@ -38,8 +38,8 @@ func newServerEnv(db *gorm.DB, opts ...gen.DOOption) serverEnv {
 	_serverEnv.RoleAuthLevel = field.NewInt32(tableName, "role_auth_level")
 	_serverEnv.EnvDocURL = field.NewString(tableName, "env_doc_url")
 	_serverEnv.EnableHaDeploy = field.NewString(tableName, "enable_ha_deploy")
-	_serverEnv.CreateTime = field.NewTime(tableName, "create_time")
-	_serverEnv.ModifyTime = field.NewTime(tableName, "modify_time")
+	_serverEnv.CreateTime = field.NewString(tableName, "create_time")
+	_serverEnv.ModifyTime = field.NewString(tableName, "modify_time")
 	_serverEnv.Comments = field.NewString(tableName, "comments")
 	_serverEnv.LeaderTel = field.NewString(tableName, "leader_tel")
 	_serverEnv.OrderID = field.NewInt32(tableName, "order_id")
@@ -55,26 +55,21 @@ func newServerEnv(db *gorm.DB, opts ...gen.DOOption) serverEnv {
 type serverEnv struct {
 	serverEnvDo
 
-	ALL           field.Asterisk
-	ServerEnvID   field.String // 服务器分组ID
-	ServerEnvName field.String // 服务器分组名称
-	Notes         field.String // 备注
-	HospitalCode  field.String
-	EnvCode       field.String
-	FlagDel       field.String // 逻辑删除 1删除 0 未删除
-	Leader        field.String // 环境负责人
-	SysProjectID  field.String // 所属项目ID
-	RoleAuthLevel field.Int32  // 角色权限等级
-	EnvDocURL     field.String // 环境实例文档URL
-	/*
-		是否开启不间断部署
-		0：禁用
-		1：启用
-	*/
+	ALL            field.Asterisk
+	ServerEnvID    field.String
+	ServerEnvName  field.String
+	Notes          field.String
+	HospitalCode   field.String
+	EnvCode        field.String
+	FlagDel        field.String
+	Leader         field.String
+	SysProjectID   field.String
+	RoleAuthLevel  field.Int32
+	EnvDocURL      field.String
 	EnableHaDeploy field.String
-	CreateTime     field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime     field.Time   // 记录修改时间（数据库自动写入）
-	Comments       field.String // 备注说明
+	CreateTime     field.String
+	ModifyTime     field.String
+	Comments       field.String
 	LeaderTel      field.String
 	OrderID        field.Int32
 	ServerEnvCode  field.String
@@ -107,8 +102,8 @@ func (s *serverEnv) updateTableName(table string) *serverEnv {
 	s.RoleAuthLevel = field.NewInt32(table, "role_auth_level")
 	s.EnvDocURL = field.NewString(table, "env_doc_url")
 	s.EnableHaDeploy = field.NewString(table, "enable_ha_deploy")
-	s.CreateTime = field.NewTime(table, "create_time")
-	s.ModifyTime = field.NewTime(table, "modify_time")
+	s.CreateTime = field.NewString(table, "create_time")
+	s.ModifyTime = field.NewString(table, "modify_time")
 	s.Comments = field.NewString(table, "comments")
 	s.LeaderTel = field.NewString(table, "leader_tel")
 	s.OrderID = field.NewInt32(table, "order_id")
@@ -268,10 +263,6 @@ func (s serverEnvDo) Select(conds ...field.Expr) IServerEnvDo {
 
 func (s serverEnvDo) Where(conds ...gen.Condition) IServerEnvDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s serverEnvDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) IServerEnvDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s serverEnvDo) Order(conds ...field.Expr) IServerEnvDo {

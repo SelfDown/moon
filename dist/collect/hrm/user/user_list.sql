@@ -1,6 +1,10 @@
 select
     a.userid as user_id,
+    {{ if eq (get_key "system_model") "company" }}
+    a.userpwd as password,
+    {{else }}
     a.password as password,
+    {{ end }}
     (
         SELECT GROUP_CONCAT(ur.role_des)
         FROM user_role ur

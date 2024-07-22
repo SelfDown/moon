@@ -16,7 +16,7 @@
         "service": "hrm.create_user"
       },
       "node_fail": "end",
-      "node_next": "{{ if .roles }}create_roles{{ else if eq .create_ldap \"1\"}}create_ldap{{ else }}end{{ end }}"
+      "node_next": "{{ if .role_list }}create_roles{{ else if eq .create_ldap \"1\"}}create_ldap{{ else }}end{{ end }}"
     },
     {
       "node_key": "create_roles",
@@ -24,7 +24,7 @@
       "name": "创建角色",
       "service": {
         "service": "hrm.user_role_add",
-        "roles": "[roles]",
+        "role_list": "[role_list]",
         "user_id": "[user_id]"
       },
       "node_type": "node",

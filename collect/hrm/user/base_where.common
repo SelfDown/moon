@@ -1,10 +1,8 @@
 {{ if .exclude }}
-and a.userid != {{.exclude}}
+and a.user_id != {{.exclude}}
 {{ end }}
 
-{{  if .user_id }}
-and a.userid = {{.user_id}}
-{{ end }}
+
 {{  if .user_id }}
 and a.user_id = {{.user_id}}
 {{ end }}
@@ -26,8 +24,8 @@ and a.username = {{.username}}
 and ifnull(a.tel,"") != ""
 {{ end }}
 
-{{ if .user_status }}
-and a.user_status ={{.user_status}}
+{{ if .status }}
+and a.status ={{.status}}
 {{ end }}
 {{ if .wechat_id_list}}
 and a.wechat_userid in ({{.wechat_id_list}})

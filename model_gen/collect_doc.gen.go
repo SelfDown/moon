@@ -237,10 +237,6 @@ func (c collectDocDo) Where(conds ...gen.Condition) ICollectDocDo {
 	return c.withDO(c.DO.Where(conds...))
 }
 
-func (c collectDocDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) ICollectDocDo {
-	return c.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
-}
-
 func (c collectDocDo) Order(conds ...field.Expr) ICollectDocDo {
 	return c.withDO(c.DO.Order(conds...))
 }

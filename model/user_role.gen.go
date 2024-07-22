@@ -12,12 +12,12 @@ const TableNameUserRole = "user_role"
 
 // UserRole mapped from table <user_role>
 type UserRole struct {
-	RoleID        string     `gorm:"column:role_id;primaryKey" json:"role_id"` // 角色ID
-	RoleDes       *string    `gorm:"column:role_des" json:"role_des"`          // 角色描述
+	RoleID        *string    `gorm:"column:role_id;primaryKey" json:"role_id"`
+	RoleDes       *string    `gorm:"column:role_des" json:"role_des"`
 	RoleAuthLevel *string    `gorm:"column:role_auth_level" json:"role_auth_level"`
-	CreateTime    *time.Time `gorm:"column:create_time;not null;default:CURRENT_TIMESTAMP" json:"create_time"` // 记录创建时间（数据库自动写入）
-	ModifyTime    *time.Time `gorm:"column:modify_time;not null;default:CURRENT_TIMESTAMP" json:"modify_time"` // 记录修改时间（数据库自动写入）
-	Comments      *string    `gorm:"column:comments" json:"comments"`                                          // 备注说明
+	CreateTime    *string    `gorm:"column:create_time" json:"create_time"`
+	ModifyTime    *time.Time `gorm:"column:modify_time" json:"modify_time"`
+	Comments      *string    `gorm:"column:comments" json:"comments"`
 	RoleCode      *string    `gorm:"column:role_code" json:"role_code"`
 }
 

@@ -34,7 +34,7 @@ func newServerInstallSoft(db *gorm.DB, opts ...gen.DOOption) serverInstallSoft {
 	_serverInstallSoft.SoftType = field.NewString(tableName, "soft_type")
 	_serverInstallSoft.SoftHome = field.NewString(tableName, "soft_home")
 	_serverInstallSoft.Portoffset = field.NewString(tableName, "portoffset")
-	_serverInstallSoft.CreateTime = field.NewTime(tableName, "create_time")
+	_serverInstallSoft.CreateTime = field.NewString(tableName, "create_time")
 	_serverInstallSoft.ModifyTime = field.NewTime(tableName, "modify_time")
 	_serverInstallSoft.Comments = field.NewString(tableName, "comments")
 	_serverInstallSoft.DockerContainerName = field.NewString(tableName, "docker_container_name")
@@ -43,7 +43,6 @@ func newServerInstallSoft(db *gorm.DB, opts ...gen.DOOption) serverInstallSoft {
 	_serverInstallSoft.RestartSoftwareCommand = field.NewString(tableName, "restart_software_command")
 	_serverInstallSoft.ServerSoftLogsID = field.NewString(tableName, "server_soft_logs_id")
 	_serverInstallSoft.ServerOsUserID = field.NewInt32(tableName, "server_os_user_id")
-	_serverInstallSoft.SoftID = field.NewInt32(tableName, "soft_id")
 	_serverInstallSoft.SoftwareLiveCheckCommand = field.NewString(tableName, "software_live_check_command")
 	_serverInstallSoft.ServerSoftLogPath = field.NewString(tableName, "server_soft_log_path")
 	_serverInstallSoft.IsMainSoft = field.NewString(tableName, "is_main_soft")
@@ -74,29 +73,24 @@ func newServerInstallSoft(db *gorm.DB, opts ...gen.DOOption) serverInstallSoft {
 type serverInstallSoft struct {
 	serverInstallSoftDo
 
-	ALL           field.Asterisk
-	ServicePort   field.String // 服务端口 默认空
-	InstallSoftID field.String
-	ServerID      field.String // 服务器ID
-	SoftName      field.String
-	/*
-		1、Jboss中间件
-		2、文件服务器
-	*/
+	ALL                      field.Asterisk
+	ServicePort              field.String
+	InstallSoftID            field.String
+	ServerID                 field.String
+	SoftName                 field.String
 	SoftType                 field.String
-	SoftHome                 field.String // 备注
-	Portoffset               field.String // 端口偏移量
-	CreateTime               field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime               field.Time   // 记录修改时间（数据库自动写入）
-	Comments                 field.String // 备注说明
-	DockerContainerName      field.String // docker 容器名称，用于对容器进行操作。
-	StartSoftwareCommand     field.String // 软件启动命令
-	StopSoftwareCommand      field.String // 软件关闭命令
-	RestartSoftwareCommand   field.String // 软件重启命令
-	ServerSoftLogsID         field.String // 软件日志组, server_soft_logs.server_soft_logs_id
-	ServerOsUserID           field.Int32  // 软件使用上面系统用启动，server_os_users.server_os_user_id
-	SoftID                   field.Int32  // 自增长主键
-	SoftwareLiveCheckCommand field.String // 作废；软件状态检查，服务器文件路径和web api
+	SoftHome                 field.String
+	Portoffset               field.String
+	CreateTime               field.String
+	ModifyTime               field.Time
+	Comments                 field.String
+	DockerContainerName      field.String
+	StartSoftwareCommand     field.String
+	StopSoftwareCommand      field.String
+	RestartSoftwareCommand   field.String
+	ServerSoftLogsID         field.String
+	ServerOsUserID           field.Int32
+	SoftwareLiveCheckCommand field.String
 	ServerSoftLogPath        field.String
 	IsMainSoft               field.String
 	IsDocker                 field.String
@@ -140,7 +134,7 @@ func (s *serverInstallSoft) updateTableName(table string) *serverInstallSoft {
 	s.SoftType = field.NewString(table, "soft_type")
 	s.SoftHome = field.NewString(table, "soft_home")
 	s.Portoffset = field.NewString(table, "portoffset")
-	s.CreateTime = field.NewTime(table, "create_time")
+	s.CreateTime = field.NewString(table, "create_time")
 	s.ModifyTime = field.NewTime(table, "modify_time")
 	s.Comments = field.NewString(table, "comments")
 	s.DockerContainerName = field.NewString(table, "docker_container_name")
@@ -149,7 +143,6 @@ func (s *serverInstallSoft) updateTableName(table string) *serverInstallSoft {
 	s.RestartSoftwareCommand = field.NewString(table, "restart_software_command")
 	s.ServerSoftLogsID = field.NewString(table, "server_soft_logs_id")
 	s.ServerOsUserID = field.NewInt32(table, "server_os_user_id")
-	s.SoftID = field.NewInt32(table, "soft_id")
 	s.SoftwareLiveCheckCommand = field.NewString(table, "software_live_check_command")
 	s.ServerSoftLogPath = field.NewString(table, "server_soft_log_path")
 	s.IsMainSoft = field.NewString(table, "is_main_soft")
@@ -187,7 +180,7 @@ func (s *serverInstallSoft) GetFieldByName(fieldName string) (field.OrderExpr, b
 }
 
 func (s *serverInstallSoft) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 38)
+	s.fieldMap = make(map[string]field.Expr, 37)
 	s.fieldMap["service_port"] = s.ServicePort
 	s.fieldMap["install_soft_id"] = s.InstallSoftID
 	s.fieldMap["server_id"] = s.ServerID
@@ -204,7 +197,6 @@ func (s *serverInstallSoft) fillFieldMap() {
 	s.fieldMap["restart_software_command"] = s.RestartSoftwareCommand
 	s.fieldMap["server_soft_logs_id"] = s.ServerSoftLogsID
 	s.fieldMap["server_os_user_id"] = s.ServerOsUserID
-	s.fieldMap["soft_id"] = s.SoftID
 	s.fieldMap["software_live_check_command"] = s.SoftwareLiveCheckCommand
 	s.fieldMap["server_soft_log_path"] = s.ServerSoftLogPath
 	s.fieldMap["is_main_soft"] = s.IsMainSoft
@@ -343,10 +335,6 @@ func (s serverInstallSoftDo) Select(conds ...field.Expr) IServerInstallSoftDo {
 
 func (s serverInstallSoftDo) Where(conds ...gen.Condition) IServerInstallSoftDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s serverInstallSoftDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) IServerInstallSoftDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s serverInstallSoftDo) Order(conds ...field.Expr) IServerInstallSoftDo {

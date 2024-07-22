@@ -205,10 +205,6 @@ func (c configDetailDo) Where(conds ...gen.Condition) IConfigDetailDo {
 	return c.withDO(c.DO.Where(conds...))
 }
 
-func (c configDetailDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) IConfigDetailDo {
-	return c.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
-}
-
 func (c configDetailDo) Order(conds ...field.Expr) IConfigDetailDo {
 	return c.withDO(c.DO.Order(conds...))
 }

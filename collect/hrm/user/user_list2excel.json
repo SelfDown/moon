@@ -47,7 +47,7 @@
       "data": "[user_list]",
       "fields": [
         {
-          "field": "[userid]",
+          "field": "[user_id]",
           "name": "id",
           "width": 10
         },
@@ -73,7 +73,7 @@
         },
         {
           "field": "[statu]",
-          "template": "{{ if  eq .statu 1}} 正常 {{ else }}删除{{ end }}",
+          "template": "{{ if  eq .status 1}} 正常 {{ else }}删除{{ end }}",
           "name": "状态",
           "width": 10
         },

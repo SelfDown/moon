@@ -30,7 +30,7 @@ func newUserRole(db *gorm.DB, opts ...gen.DOOption) userRole {
 	_userRole.RoleID = field.NewString(tableName, "role_id")
 	_userRole.RoleDes = field.NewString(tableName, "role_des")
 	_userRole.RoleAuthLevel = field.NewString(tableName, "role_auth_level")
-	_userRole.CreateTime = field.NewTime(tableName, "create_time")
+	_userRole.CreateTime = field.NewString(tableName, "create_time")
 	_userRole.ModifyTime = field.NewTime(tableName, "modify_time")
 	_userRole.Comments = field.NewString(tableName, "comments")
 	_userRole.RoleCode = field.NewString(tableName, "role_code")
@@ -44,12 +44,12 @@ type userRole struct {
 	userRoleDo
 
 	ALL           field.Asterisk
-	RoleID        field.String // 角色ID
-	RoleDes       field.String // 角色描述
+	RoleID        field.String
+	RoleDes       field.String
 	RoleAuthLevel field.String
-	CreateTime    field.Time   // 记录创建时间（数据库自动写入）
-	ModifyTime    field.Time   // 记录修改时间（数据库自动写入）
-	Comments      field.String // 备注说明
+	CreateTime    field.String
+	ModifyTime    field.Time
+	Comments      field.String
 	RoleCode      field.String
 
 	fieldMap map[string]field.Expr
@@ -70,7 +70,7 @@ func (u *userRole) updateTableName(table string) *userRole {
 	u.RoleID = field.NewString(table, "role_id")
 	u.RoleDes = field.NewString(table, "role_des")
 	u.RoleAuthLevel = field.NewString(table, "role_auth_level")
-	u.CreateTime = field.NewTime(table, "create_time")
+	u.CreateTime = field.NewString(table, "create_time")
 	u.ModifyTime = field.NewTime(table, "modify_time")
 	u.Comments = field.NewString(table, "comments")
 	u.RoleCode = field.NewString(table, "role_code")
@@ -215,10 +215,6 @@ func (u userRoleDo) Select(conds ...field.Expr) IUserRoleDo {
 
 func (u userRoleDo) Where(conds ...gen.Condition) IUserRoleDo {
 	return u.withDO(u.DO.Where(conds...))
-}
-
-func (u userRoleDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) IUserRoleDo {
-	return u.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (u userRoleDo) Order(conds ...field.Expr) IUserRoleDo {

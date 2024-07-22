@@ -3,6 +3,7 @@ package main
 import (
 	gen "github.com/SelfDown/collect/gen"
 	templateService "github.com/SelfDown/collect/src/collect/service_imp"
+	collect "github.com/SelfDown/collect/src/collect/utils"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,7 @@ import (
 func main1() {
 	gen.GenModel()
 }
+
 func main() {
 
 	// todo go profile 使用
@@ -46,5 +48,6 @@ func main() {
 		templateService.HandlerWsRequest(context)
 
 	})
-	r.Run(":8009") // listen and serve on 0.0.0.0:8080
+	serverPort := collect.GetAppKey("server_port")
+	r.Run(":" + serverPort) // listen and serve on 0.0.0.0:8080
 }

@@ -16,6 +16,7 @@ service:
       role_id__in: "[role_list]"
 
   - key: user_role_add
+    log: true
     module: empty
     params:
       user_id:
@@ -51,6 +52,7 @@ service:
           user_role_list: "[user_role_list]"
 
   - key: user_role_bulk_create
+    log: true
     module: bulk_create
     http: true
     params:
